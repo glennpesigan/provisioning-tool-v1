@@ -230,12 +230,6 @@ public class Templates {
 			break;
 		}
 		
-		
-		
-		
-		
-		
-		
 		/*--------------End of Overview------------*/
 		
 		
@@ -251,10 +245,27 @@ public class Templates {
 		
 		
 		/*-------------Documents Tab-----------------*/
-		action.writeToLogs("---------------DOCUMENTS----------------");
-		action.configureDocumentsTab();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("---------------DOCUMENTS----------------");
+			action.configureDocumentsTab();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+			
+		case "Update Existing":
+			if (editDocuments.equals("Yes")){
+				
+			}
+			break;
+		}
+		
+		
+		
+		
+		
+		
 		/*-----------End of Documents----------------*/
 
 		

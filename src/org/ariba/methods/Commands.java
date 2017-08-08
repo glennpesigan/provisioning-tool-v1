@@ -1586,6 +1586,123 @@ public class Commands {
 		}
 	}
 	
+	public void updateDocumentsTab() {
+		
+		
+		
+		
+		
+		
+		
+		
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
+		
+		navigateTab("Documents");
+		
+		parseExcel retrieve = new parseExcel();
+		List <String> documents = retrieve.getDocumentsTab();
+
+		for(String d : documents){
+			String [] document = d.split("~", -1);
+			String folderName = document[0].trim();
+			String folderDescription = document[1].trim();
+			String documentName = document[2].trim();
+			String documentDescription = document[3].trim();
+			String type = document[4].trim();
+			String owner = document[5].trim();
+			String editors = document[6].trim();
+			String accessControl = document[7].trim();
+			String isPublishRequired = document[8].trim();
+			String conditions = document[9].trim();
+			String documentPath = document[10].trim();
+			String documentChoiceType = document[11].trim();
+			String documentChoice = document[12].trim();
+			
+			if (!folderName.isEmpty()){
+				
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+				}
+				
+				if (!isElementVisible(By.linkText(folderName),5)){
+					createNewFolder(folderName, folderDescription);
+				}
+				
+				switch (type){
+				
+				case "Document":
+					if(!documentName.isEmpty()){
+						waitFor(2);
+						sendKeysEnter(By.linkText(folderName));
+						click(Element.lnkOpen);
+						waitFor(2);
+						click(Element.btnActions);
+						createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					}
+					break;
+					
+				case "Contract Terms":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Document Choice":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				}
+			}else{
+				
+				
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+				}
+				
+				
+				switch (type){
+				
+				case "Document":
+					waitFor(2);
+					click(Element.btnActions);
+					createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Contract Terms":
+					waitFor(2);
+					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Document Choice":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				}
+
+				
+			}
+			
+			writeToLogs("");
+		}
+	}
+	
 	
 	public void configureTeamTab(boolean quickProject){
 		
