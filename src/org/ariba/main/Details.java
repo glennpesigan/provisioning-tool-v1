@@ -19,5 +19,6 @@ public class Details {
 	public static String path;
 	public static String template = "";
 	public static String eventType = "";
+	public static String actionToPerform="";
 	
 }

@@ -15,6 +15,7 @@ public class Templates {
 		Details.template = "Template";
 		
 		parseExcel data = new parseExcel();
+		Details.actionToPerform = data.getSpecificData(Details.path, "Configuration", "Action", "Value").trim();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
 		String projectType = data.getSpecificData(Details.path, "Overview Tab", "Template", "Value").trim();
 		String templateName = data.getSpecificData(Details.path, "Overview Tab", "Template Name", "Value").trim();
@@ -28,6 +29,11 @@ public class Templates {
 		String conditions = data.getSpecificData("Overview Tab", "Conditions").trim();
 		String isPublish = data.getSpecificData("Overview Tab", "Publish").trim();
 		
+		String editOverview = data.getSpecificData(Details.path, "Configuration", "Overview", "Value").trim();
+		String editDocuments = data.getSpecificData(Details.path, "Configuration", "Documents", "Value").trim();
+		String editTasks = data.getSpecificData(Details.path, "Configuration", "Tasks", "Value").trim();
+		String editTeam = data.getSpecificData(Details.path, "Configuration", "Team", "Value").trim();
+		String editConditions = data.getSpecificData(Details.path, "Configuration", "Conditions", "Value").trim();
 
 		/*----------------Login Page-----------------*/
 		
@@ -73,86 +79,108 @@ public class Templates {
 		}
 		
 		action.waitFor(3);
-
-		if (!folder.isEmpty()){
+		
+		switch (Details.actionToPerform ){
+		
+		case "Create New":
 			
-			if(action.explicitWait(By.linkText(folder),10) != null){
-				action.sendKeysEnter(By.linkText(folder));
-				action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Template')]"));
-			}else{
-				action.writeToLogs("--------------CREATE FOLDER-------------");
-				action.clickActions("Folder");
-				action.populateTextField("Name", folder);
-				action.writeToLogs("Folder Name: " + folder);
-				action.clickButton("Create");
+			if (!folder.isEmpty()){
 				
-				if (action.isElementVisible(By.className("msgText"), 2)){
-					action.writeToLogs("[ERROR] Another folder or document in the selected parent folder already has the same name.");
-					return;
+				if(action.explicitWait(By.linkText(folder),10) != null){
+					action.sendKeysEnter(By.linkText(folder));
+					action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Template')]"));
+				}else{
+					action.writeToLogs("--------------CREATE FOLDER-------------");
+					action.clickActions("Folder");
+					action.populateTextField("Name", folder);
+					action.writeToLogs("Folder Name: " + folder);
+					action.clickButton("Create");
+					
+					if (action.isElementVisible(By.className("msgText"), 2)){
+						action.writeToLogs("[ERROR] Another folder or document in the selected parent folder already has the same name.");
+						return;
+					}
+					
+					action.writeToLogs(folder + " is successfully created.");
+					action.writeToLogs("------------------------------------------");
+					action.writeToLogs("");
+					
+					action.sendKeysEnter(By.linkText(folder));
+					action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Template')]"));
+					
 				}
-				
-				action.writeToLogs(folder + " is successfully created.");
-				action.writeToLogs("------------------------------------------");
-				action.writeToLogs("");
-				
-				action.sendKeysEnter(By.linkText(folder));
+			}else{
+				action.clickButton("Actions");
 				action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Template')]"));
-				
 			}
-		}else{
-			action.clickButton("Actions");
-			action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Template')]"));
-		}
-		
-		action.writeToLogs("Create Template on " +folder+ " folder.");
-		action.writeToLogs("");
+			
+			action.writeToLogs("Create Template on " +folder+ " folder.");
+			action.writeToLogs("");
 
-		/*--------------Create New Project Template------------*/
+			/*--------------Create New Project Template------------*/
+			
+			action.writeToLogs("------------CREATE TEMPLATE-------------");
+			action.selectProjectTypeTemplate(projectType);
+			action.writeToLogs("Project Type: " + projectType);
 		
-		action.writeToLogs("------------CREATE TEMPLATE-------------");
-		action.selectProjectTypeTemplate(projectType);
-		action.writeToLogs("Project Type: " + projectType);
-	
-		action.inputText(Element.txtProjectName, templateName);
-		action.writeToLogs(">>Title: " + templateName);
-		
-		action.inputDescription(Element.txtProjectDescription, description);
-		
-		/*if (!baseLanguage.isEmpty()){
-			action.click(Element.drpBaseLanguage);
-			action.click(By.xpath("//div[@role='option' and contains(text(),'"+baseLanguage+"')]"));
-		}*/
-		
+			action.inputText(Element.txtProjectName, templateName);
+			action.writeToLogs(">>Title: " + templateName);
+			
+			action.inputDescription(Element.txtProjectDescription, description);
+			
+			/*if (!baseLanguage.isEmpty()){
+				action.click(Element.drpBaseLanguage);
+				action.click(By.xpath("//div[@role='option' and contains(text(),'"+baseLanguage+"')]"));
+			}*/
+			
 
-		if (projectType.equals("Sourcing Project") || projectType.equals("Sourcing Request")){
-			action.writeToLogs(">>Project: " + project);
-			switch (project){
-			case "Full Project":
-				action.click(Element.rdoFullProject);
-				action.waitFor(2);
-				break;
-			case "Quick Project":
-				action.click(Element.rdoQuickProject);
-				action.waitFor(2);
-				action.populateRadioButton("Event Type", "RFI");
-				break;
+			if (projectType.equals("Sourcing Project") || projectType.equals("Sourcing Request")){
+				action.writeToLogs(">>Project: " + project);
+				switch (project){
+				case "Full Project":
+					action.click(Element.rdoFullProject);
+					action.waitFor(2);
+					break;
+				case "Quick Project":
+					action.click(Element.rdoQuickProject);
+					action.waitFor(2);
+					action.populateRadioButton("Event Type", "RFI");
+					break;
+				}
 			}
+			action.populateDropdown("Base Language", baseLanguage);
+			action.waitFor(2);
+			action.click(Element.btnOK);
+			
+			if (action.isElementVisible(By.className("msgText"), 2)){
+				action.writeToLogs("[ERROR] Another folder or document in the selected parent folder already has the same name.");
+				return;
+			}
+			
+			action.explicitWait(Element.lblProjectName, 15);
+			action.writeToLogs(templateName + " is successfully created!");
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			
+			/*-----------End of Create New Project Template------------*/
+			break;
+			
+		case "Update Existing":
+			
+			if (!folder.isEmpty()){
+				action.sendKeysEnter(By.linkText(folder));
+				action.click(Element.lnkOpen);
+				action.writeToLogs("Open " + folder + " folder.");
+			}
+			
+			action.sendKeysEnter(By.linkText(templateName));
+			action.click(Element.lnkOpen);
+			action.writeToLogs("Open " + templateName + " template.");
+			break;
+			
 		}
-		action.populateDropdown("Base Language", baseLanguage);
-		action.waitFor(2);
-		action.click(Element.btnOK);
-		
-		if (action.isElementVisible(By.className("msgText"), 2)){
-			action.writeToLogs("[ERROR] Another folder or document in the selected parent folder already has the same name.");
-			return;
-		}
-		
-		action.explicitWait(Element.lblProjectName, 15);
-		action.writeToLogs(templateName + " is successfully created!");
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
-		
-		/*-----------End of Create New Project Template------------*/
+
+
 			
 		//Click Ignore button
 		if (action.isElementVisible(Element.btnIgnore, 5)){
@@ -180,12 +208,38 @@ public class Templates {
 		/*--------------End of Conditions------------*/
 		
 		
+		
+		
 		/*--------------Overview Tab---------------*/
-		action.writeToLogs("----------------OVERVIEW----------------");
-		action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions);
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("----------------OVERVIEW----------------");
+			action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions);
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			
+			if (editOverview.equals("Yes")){
+				action.writeToLogs("----------------OVERVIEW----------------");
+				//code to edit overview
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
+		
+		
+		
+		
+		
+		
+		
 		/*--------------End of Overview------------*/
+		
+		
+		
 		
 		
 		/*--------------Team Tab------------------*/
