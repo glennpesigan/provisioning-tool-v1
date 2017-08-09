@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.eclipse.swt.widgets.Display;
@@ -1586,6 +1587,73 @@ public class Commands {
 		}
 	}
 	
+	public void editDocument(String documentName){
+		sendKeysEnter(By.linkText(documentName));
+		click(Element.lnkEditAttributes);
+				
+		
+		parseExcel retrieve = new parseExcel();
+		String [] doc = retrieve.getDocumentInExcel(documentName).split("~",-1);
+		String title = doc[2].trim();
+		String description = doc[3].trim();
+		String owner = doc[5].trim();
+		String editors = doc[6].trim();
+		String accessControl = doc[7].trim();
+		String isPublishRequired = doc[8].trim();
+		String conditions = doc[9].trim();
+		
+		writeToLogs("Edit Document");
+		waitForButtonToExist("Save", 5);
+		waitFor(3);
+		populateTextField("Title", title);
+		inputDescription(Element.txtProjectDescription, description);
+		populateChooserField("Owner", owner);
+		populateChooserMultipleAlt("Editors", editors);
+		populateChooserMultipleAlt("Access Control", accessControl);
+		populateRadioButton("Is Publish Required", isPublishRequired);
+		populateCondition(Element.lnkCondition, conditions);
+		waitFor(3);
+		clickButton("Save");
+	}
+	
+	public void deleteDocument(String documentName){
+		sendKeysEnter(By.linkText(documentName));
+		click(Element.lnkDelete);
+		waitFor(2);
+		clickButton("OK");
+	}
+	
+	public void updateDocumentsTab() {
+		
+		navigateTab("Documents");
+		
+		parseExcel retrieve = new parseExcel();
+		//get the document rows
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
+		
+		for (WebElement i : rows){
+			if (i.getAttribute("_mid").contains("Doc")){
+				//this is document
+				String documentName = i.getText().trim();
+				writeToLogs("Document Name: " + documentName);
+				if (retrieve.isDocumentExistInExcel(documentName)){
+					editDocument(documentName);
+				}else{
+					deleteDocument(documentName);
+				}
+			}else{
+				//this is folder
+				String folderName = i.getText().trim();
+				writeToLogs("Folder Name: " + folderName);
+				if (retrieve.isDocFolderExistInExcel(folderName)){
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+				}
+			}
+		}
+		writeToLogs("");
+	}
+	
 	
 	public void configureTeamTab(boolean quickProject){
 		
@@ -1610,72 +1678,45 @@ public class Commands {
 //			String systemGroup = tm[3].trim();
 			String members = tm[4].trim();
 			String conditions = tm[5].trim();
-			String action = tm[6].trim();
 			
 			
 			waitFor(2);
-			switch (action){
-			case "Create New":
 			
+			
+			if(projectGroup.equals("Project Owner")){
+				writeToLogs("Team " + projectGroup + " is already added!");
+				populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+			}else{
+				//Click Add Group button
+				click(Element.btnAddGroup);
+				writeToLogs("Add Group: " + projectGroup);
+				//Team Title
+				explicitWait(Element.txtGroupTitle, 15);
+				inputText(Element.txtGroupTitle, projectGroup);
 				
-				if(projectGroup.equals("Project Owner")){
-					writeToLogs("Team " + projectGroup + " is already added!");
-					
-					if (!members.isEmpty()){
-						
-						waitFor(2);
-						explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
-						click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
-						click(Element.lnkSearchMore);
-						click(By.xpath("//td[@width='40%']//label"));
-						waitFor(2);
-						String [] member = members.split("\\|");
-						
-						for(String val : member){
-							inputText(Element.txtSearchField, val);
-							click(Element.btnSearchField);
-							waitFor(2);
-							if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
-								click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
-								waitFor(2);
-							}else{
-								writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
-							}
-						}
-						writeToLogs(">>Members: " + members);
-						click(Element.btnDoneSearch);
-						waitFor(2);
+				//Can Edit?
+				/*if (!canOwnerEdit.isEmpty()){
+					click(Element.drpCanOwnerEdit);
+					switch(canOwnerEdit.toLowerCase()){
+					case "yes":
+						click(Element.optYes);
+						break;
+					case "no":
+						click(Element.optNo);
+						break;
 					}
-					
-					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-				}else{
-					//Click Add Group button
-					click(Element.btnAddGroup);
-					writeToLogs("Add Group: " + projectGroup);
-					//Team Title
-					explicitWait(Element.txtGroupTitle, 15);
-					inputText(Element.txtGroupTitle, projectGroup);
-					
-					//Can Edit?
-					if (!canOwnerEdit.isEmpty()){
-						click(Element.drpCanOwnerEdit);
-						switch(canOwnerEdit.toLowerCase()){
-						case "yes":
-							click(Element.optYes);
-							break;
-						case "no":
-							click(Element.optNo);
-							break;
-						}
-						writeToLogs(">>Can Owner Edit this Project Group: " + canOwnerEdit);
-					}
-					
-					/*-----------Select Values for Roles------------*/
-					
+					writeToLogs(">>Can Owner Edit this Project Group: " + canOwnerEdit);
+					waitFor(2);
+				}*/
+				populateDropdown("Can owner edit this Project Group", canOwnerEdit);
+				/*-----------Select Values for Roles------------*/
+				
+				
+				
+				if (!projectRoles.isEmpty()){
 					waitFor(2);
 					sendKeysEnter(Element.lnkSelectRole);
-					click(By.xpath("//td[@width='40%']//label"));
-					waitFor(2);
+		
 					String [] data = projectRoles.split("\\|");
 					for(String val : data){
 						inputText(Element.txtSearchField, val);
@@ -1691,62 +1732,51 @@ public class Commands {
 					writeToLogs(">>Project Roles: " + projectRoles);
 					click(Element.btnDoneSearch);
 					waitFor(2);
-					
-					
-					
-					/*-----------Select Values for Roles------------*/
-					
-					
-					click(Element.btnOK);
-					
-					
-					/*-----------Select Values for Members------------*/
-					if (!members.isEmpty()){
-						
-						waitFor(2);
-						explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
-						click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
-						click(Element.lnkSearchMore);
-						click(By.xpath("//td[@width='40%']//label"));
-						waitFor(2);
-						String [] member = members.split("\\|");
-						
-						for(String val : member){
-							inputText(Element.txtSearchField, val);
-							click(Element.btnSearchField);
-							waitFor(2);
-							if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
-								click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
-								waitFor(2);
-							}else{
-								writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
-							}
-						}
-						writeToLogs(">>Members: " + members);
-						click(Element.btnDoneSearch);
-						waitFor(2);
-					}
-					/*-----------Select Values for Members------------*/
-					
-					
-					
-					/*-----------Select Conditions------------*/
-					
-					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-					
-					/*-----------Select Conditions------------*/
 				}
 				
-				break;
 				
-			case "Update Existing":
+				/*-----------Select Values for Roles------------*/
 				
 				
-				break;
-			
+				click(Element.btnOK);
+				
+				
+				/*-----------Select Values for Members------------*/
+				if (!members.isEmpty()){
+					
+					waitFor(2);
+					explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
+					click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
+					click(Element.lnkSearchMore);
+		
+					String [] member = members.split("\\|");
+					
+					for(String val : member){
+						inputText(Element.txtSearchField, val);
+						click(Element.btnSearchField);
+						waitFor(2);
+						if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
+							click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+							waitFor(2);
+						}else{
+							writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
+						}
+					}
+					writeToLogs(">>Members: " + members);
+					click(Element.btnDoneSearch);
+					waitFor(2);
+				}
+				/*-----------Select Values for Members------------*/
+				
+				
+				
+				/*-----------Select Conditions------------*/
+				
+				populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+				
+				/*-----------Select Conditions------------*/
+	
 			}
-			
-
 			
 			writeToLogs("");
 		}
@@ -1757,7 +1787,7 @@ public class Commands {
 	}
 	
 
-	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions, String description){
+	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions){
 		
 		navigateTab("Overview");
 		waitFor(2);
@@ -1767,7 +1797,6 @@ public class Commands {
 		waitForButtonToExist("Save", 5);
 		waitFor(2);
 		populateChooserField("Owner", owner);
-		inputDescription(Element.txtProjectDescription, description);
 		populateDropdown("Process Status", processStatus);
 		populateTextField("Rank", rank);
 		populateChooserMultiple("Access Control", accessControl);
@@ -4846,3 +4875,4 @@ public class Commands {
 	}
 	
 }	
+

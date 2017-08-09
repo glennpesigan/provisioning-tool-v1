@@ -188,19 +188,15 @@ public class Templates {
 		}
 
 		//Click Properties Action > Full View
-//		action.click(Element.lnkOverviewTab);
 		action.navigateTab("Overview");
 		action.waitFor(2);
 		action.explicitWait(Element.lnkPropertiesActions, 10);
-//		action.sendKeysEnter(Element.lnkPropertiesActions);
 		
 		if (action.isElementVisible(Element.lnkFullView, 2)){
-			action.sendKeysEnter(Element.lnkPropertiesActions);
-			action.writeToLogs("Click Actions");
 			action.click(Element.lnkFullView);
-			action.writeToLogs("Click Full View");
 			action.waitFor(2);
 		}
+		
 		String status = action.explicitWait(Element.lblStatus, 5).getText().trim();
 		if (!status.equals("Draft")){
 			action.sendKeysEnter(Element.lnkPropertiesActions);
@@ -211,12 +207,18 @@ public class Templates {
 		
 		
 		/*--------------Conditions Tab---------------*/
-//		action.writeToLogs("---------------CONDITIONS---------------");
-//		action.addCondition();
-//		action.waitFor(1);
-//		action.addQuestion();
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("---------------CONDITIONS---------------");
+			action.addCondition();
+			action.waitFor(1);
+			action.addQuestion();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			break;
+		}
 		/*--------------End of Conditions------------*/
 		
 		
@@ -232,7 +234,6 @@ public class Templates {
 			action.writeToLogs("");
 			break;
 		case "Update Existing":
-			
 			if (editOverview.equals("Yes")){
 				action.writeToLogs("----------------OVERVIEW----------------");
 				action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
@@ -241,7 +242,14 @@ public class Templates {
 			}
 			break;
 		}
+			
+		/*--------------End of Overview------------*/
 		
+		
+		
+		
+		
+		/*--------------Team Tab------------------*/
 		switch (Details.actionToPerform){
 		case "Create New":
 			action.writeToLogs("------------------TEAM------------------");
@@ -259,38 +267,41 @@ public class Templates {
 			}
 			break;
 		}
-		
-		
-		
-		
-		
-		/*--------------End of Overview------------*/
-		
-		
-		
-		
-		
-		/*--------------Team Tab------------------*/
-//		action.writeToLogs("------------------TEAM------------------");
-//		action.configureTeamTab(false);
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
 		/*--------------End of Team---------------*/
 		
 		
-		/*-------------Documents Tab-----------------*/
-//		action.writeToLogs("---------------DOCUMENTS----------------");
-//		action.configureDocumentsTab();
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
+/*-------------Documents Tab-----------------*/
+		
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("---------------DOCUMENTS----------------");
+			action.configureDocumentsTab();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			if (editDocuments.equals("Yes")){
+				action.writeToLogs("---------------EDIT DOCUMENTS----------------");
+				action.updateDocumentsTab();
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
 		/*-----------End of Documents----------------*/
 
 		
 		/*---------------Tasks Tab------------------*/
-//		action.writeToLogs("-----------------TASKS------------------");
-//		action.configureTaskTab();
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("-----------------TASKS------------------");
+			action.configureTaskTab();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			break;
+		}
 		/*--------------End of Tasks-----------------*/
 		
 		if (isPublish.equals("Yes")){
