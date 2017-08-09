@@ -1787,7 +1787,7 @@ public class Commands {
 	}
 	
 
-	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions){
+	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions, String description){
 		
 		navigateTab("Overview");
 		waitFor(2);

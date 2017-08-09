@@ -189,7 +189,7 @@ public class Element {
 	//Add Formula
 //	public final static By txtFormula = new By.ById("_ssosl");
 
-
+	public final static By lblStatus = new By.ByXPath("//td[text()='Keywords:']/following-sibling::td//input");
 	
 }
 

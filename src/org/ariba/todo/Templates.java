@@ -196,15 +196,7 @@ public class Templates {
 			action.click(Element.lnkFullView);
 			action.waitFor(2);
 		}
-		
-		String status = action.explicitWait(Element.lblStatus, 5).getText().trim();
-		if (!status.equals("Draft")){
-			action.sendKeysEnter(Element.lnkPropertiesActions);
-			action.click(Element.lnkNewVersion);
-			action.writeToLogs("Click New Version");
-		}
-
-		
+			
 		
 		/*--------------Conditions Tab---------------*/
 		switch (Details.actionToPerform){
