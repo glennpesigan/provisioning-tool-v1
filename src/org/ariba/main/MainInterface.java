@@ -178,17 +178,17 @@ public class MainInterface {
 		pathBox.setBounds(164, 273, 486, 25);
 		
 		serverBox = new Text(shell, SWT.NONE);
-//		serverBox.setText("https://s1.ariba.com/Buyer/Main/aw?awh=r&awssk=ZV459B.t&realm=aribademoaccenture-sap-T");
+		serverBox.setText("https://s1.ariba.com/Buyer/Main/aw?awh=r&awssk=ZV459B.t&realm=aribademoaccenture-sap-T");
 		serverBox.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		serverBox.setBounds(164, 108, 591, 25);
 		
 		usernameBox = new Text(shell, SWT.NONE);
-//		usernameBox.setText("glenn.a.pesigan");
+		usernameBox.setText("glenn.a.pesigan");
 		usernameBox.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		usernameBox.setBounds(164, 145, 591, 25);
 		
 		passwordBox = new Text(shell, SWT.PASSWORD);
-//		passwordBox.setText("");
+		passwordBox.setText("ariba@01");
 		passwordBox.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		passwordBox.setBounds(164, 181, 591, 25);
 

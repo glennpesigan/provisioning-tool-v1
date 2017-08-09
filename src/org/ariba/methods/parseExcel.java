@@ -819,4 +819,76 @@ public class parseExcel {
 			return value;
 			
 		}
+		
+		public boolean isDocumentExistInExcel(String documentName){
+			boolean isDocumentExist = false;
+			try{
+				System.setProperty("ROW", "2");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Documents Tab` where `Document Name` = '"+documentName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Document Name").isEmpty()){
+						isDocumentExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isDocumentExist;
+			}
+			return isDocumentExist;
+			
+		}
+		
+		public boolean isDocFolderExistInExcel(String folderName){
+			boolean isFolderExist = false;
+			try{
+				System.setProperty("ROW", "2");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Folder Name").isEmpty()){
+						isFolderExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isFolderExist;
+			}
+			return isFolderExist;
+			
+		}
+		
+		public String getDocumentInExcel(String documentName){
+			String value = "";
+			try{
+				System.setProperty("ROW", "2");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Documents Tab` where `Document Name` = '"+documentName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Folder Name").isEmpty() || !rs.getField("Document Name").isEmpty()){
+						value = rs.getField("Folder Name")+"~"+rs.getField("Folder Description")+"~"+rs.getField("Document Name")+"~"+rs.getField("Document Description")+"~"+rs.getField("Type")+"~"+rs.getField("Owner")+"~"+rs.getField("Editors")+"~"+rs.getField("Access Control")+"~"+rs.getField("Is Publish Required")+"~"+rs.getField("Conditions")+"~"+rs.getField("Document Path")+"~"+rs.getField("Document Choice Type")+"~"+rs.getField("Document Choice");
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				e.printStackTrace();
+			}
+			return value;
+		}
+		
 }

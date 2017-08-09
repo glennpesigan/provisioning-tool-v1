@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.poi.util.SystemOutLogger;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.eclipse.swt.widgets.Display;
@@ -1586,11 +1587,65 @@ public class Commands {
 		}
 	}
 	
+	public void editDocument(String documentName){
+		sendKeysEnter(By.linkText(documentName));
+		click(Element.lnkEditAttributes);
+		
+		parseExcel retrieve = new parseExcel();
+		String [] doc = retrieve.getDocumentInExcel(documentName).split("\\^",-1);
+		String title = doc[2].trim();
+		String description = doc[3].trim();
+		String owner = doc[3].trim();
+		String editors = doc[3].trim();
+		String accessControl = doc[3].trim();
+		String isPublishRequired = doc[3].trim();
+		String conditions = doc[3].trim();
+		
+		writeToLogs("Edit Document");
+		populateTextField("Title", title);
+		inputDescription(Element.txtProjectDescription, description);
+		populateChooserField("Owner", owner);
+		populateChooserMultipleAlt("Editors", editors);
+		populateChooserMultipleAlt("Access Control", accessControl);
+		populateRadioButton("Is Publish Required", isPublishRequired);
+		populateCondition(Element.lnkCondition, conditions);
+		
+		waitFor(3);
+		clickButton("Save");
+	}
+	
+	public void deleteDocument(String documentName){
+		sendKeysEnter(By.linkText(documentName));
+		click(Element.lnkDelete);
+		waitFor(2);
+		clickButton("OK");
+	}
+	
 	public void updateDocumentsTab() {
+		parseExcel retrieve = new parseExcel();
+		//get the document rows
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
 		
-		
-		
-		
+		for (WebElement i : rows){
+			if (i.getAttribute("@_mid").contains("Doc")){
+				//this is document
+				String documentName = i.getText().trim();
+				writeToLogs("Document Name: " + documentName);
+				if (retrieve.isDocumentExistInExcel(documentName)){
+					editDocument(documentName);
+				}else{
+					deleteDocument(documentName);
+				}
+			}else{
+				//this is folder
+				String folderName = i.getText().trim();
+				writeToLogs("Folder Name: " + folderName);
+				if (retrieve.isDocFolderExistInExcel(folderName)){
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+				}
+			}
+		}
 		
 		
 		
@@ -1600,7 +1655,7 @@ public class Commands {
 		
 		navigateTab("Documents");
 		
-		parseExcel retrieve = new parseExcel();
+		
 		List <String> documents = retrieve.getDocumentsTab();
 
 		for(String d : documents){

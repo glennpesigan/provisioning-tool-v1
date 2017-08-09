@@ -71,6 +71,8 @@ public class Element {
 	
 	//Actions
 	public final static By lnkOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='Open']");
+	public final static By lnkEditAttributes = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Attributes')]");
+	public final static By lnkDelete = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Delete')]");
 	public final static By lnkViewTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='View Task Details']");
 	public final static By lnkCreatePhase = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Phase')]");
 	public final static By lnkCreateToDoTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'To Do Task')]");
