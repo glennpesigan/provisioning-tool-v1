@@ -188,10 +188,9 @@ public class Templates {
 		}
 
 		//Click Properties Action > Full View
-		action.click(Element.lnkOverviewTab);
+		action.navigateTab("Overview");
 		action.waitFor(2);
 		action.explicitWait(Element.lnkPropertiesActions, 10);
-		action.sendKeysEnter(Element.lnkPropertiesActions);
 		
 		if (action.isElementVisible(Element.lnkFullView, 2)){
 			action.click(Element.lnkFullView);
@@ -199,12 +198,18 @@ public class Templates {
 		}
 		
 		/*--------------Conditions Tab---------------*/
-		action.writeToLogs("---------------CONDITIONS---------------");
-		action.addCondition();
-		action.waitFor(1);
-		action.addQuestion();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("---------------CONDITIONS---------------");
+			action.addCondition();
+			action.waitFor(1);
+			action.addQuestion();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			break;
+		}
 		/*--------------End of Conditions------------*/
 		
 		
@@ -220,7 +225,6 @@ public class Templates {
 			action.writeToLogs("");
 			break;
 		case "Update Existing":
-			
 			if (editOverview.equals("Yes")){
 				action.writeToLogs("----------------OVERVIEW----------------");
 				//code to edit overview
@@ -237,10 +241,16 @@ public class Templates {
 		
 		
 		/*--------------Team Tab------------------*/
-		action.writeToLogs("------------------TEAM------------------");
-		action.configureTeamTab(false);
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("------------------TEAM------------------");
+			action.configureTeamTab(false);
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			break;
+		}
 		/*--------------End of Team---------------*/
 		
 		
@@ -253,27 +263,29 @@ public class Templates {
 			action.writeToLogs("------------------------------------------");
 			action.writeToLogs("");
 			break;
-			
 		case "Update Existing":
 			if (editDocuments.equals("Yes")){
-				
+				action.writeToLogs("---------------EDIT DOCUMENTS----------------");
+				action.updateDocumentsTab();
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
 			}
 			break;
 		}
-		
-		
-		
-		
-		
-		
 		/*-----------End of Documents----------------*/
 
 		
 		/*---------------Tasks Tab------------------*/
-		action.writeToLogs("-----------------TASKS------------------");
-		action.configureTaskTab();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("-----------------TASKS------------------");
+			action.configureTaskTab();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			break;
+		}
 		/*--------------End of Tasks-----------------*/
 		
 		if (isPublish.equals("Yes")){

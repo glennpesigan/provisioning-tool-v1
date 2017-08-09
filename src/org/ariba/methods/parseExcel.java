@@ -881,6 +881,7 @@ public class parseExcel {
 				while (rs.next()){
 					if (!rs.getField("Folder Name").isEmpty() || !rs.getField("Document Name").isEmpty()){
 						value = rs.getField("Folder Name")+"~"+rs.getField("Folder Description")+"~"+rs.getField("Document Name")+"~"+rs.getField("Document Description")+"~"+rs.getField("Type")+"~"+rs.getField("Owner")+"~"+rs.getField("Editors")+"~"+rs.getField("Access Control")+"~"+rs.getField("Is Publish Required")+"~"+rs.getField("Conditions")+"~"+rs.getField("Document Path")+"~"+rs.getField("Document Choice Type")+"~"+rs.getField("Document Choice");
+						break;
 					}
 				}
 				rs.close();

@@ -7,8 +7,17 @@ public class Test {
 		
 		
 		parseExcel retrieve = new parseExcel();
-		System.out.println(retrieve.isDocFolderExistInExcel("Sourcing Documents"));
-		
+		System.out.println(retrieve.getDocumentInExcel("Business Requirement"));
+		String [] doc = retrieve.getDocumentInExcel("Business Requirement").split("~",-1);
+		String title = doc[2].trim();
+		System.out.println(title);
+		String description = doc[3].trim();
+		String owner = doc[5].trim();
+		String editors = doc[6].trim();
+		String accessControl = doc[7].trim();
+		String isPublishRequired = doc[8].trim();
+		String conditions = doc[9].trim();
+		System.out.println(doc[4].trim());
 		}
 	}
 

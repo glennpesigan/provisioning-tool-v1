@@ -1590,18 +1590,21 @@ public class Commands {
 	public void editDocument(String documentName){
 		sendKeysEnter(By.linkText(documentName));
 		click(Element.lnkEditAttributes);
+				
 		
 		parseExcel retrieve = new parseExcel();
-		String [] doc = retrieve.getDocumentInExcel(documentName).split("\\^",-1);
+		String [] doc = retrieve.getDocumentInExcel(documentName).split("~",-1);
 		String title = doc[2].trim();
 		String description = doc[3].trim();
-		String owner = doc[3].trim();
-		String editors = doc[3].trim();
-		String accessControl = doc[3].trim();
-		String isPublishRequired = doc[3].trim();
-		String conditions = doc[3].trim();
+		String owner = doc[5].trim();
+		String editors = doc[6].trim();
+		String accessControl = doc[7].trim();
+		String isPublishRequired = doc[8].trim();
+		String conditions = doc[9].trim();
 		
 		writeToLogs("Edit Document");
+		waitForButtonToExist("Save", 5);
+		waitFor(3);
 		populateTextField("Title", title);
 		inputDescription(Element.txtProjectDescription, description);
 		populateChooserField("Owner", owner);
@@ -1609,7 +1612,6 @@ public class Commands {
 		populateChooserMultipleAlt("Access Control", accessControl);
 		populateRadioButton("Is Publish Required", isPublishRequired);
 		populateCondition(Element.lnkCondition, conditions);
-		
 		waitFor(3);
 		clickButton("Save");
 	}
@@ -1622,12 +1624,15 @@ public class Commands {
 	}
 	
 	public void updateDocumentsTab() {
+		
+		navigateTab("Documents");
+		
 		parseExcel retrieve = new parseExcel();
 		//get the document rows
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
 		
 		for (WebElement i : rows){
-			if (i.getAttribute("@_mid").contains("Doc")){
+			if (i.getAttribute("_mid").contains("Doc")){
 				//this is document
 				String documentName = i.getText().trim();
 				writeToLogs("Document Name: " + documentName);
@@ -1646,116 +1651,7 @@ public class Commands {
 				}
 			}
 		}
-		
-		
-		
-		
-		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
-		String titleName = pageHead.getText().trim();
-		
-		navigateTab("Documents");
-		
-		
-		List <String> documents = retrieve.getDocumentsTab();
-
-		for(String d : documents){
-			String [] document = d.split("~", -1);
-			String folderName = document[0].trim();
-			String folderDescription = document[1].trim();
-			String documentName = document[2].trim();
-			String documentDescription = document[3].trim();
-			String type = document[4].trim();
-			String owner = document[5].trim();
-			String editors = document[6].trim();
-			String accessControl = document[7].trim();
-			String isPublishRequired = document[8].trim();
-			String conditions = document[9].trim();
-			String documentPath = document[10].trim();
-			String documentChoiceType = document[11].trim();
-			String documentChoice = document[12].trim();
-			
-			if (!folderName.isEmpty()){
-				
-				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
-					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-				}
-				
-				if (!isElementVisible(By.linkText(folderName),5)){
-					createNewFolder(folderName, folderDescription);
-				}
-				
-				switch (type){
-				
-				case "Document":
-					if(!documentName.isEmpty()){
-						waitFor(2);
-						sendKeysEnter(By.linkText(folderName));
-						click(Element.lnkOpen);
-						waitFor(2);
-						click(Element.btnActions);
-						createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
-						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					}
-					break;
-					
-				case "Contract Terms":
-					waitFor(2);
-					sendKeysEnter(By.linkText(folderName));
-					click(Element.lnkOpen);
-					waitFor(2);
-					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					break;
-					
-				case "Document Choice":
-					waitFor(2);
-					sendKeysEnter(By.linkText(folderName));
-					click(Element.lnkOpen);
-					waitFor(2);
-					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					break;
-					
-				}
-			}else{
-				
-				
-				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
-					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-				}
-				
-				
-				switch (type){
-				
-				case "Document":
-					waitFor(2);
-					click(Element.btnActions);
-					createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					break;
-					
-				case "Contract Terms":
-					waitFor(2);
-					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					break;
-					
-				case "Document Choice":
-					waitFor(2);
-					sendKeysEnter(By.linkText(folderName));
-					click(Element.lnkOpen);
-					waitFor(2);
-					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
-					break;
-					
-				}
-
-				
-			}
-			
-			writeToLogs("");
-		}
+		writeToLogs("");
 	}
 	
 	
