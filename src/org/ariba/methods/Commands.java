@@ -1610,45 +1610,72 @@ public class Commands {
 //			String systemGroup = tm[3].trim();
 			String members = tm[4].trim();
 			String conditions = tm[5].trim();
+			String action = tm[6].trim();
 			
 			
 			waitFor(2);
+			switch (action){
+			case "Create New":
 			
-			
-			if(projectGroup.equals("Project Owner")){
-				writeToLogs("Team " + projectGroup + " is already added!");
-				populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-			}else{
-				//Click Add Group button
-				click(Element.btnAddGroup);
-				writeToLogs("Add Group: " + projectGroup);
-				//Team Title
-				explicitWait(Element.txtGroupTitle, 15);
-				inputText(Element.txtGroupTitle, projectGroup);
 				
-				//Can Edit?
-				/*if (!canOwnerEdit.isEmpty()){
-					click(Element.drpCanOwnerEdit);
-					switch(canOwnerEdit.toLowerCase()){
-					case "yes":
-						click(Element.optYes);
-						break;
-					case "no":
-						click(Element.optNo);
-						break;
+				if(projectGroup.equals("Project Owner")){
+					writeToLogs("Team " + projectGroup + " is already added!");
+					
+					if (!members.isEmpty()){
+						
+						waitFor(2);
+						explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
+						click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
+						click(Element.lnkSearchMore);
+						click(By.xpath("//td[@width='40%']//label"));
+						waitFor(2);
+						String [] member = members.split("\\|");
+						
+						for(String val : member){
+							inputText(Element.txtSearchField, val);
+							click(Element.btnSearchField);
+							waitFor(2);
+							if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
+								click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+								waitFor(2);
+							}else{
+								writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
+							}
+						}
+						writeToLogs(">>Members: " + members);
+						click(Element.btnDoneSearch);
+						waitFor(2);
 					}
-					writeToLogs(">>Can Owner Edit this Project Group: " + canOwnerEdit);
-					waitFor(2);
-				}*/
-				populateDropdown("Can owner edit this Project Group", canOwnerEdit);
-				/*-----------Select Values for Roles------------*/
-				
-				
-				
-				if (!projectRoles.isEmpty()){
+					
+					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+				}else{
+					//Click Add Group button
+					click(Element.btnAddGroup);
+					writeToLogs("Add Group: " + projectGroup);
+					//Team Title
+					explicitWait(Element.txtGroupTitle, 15);
+					inputText(Element.txtGroupTitle, projectGroup);
+					
+					//Can Edit?
+					if (!canOwnerEdit.isEmpty()){
+						click(Element.drpCanOwnerEdit);
+						switch(canOwnerEdit.toLowerCase()){
+						case "yes":
+							click(Element.optYes);
+							break;
+						case "no":
+							click(Element.optNo);
+							break;
+						}
+						writeToLogs(">>Can Owner Edit this Project Group: " + canOwnerEdit);
+					}
+					
+					/*-----------Select Values for Roles------------*/
+					
 					waitFor(2);
 					sendKeysEnter(Element.lnkSelectRole);
-		
+					click(By.xpath("//td[@width='40%']//label"));
+					waitFor(2);
 					String [] data = projectRoles.split("\\|");
 					for(String val : data){
 						inputText(Element.txtSearchField, val);
@@ -1664,51 +1691,62 @@ public class Commands {
 					writeToLogs(">>Project Roles: " + projectRoles);
 					click(Element.btnDoneSearch);
 					waitFor(2);
-				}
-				
-				
-				/*-----------Select Values for Roles------------*/
-				
-				
-				click(Element.btnOK);
-				
-				
-				/*-----------Select Values for Members------------*/
-				if (!members.isEmpty()){
 					
-					waitFor(2);
-					explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
-					click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
-					click(Element.lnkSearchMore);
-		
-					String [] member = members.split("\\|");
 					
-					for(String val : member){
-						inputText(Element.txtSearchField, val);
-						click(Element.btnSearchField);
+					
+					/*-----------Select Values for Roles------------*/
+					
+					
+					click(Element.btnOK);
+					
+					
+					/*-----------Select Values for Members------------*/
+					if (!members.isEmpty()){
+						
 						waitFor(2);
-						if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
-							click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+						explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
+						click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
+						click(Element.lnkSearchMore);
+						click(By.xpath("//td[@width='40%']//label"));
+						waitFor(2);
+						String [] member = members.split("\\|");
+						
+						for(String val : member){
+							inputText(Element.txtSearchField, val);
+							click(Element.btnSearchField);
 							waitFor(2);
-						}else{
-							writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
+							if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
+								click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+								waitFor(2);
+							}else{
+								writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
+							}
 						}
+						writeToLogs(">>Members: " + members);
+						click(Element.btnDoneSearch);
+						waitFor(2);
 					}
-					writeToLogs(">>Members: " + members);
-					click(Element.btnDoneSearch);
-					waitFor(2);
+					/*-----------Select Values for Members------------*/
+					
+					
+					
+					/*-----------Select Conditions------------*/
+					
+					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+					
+					/*-----------Select Conditions------------*/
 				}
-				/*-----------Select Values for Members------------*/
+				
+				break;
+				
+			case "Update Existing":
 				
 				
-				
-				/*-----------Select Conditions------------*/
-				
-				populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-				
-				/*-----------Select Conditions------------*/
-	
+				break;
+			
 			}
+			
+
 			
 			writeToLogs("");
 		}

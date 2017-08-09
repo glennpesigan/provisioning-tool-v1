@@ -242,7 +242,23 @@ public class Templates {
 			break;
 		}
 		
-		
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("------------------TEAM------------------");
+			action.configureTeamTab(false);
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			
+			if (editTeam.equals("Yes")){
+				action.writeToLogs("------------------TEAM------------------");
+				action.configureTeamTab(false);
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
 		
 		
 		
