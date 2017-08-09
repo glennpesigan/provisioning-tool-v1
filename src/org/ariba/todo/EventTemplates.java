@@ -166,7 +166,7 @@ public class EventTemplates {
 		
 		/*--------------Overview Tab---------------*/
 		action.writeToLogs("----------------OVERVIEW----------------");
-		action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions);
+		action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 		/*--------------End of Overview------------*/

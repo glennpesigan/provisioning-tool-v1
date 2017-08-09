@@ -1719,7 +1719,7 @@ public class Commands {
 	}
 	
 
-	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions){
+	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions, String description){
 		
 		navigateTab("Overview");
 		waitFor(2);
@@ -1729,6 +1729,7 @@ public class Commands {
 		waitForButtonToExist("Save", 5);
 		waitFor(2);
 		populateChooserField("Owner", owner);
+		inputDescription(Element.txtProjectDescription, description);
 		populateDropdown("Process Status", processStatus);
 		populateTextField("Rank", rank);
 		populateChooserMultiple("Access Control", accessControl);

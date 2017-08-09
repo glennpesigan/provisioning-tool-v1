@@ -19,10 +19,14 @@ public class Element {
 	public final static By lblTemplatesPageHead = new By.ByXPath("//div[@class='w-page-head a-pi-header-full' and contains(text(),'Templates')]");
 	public final static By lnkOverviewTab = new By.ByXPath("//div[@class='w-page-tabs']//a[text()='Overview']");
 	public final static By lnkPropertiesActions = new By.ByXPath("//a[@_mid='TemplateActionMenu']");
+	public final static By lnkDocumentActions = new By.ById("_gmaeuc");
+	public final static By lnkCreateTemplate = new By.ById("_wikuvc");
 	
 	public final static By lnkOverviewActions = new By.ByXPath("//a[@_mid='OverviewMenu']");
 	public final static By lnkFullView = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Full View')]");
 	public final static By lnkEditProperties = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Properties')]");
+	public final static By lnkNewVersion = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'New Version')]");
+	public final static By lnkDelete = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Delete')]");
 	public final static By lnkPublish = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Publish')]");
 	public final static By lnkEditTeam = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Team')]");
 	
@@ -31,14 +35,14 @@ public class Element {
 	public final static By btnIgnore = new By.ByXPath("//button/span[contains(text(),'Ignore')]");
 	public final static By btnActions = new By.ByXPath("//button/span[contains(text(),'Actions')]");
 	public final static By lnkCondition = new By.ByXPath("//label[contains(text(),'Condition')]/../following-sibling::td//a");
+	public final static By lblStatus = new By.ByXPath("//td[contains(text(),'Status:')]/following-sibling::td");
 	
 	//Chooser Field
 	public final static By lnkSearchMore = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[@class='w-chSearchLink']");
 	public final static By txtSearchField = new By.ByXPath("//input[@aria-label='Search for a specific value']");
 	public final static By btnSearchField = new By.ByXPath("//button[@title='Search for a specific value in the list']");
 	public final static By btnDoneSearch = new By.ByXPath("//button[@title='Done Button']");
-	
-	
+		
 	//Create New Project Template
 	public final static By txtProjectName = new By.ByXPath("//label[text()='Name:']/../following-sibling::td[2]//input");
 	public final static By txtProjectDescription = new By.ByXPath("//iframe[contains(@id,'XinhaIFrame')]");
@@ -49,19 +53,32 @@ public class Element {
 	//Template Overview Page
 	public final static By lblProjectName = new By.ByClassName("w-page-head");
 	
+	//Template Actions
+	public final static By lnkTemplateActions = new By.ById("_vghy1");
+//	public final static By btnEditIgnore = new By.ById("_cvxkxd");
 	
 	//Add Group
 	public final static By btnAddGroup = new By.ByXPath("//button/span[normalize-space()='Add Group']");
 	public final static By txtGroupTitle = new By.ByXPath("//label[text()='Title:']/../following-sibling::td[2]//input");
-	public final static By lnkSelectRole = new By.ByXPath("//label[text()='Roles:']/../following-sibling::td[2]//a");
+	public final static By drpCanOwnerEdit = new By.ById("_dwwkhd");
+	public final static By optYes = new By.ById("_dwwkhd0");
+	public final static By optNo = new By.ById("_dwwkhd1");
+	public final static By lnkSelectRole = new By.ByXPath("//label[text()='Roles:']/../following-sibling::td[2]//a[text()='select']");
+	public final static By txtSearch = new By.ById("_ejawzd");
+	public final static By btnSearch = new By.ById("_dyrw2b");
+	public final static By chkSelect = new By.ByXPath("//input[@id='_pf9st']/following-sibling::label");
+	public final static By btnDone = new By.ById("_9l$jub");
 	
 	//Task Actions
 	public final static By lnkTaskActions = new By.ByXPath("//a[@_mid='CreateMenu' and normalize-space(text()='Actions')]");
+	public final static By lnkToDoTask = new By.ById("_3eqbeb");
 	
 	
 	//Team tab
 	public final static By lnkTeamTab = new By.ByXPath("//div[@class='w-page-tabs']//a[text()='Team']");
 
+	//Phase tab
+		public final static By lnkTasksTab = new By.ById("_eeav6c");
 	
 	//Approval Rule Flow Type
 	public final static By rdoParallel = new By.ByXPath("//span[contains(.,'Parallel')]/preceding-sibling::div//label");
@@ -71,7 +88,12 @@ public class Element {
 	
 	//Actions
 	public final static By lnkOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='Open']");
+	public final static By lnkEditOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[@class='w-pmi-item']//b[contains(text(),'Open')]");
+	public final static By lnkEditContent = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit')]");
+	public final static By lnkEditAttributes = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Attributes')]");
 	public final static By lnkViewTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='View Task Details']");
+	public final static By lnkReplaceDocument = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Replace Document')]");
+	public final static By lnkEdit = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit')]");
 	public final static By lnkCreatePhase = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Phase')]");
 	public final static By lnkCreateToDoTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'To Do Task')]");
 	public final static By lnkNotificationTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Notification Task')]");

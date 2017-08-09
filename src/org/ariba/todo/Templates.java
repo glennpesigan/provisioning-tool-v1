@@ -188,23 +188,35 @@ public class Templates {
 		}
 
 		//Click Properties Action > Full View
-		action.click(Element.lnkOverviewTab);
+//		action.click(Element.lnkOverviewTab);
+		action.navigateTab("Overview");
 		action.waitFor(2);
 		action.explicitWait(Element.lnkPropertiesActions, 10);
-		action.sendKeysEnter(Element.lnkPropertiesActions);
+//		action.sendKeysEnter(Element.lnkPropertiesActions);
 		
 		if (action.isElementVisible(Element.lnkFullView, 2)){
+			action.sendKeysEnter(Element.lnkPropertiesActions);
+			action.writeToLogs("Click Actions");
 			action.click(Element.lnkFullView);
+			action.writeToLogs("Click Full View");
 			action.waitFor(2);
 		}
+		String status = action.explicitWait(Element.lblStatus, 5).getText().trim();
+		if (!status.equals("Draft")){
+			action.sendKeysEnter(Element.lnkPropertiesActions);
+			action.click(Element.lnkNewVersion);
+			action.writeToLogs("Click New Version");
+		}
+
+		
 		
 		/*--------------Conditions Tab---------------*/
-		action.writeToLogs("---------------CONDITIONS---------------");
-		action.addCondition();
-		action.waitFor(1);
-		action.addQuestion();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+//		action.writeToLogs("---------------CONDITIONS---------------");
+//		action.addCondition();
+//		action.waitFor(1);
+//		action.addQuestion();
+//		action.writeToLogs("------------------------------------------");
+//		action.writeToLogs("");
 		/*--------------End of Conditions------------*/
 		
 		
@@ -215,7 +227,7 @@ public class Templates {
 		switch (Details.actionToPerform){
 		case "Create New":
 			action.writeToLogs("----------------OVERVIEW----------------");
-			action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions);
+			action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
 			action.writeToLogs("------------------------------------------");
 			action.writeToLogs("");
 			break;
@@ -223,7 +235,7 @@ public class Templates {
 			
 			if (editOverview.equals("Yes")){
 				action.writeToLogs("----------------OVERVIEW----------------");
-				//code to edit overview
+				action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");
 			}
@@ -243,26 +255,26 @@ public class Templates {
 		
 		
 		/*--------------Team Tab------------------*/
-		action.writeToLogs("------------------TEAM------------------");
-		action.configureTeamTab(false);
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+//		action.writeToLogs("------------------TEAM------------------");
+//		action.configureTeamTab(false);
+//		action.writeToLogs("------------------------------------------");
+//		action.writeToLogs("");
 		/*--------------End of Team---------------*/
 		
 		
 		/*-------------Documents Tab-----------------*/
-		action.writeToLogs("---------------DOCUMENTS----------------");
-		action.configureDocumentsTab();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+//		action.writeToLogs("---------------DOCUMENTS----------------");
+//		action.configureDocumentsTab();
+//		action.writeToLogs("------------------------------------------");
+//		action.writeToLogs("");
 		/*-----------End of Documents----------------*/
 
 		
 		/*---------------Tasks Tab------------------*/
-		action.writeToLogs("-----------------TASKS------------------");
-		action.configureTaskTab();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+//		action.writeToLogs("-----------------TASKS------------------");
+//		action.configureTaskTab();
+//		action.writeToLogs("------------------------------------------");
+//		action.writeToLogs("");
 		/*--------------End of Tasks-----------------*/
 		
 		if (isPublish.equals("Yes")){
