@@ -253,7 +253,7 @@ public class Templates {
 			
 			if (editTeam.equals("Yes")){
 				action.writeToLogs("------------------TEAM------------------");
-				action.configureTeamTab(false);
+				action.updateTeamTab(false);
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");
 			}
