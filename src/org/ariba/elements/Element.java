@@ -92,6 +92,7 @@ public class Element {
 	
 	
 	//Documents
+	public final static By lnkDocumentsTab = new By.ByXPath("//a[@role='tab' and text()='Documents']");
 	public final static By lnkUploadDocument = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Upload')]/following-sibling::a[contains(text(),'Document')]");
 	public final static By lnkAssociateDocument = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Associate Document')]");
 	public final static By lnkDocumentChoice = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Document Choice')]");

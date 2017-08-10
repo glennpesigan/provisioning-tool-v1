@@ -820,7 +820,7 @@ public class parseExcel {
 			
 		}
 		
-		public boolean isDocumentExistInExcel(String documentName){
+		public boolean isDocumentExistInExcel(String folderName, String documentName){
 			boolean isDocumentExist = false;
 			try{
 				System.setProperty("ROW", "2");//Table start row
@@ -828,7 +828,7 @@ public class parseExcel {
 				Fillo fillo = new Fillo();
 				//Connection conn = fillo.getConnection(Details.path);
 				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Documents Tab` where `Document Name` = '"+documentName+"'";
+				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"' and `Document Name` = '"+documentName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
 					if (!rs.getField("Document Name").isEmpty()){
@@ -868,7 +868,7 @@ public class parseExcel {
 			
 		}
 		
-		public String getDocumentInExcel(String documentName){
+		public String getDocumentInExcel(String folderName, String documentName){
 			String value = "";
 			try{
 				System.setProperty("ROW", "2");//Table start row
@@ -876,7 +876,7 @@ public class parseExcel {
 				Fillo fillo = new Fillo();
 				//Connection conn = fillo.getConnection(Details.path);
 				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Documents Tab` where `Document Name` = '"+documentName+"'";
+				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"' and `Document Name` = '"+documentName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
 					if (!rs.getField("Folder Name").isEmpty() || !rs.getField("Document Name").isEmpty()){

@@ -7,8 +7,8 @@ public class Test {
 		
 		
 		parseExcel retrieve = new parseExcel();
-		System.out.println(retrieve.getDocumentInExcel("Business Requirement"));
-		String [] doc = retrieve.getDocumentInExcel("Business Requirement").split("~",-1);
+		System.out.println(retrieve.getDocumentInExcel("Sourcing Documents","Sourcing Plan"));
+		String [] doc = retrieve.getDocumentInExcel("Sourcing Documents","Sourcing Plan").split("~",-1);
 		String title = doc[2].trim();
 		System.out.println(title);
 		String description = doc[3].trim();

@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.poi.util.SystemOutLogger;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.eclipse.swt.widgets.Display;
@@ -1587,13 +1586,12 @@ public class Commands {
 		}
 	}
 	
-	public void editDocument(String documentName){
+	public void editDocument(String folderName, String documentName){
+		
 		sendKeysEnter(By.linkText(documentName));
 		click(Element.lnkEditAttributes);
-				
-		
 		parseExcel retrieve = new parseExcel();
-		String [] doc = retrieve.getDocumentInExcel(documentName).split("~",-1);
+		String [] doc = retrieve.getDocumentInExcel(folderName, documentName).split("~",-1);
 		String title = doc[2].trim();
 		String description = doc[3].trim();
 		String owner = doc[5].trim();
@@ -1602,7 +1600,7 @@ public class Commands {
 		String isPublishRequired = doc[8].trim();
 		String conditions = doc[9].trim();
 		
-		writeToLogs("Edit Document");
+		writeToLogs("Edit '"+documentName+"' document.");
 		waitForButtonToExist("Save", 5);
 		waitFor(3);
 		populateTextField("Title", title);
@@ -1623,31 +1621,197 @@ public class Commands {
 		clickButton("OK");
 	}
 	
-	public void updateDocumentsTab() {
+	public void updateDocumentsTab(){
 		
+		updateDocumentsFromUIToExcel();
+		
+	}
+	
+	public boolean getDocumentFolderInUI(String folderName){
+		
+		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
+		parseExcel retrieve = new parseExcel();
+		for (int i=1; i<=rows.size(); i++){
+			WebElement objDoc = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+i+"]"), 10);
+			if (!objDoc.getAttribute("_mid").contains("Doc")){
+				String folderNameUI = objDoc.getText().trim();
+				if (retrieve.isDocFolderExistInExcel(folderNameUI)){
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					
+				}else{
+					deleteDocument(folderName);
+					writeToLogs("Deleted '" +folderName+ "' folder.");
+				}
+			}
+			
+			
+			
+		}
+		
+		return false;
+	}
+	
+	public void updateDocumentsFromExcelToUI(){
+		
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
+		
+		navigateTab("Documents");
+		
+		parseExcel retrieve = new parseExcel();
+		List <String> documents = retrieve.getDocumentsTab();
+
+		for(String d : documents){
+			String [] document = d.split("~", -1);
+			String folderName = document[0].trim();
+			String folderDescription = document[1].trim();
+			String documentName = document[2].trim();
+			String documentDescription = document[3].trim();
+			String type = document[4].trim();
+			String owner = document[5].trim();
+			String editors = document[6].trim();
+			String accessControl = document[7].trim();
+			String isPublishRequired = document[8].trim();
+			String conditions = document[9].trim();
+			String documentPath = document[10].trim();
+			String documentChoiceType = document[11].trim();
+			String documentChoice = document[12].trim();
+			
+			if (!folderName.isEmpty()){
+
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+				}
+				
+				
+				
+				
+				
+				if (!isElementVisible(By.linkText(folderName),5)){
+					createNewFolder(folderName, folderDescription);
+				}
+				
+				switch (type){
+				
+				case "Document":
+					if(!documentName.isEmpty()){
+						waitFor(2);
+						sendKeysEnter(By.linkText(folderName));
+						click(Element.lnkOpen);
+						waitFor(2);
+						click(Element.btnActions);
+						createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					}
+					break;
+					
+				case "Contract Terms":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Document Choice":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				}
+			}else{
+				
+				
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+				}
+				
+				
+				switch (type){
+				
+				case "Document":
+					waitFor(2);
+					click(Element.btnActions);
+					createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Contract Terms":
+					waitFor(2);
+					createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				case "Document Choice":
+					waitFor(2);
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(2);
+					createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+					break;
+					
+				}
+
+				
+			}
+			
+			writeToLogs("");
+		}
+		
+		
+	}
+	
+	public void updateDocumentsFromUIToExcel() {
+		
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
 		navigateTab("Documents");
 		
 		parseExcel retrieve = new parseExcel();
 		//get the document rows
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
 		
-		for (WebElement i : rows){
-			if (i.getAttribute("_mid").contains("Doc")){
+		for (int i=1; i<=rows.size(); i++){
+			WebElement objDoc = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+i+"]"), 10);
+			if (objDoc.getAttribute("_mid").contains("Doc")){
 				//this is document
-				String documentName = i.getText().trim();
-				writeToLogs("Document Name: " + documentName);
-				if (retrieve.isDocumentExistInExcel(documentName)){
-					editDocument(documentName);
+				String documentName = objDoc.getText().trim();
+				if (retrieve.isDocumentExistInExcel("", documentName)){
+					editDocument("",documentName);
 				}else{
 					deleteDocument(documentName);
 				}
 			}else{
 				//this is folder
-				String folderName = i.getText().trim();
-				writeToLogs("Folder Name: " + folderName);
+				String folderName = objDoc.getText().trim();
 				if (retrieve.isDocFolderExistInExcel(folderName)){
 					sendKeysEnter(By.linkText(folderName));
 					click(Element.lnkOpen);
+					writeToLogs("Open '" +folderName+ "' folder");
+					waitFor(3);
+					List<WebElement> doxInsideFolder = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
+					System.out.println("Number of Documents:" +doxInsideFolder.size());
+					for (int j=1; j<=doxInsideFolder.size(); j++){
+						WebElement objDoc1  = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+j+"]"), 10);
+						if (objDoc1.getAttribute("_mid").contains("Doc")){
+							String documentName = objDoc1.getText().trim();
+							if (retrieve.isDocumentExistInExcel(folderName, documentName)){
+								editDocument(folderName, documentName);
+							}else{
+								deleteDocument(documentName);
+							}
+						}
+					}
+					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+					}
 				}
 			}
 		}
@@ -1771,9 +1935,7 @@ public class Commands {
 				
 				
 				/*-----------Select Conditions------------*/
-				
 				populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-				
 				/*-----------Select Conditions------------*/
 	
 			}

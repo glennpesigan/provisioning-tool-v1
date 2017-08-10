@@ -183,7 +183,7 @@ public class Templates {
 
 			
 		//Click Ignore button
-		if (action.isElementVisible(Element.btnIgnore, 5)){
+		if (action.isElementVisible(Element.btnIgnore, 8)){
 			action.click(Element.btnIgnore);
 		}
 
@@ -262,7 +262,7 @@ public class Templates {
 		/*--------------End of Team---------------*/
 		
 		
-/*-------------Documents Tab-----------------*/
+		/*-------------Documents Tab-----------------*/
 		
 		switch (Details.actionToPerform){
 		case "Create New":
