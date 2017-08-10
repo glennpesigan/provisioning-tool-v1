@@ -1774,6 +1774,7 @@ public class Commands {
 	
 	public void updateDocumentsFromUIToExcel() {
 		
+		
 		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
 		String titleName = pageHead.getText().trim();
 		navigateTab("Documents");
@@ -1781,7 +1782,7 @@ public class Commands {
 		parseExcel retrieve = new parseExcel();
 		//get the document rows
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
-		
+		String forDeletion = "";
 		for (int i=1; i<=rows.size(); i++){
 			WebElement objDoc = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+i+"]"), 10);
 			if (objDoc.getAttribute("_mid").contains("Doc")){
@@ -1790,7 +1791,9 @@ public class Commands {
 				if (retrieve.isDocumentExistInExcel("", documentName)){
 					editDocument("",documentName);
 				}else{
-					deleteDocument(documentName);
+//					deleteDocument(documentName);
+					forDeletion = forDeletion + documentName + "~";
+					writeToLogs("For deletion: " + documentName);
 				}
 			}else{
 				//this is folder
@@ -1801,7 +1804,7 @@ public class Commands {
 					writeToLogs("Open '" +folderName+ "' folder");
 					waitFor(3);
 					List<WebElement> doxInsideFolder = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
-					System.out.println("Number of Documents:" +doxInsideFolder.size());
+					String forDeletion1 = "";
 					for (int j=1; j<=doxInsideFolder.size(); j++){
 						WebElement objDoc1  = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+j+"]"), 10);
 						if (objDoc1.getAttribute("_mid").contains("Doc")){
@@ -1809,14 +1812,29 @@ public class Commands {
 							if (retrieve.isDocumentExistInExcel(folderName, documentName)){
 								editDocument(folderName, documentName);
 							}else{
-								deleteDocument(documentName);
+//								deleteDocument(documentName);
+								forDeletion1 = forDeletion1 + documentName + "~";
+								writeToLogs("For deletion: " + documentName);
 							}
+						}
+					}
+					if (!forDeletion1.isEmpty()){
+						forDeletion1 = forDeletion1.substring(0, forDeletion1.length()-1);
+						String [] toDelete = forDeletion1.split("~");
+						for (String del : toDelete){
+							deleteDocument(del.trim());
 						}
 					}
 					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
 						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 					}
 				}
+			}
+		}
+		if (!forDeletion.isEmpty()){
+			String [] toDelete = forDeletion.split("~");
+			for (String del : toDelete){
+				deleteDocument(del.trim());
 			}
 		}
 		writeToLogs("");
