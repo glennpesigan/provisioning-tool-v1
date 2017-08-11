@@ -892,4 +892,74 @@ public class parseExcel {
 			return value;
 		}
 		
+		
+		public boolean isPhaseExistInExcel(String phaseName){
+			boolean isPhaseExist = false;
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Tasks Tab` where `Phase (Optional)` = '"+phaseName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Phase (Optional)").isEmpty()){
+						isPhaseExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isPhaseExist;
+			}
+			return isPhaseExist;
+		}
+		
+		public boolean isSubPhaseExistInExcel(String phaseName, String subPhaseName){
+			boolean isPhaseExist = false;
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Tasks Tab` where `Phase (Optional)`='"+phaseName+"' and `Sub-phase n (Optional)`='"+subPhaseName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Sub-phase n (Optional)").isEmpty()){
+						isPhaseExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isPhaseExist;
+			}
+			return isPhaseExist;
+		}
+		
+		public boolean isTaskExistInExcel(String taskName){
+			boolean isTaskExist = false;
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Task Name").isEmpty()){
+						isTaskExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isTaskExist;
+			}
+			return isTaskExist;
+		}
+		
 }

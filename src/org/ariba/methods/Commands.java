@@ -1057,6 +1057,114 @@ public class Commands {
 	}
 	
 	
+	
+	
+	
+	public void updateTaskTab(){
+		
+		List <WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+		parseExcel retrieve = new parseExcel();
+		for (int i=1; i<=row.size(); i++){
+			WebElement objTask = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 5);
+			WebElement objCheck = objTask.findElement(By.xpath("//span[contains(@title,'Template')]"));
+			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
+				WebElement objPhaseName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+				String phaseNameUI = objPhaseName.getText().trim();
+				if (retrieve.isPhaseExistInExcel(phaseNameUI)){
+					//Phase
+					sendKeysEnter(By.linkText(phaseNameUI));
+					click(Element.lnkOpen);
+					List <WebElement> insidePhase = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+					for (int j=1; j<=insidePhase.size(); j++){
+						WebElement objTask1 = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+j+"]"), 5);
+						WebElement objCheck1 = objTask1.findElement(By.xpath("//span[contains(@title,'Template')]"));
+						if (objCheck1.getAttribute("title").trim().startsWith("Phase")){
+							WebElement objSubPhaseName = objTask1.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+							String subPhaseNameUI = objSubPhaseName.getText().trim();
+							if (retrieve.isSubPhaseExistInExcel(phaseNameUI, subPhaseNameUI)){
+								//Phase
+								sendKeysEnter(By.linkText(phaseNameUI));
+								click(Element.lnkOpen);
+								List <WebElement> insideSubPhase = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+								for (int k=1; k<=insideSubPhase.size(); k++){
+									WebElement objTask2 = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+k+"]"), 5);
+									WebElement objCheck2 = objTask2.findElement(By.xpath("//span[contains(@title,'Template')]"));
+									if (objCheck2.getAttribute("title").trim().startsWith("Task")){
+										WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+										String taskNameUI = objTaskName.getText().trim();
+										if (retrieve.isTaskExistInExcel(taskNameUI)){
+											sendKeysEnter(By.linkText(taskNameUI));
+											click(Element.lnkEditTask);
+					
+											populateTextField("Title", "Task Title Edited");
+										}
+									}
+									
+								}
+								
+
+							}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
+								//Task
+								WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+								String taskNameUI = objTaskName.getText().trim();
+								if (retrieve.isTaskExistInExcel(taskNameUI)){
+									sendKeysEnter(By.linkText(taskNameUI));
+									click(Element.lnkEditTask);
+									
+									populateTextField("Title", "Task Title Edited");
+								}
+								
+							}else{
+								//to delete
+								
+							}
+						}else if (objCheck1.getAttribute("title").trim().startsWith("Task")){
+							//Task
+							WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+							String taskNameUI = objTaskName.getText().trim();
+							if (retrieve.isTaskExistInExcel(taskNameUI)){
+								sendKeysEnter(By.linkText(taskNameUI));
+								click(Element.lnkEditTask);
+								
+								populateTextField("Title", "Task Title Edited");
+							}
+							
+						}else{
+							//to delete
+							
+						}
+					}
+				}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
+					//Task
+					WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+					String taskNameUI = objTaskName.getText().trim();
+					if (retrieve.isTaskExistInExcel(taskNameUI)){
+						sendKeysEnter(By.linkText(taskNameUI));
+						click(Element.lnkEditTask);
+						
+						populateTextField("Title", "Task Title Edited");
+					}
+				}else{
+					//to delete
+					
+				}
+			}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
+				WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+				String taskNameUI = objTaskName.getText().trim();
+				if (retrieve.isTaskExistInExcel(taskNameUI)){
+					sendKeysEnter(By.linkText(taskNameUI));
+					click(Element.lnkEditTask);
+					
+					populateTextField("Title", "Task Title Edited");
+				}
+			}
+			
+		}
+		
+		
+	}
+	
+	
 	public void configureTaskTab(){
 		
 		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
@@ -4864,6 +4972,17 @@ public class Commands {
 		
 	}
 	
+	public void deleteQuestions(){
+		List<WebElement> row = driver.findElements(By.xpath("(//div[@class='tableBody'])[2]//tr[@_awtisprimaryrow='1']/td[1]"));
+		for (int i=1; i<=row.size(); i++){
+			WebElement eleQuestion = explicitWait(By.xpath("((//div[@class='tableBody'])[2]//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 5);
+			String questionUI = eleQuestion.getText().trim();
+			click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+questionUI+"')]/following-sibling::td//a[contains(text(),'Actions')]"));
+			click(Element.lnkDelete);
+			click(Element.btnOK);
+			writeToLogs("Deleted '"+questionUI+"' question.");
+		}
+	}
 	
 	
 	public void addQuestion() {
@@ -4871,6 +4990,9 @@ public class Commands {
 		navigateTab("Conditions");
 		waitFor(2);
 		waitForButtonToExist("Add Question", 5);
+		
+		deleteQuestions();
+		
 		parseExcel retrieve = new parseExcel();
 		List <String> addQuestion = retrieve.getTemplateQuestions();
 		int i = 0;
@@ -4962,6 +5084,9 @@ public class Commands {
 		
 		navigateTab("Conditions");
 		waitForButtonToExist("Add Condition", 5);
+		
+		deleteConditions();
+		
 		parseExcel retrieve = new parseExcel();
 		List <String> addCondition = retrieve.getConditions();
 		int i = 0;
@@ -5152,6 +5277,22 @@ public class Commands {
 			click(Element.btnOK);
 			waitForButtonToExist("Add Condition", 5);
 		}
+	}
+	
+
+	public void deleteConditions(){
+		
+		List <WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+		for (int i=1; i<=row.size(); i++){
+			WebElement eleCondition = explicitWait(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 10);
+			String name = eleCondition.getText().trim();
+			click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"));
+			click(Element.lnkDelete);
+			click(Element.btnOK);
+			writeToLogs("Deleted '" +name+ "' condition.");
+		}
+		
+		
 	}
 	
 }	

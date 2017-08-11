@@ -205,10 +205,18 @@ public class Templates {
 			action.addCondition();
 			action.waitFor(1);
 			action.addQuestion();
-			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("----------------------------------------");
 			action.writeToLogs("");
 			break;
 		case "Update Existing":
+			if (editConditions.equals("Yes")){
+				action.writeToLogs("---------------CONDITIONS---------------");
+				action.addCondition();
+				action.waitFor(1);
+				action.addQuestion();
+				action.writeToLogs("----------------------------------------");
+				action.writeToLogs("");
+			}
 			break;
 		}
 		/*--------------End of Conditions------------*/
@@ -292,6 +300,12 @@ public class Templates {
 			action.writeToLogs("");
 			break;
 		case "Update Existing":
+			if (editTasks.equals("Yes")){
+				action.writeToLogs("-----------------TASKS------------------");
+				action.updateTaskTab();
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
 			break;
 		}
 		/*--------------End of Tasks-----------------*/
