@@ -962,4 +962,27 @@ public class parseExcel {
 			return isTaskExist;
 		}
 		
+		public boolean isProjectGroupExistInExcel(String projectGroup){
+			boolean isProjectGroupExist = false;
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "1");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+				//Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuery = "Select * from `Team Tab` where `Project Group`='"+projectGroup+"'";
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Project Group").isEmpty()){
+						isProjectGroupExist = true;
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return isProjectGroupExist;
+			}
+			return isProjectGroupExist;
+		}
+		
 }

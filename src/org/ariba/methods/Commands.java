@@ -1951,10 +1951,36 @@ public class Commands {
 	
 	public void updateTeamTab(boolean quickProject){
 		
+		if (quickProject){
+			sendKeysEnter(Element.lnkPropertiesActions);
+			click(Element.lnkEditTeam);
+			waitFor(2);
+		}else{
+			navigateTab("Team");
+			waitFor(2);
+			clickActions("Edit");
+		}
 		
-		parseExcel retrieve = new parseExcel();
-		List<WebElement> rows = driver.findElements(By.xpath(""));
-		
+		List<WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[2]"));
+			parseExcel retrieve = new parseExcel();
+			for (int i=1; i<=row.size(); i++){
+				WebElement objProjectGroupUI = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[2])["+i+"]"), 5);			
+				//if project group exist in excel and ui
+				if (objProjectGroupUI.getAttribute("class").contains("normal")){
+					String projectGroup = objProjectGroupUI.getText().trim();
+					if (retrieve.isProjectGroupExistInExcel(projectGroup)){
+						
+					}
+				//if project group exist in excel file
+				}//else if (objProjectGroupUI.getAttribute("").contains("")) {
+					
+//				} else if (objProjectGroupUI.getAttribute("").contains("")) {
+				
+					
+				//if project group exist in ui but not in excel (for deletion)
+//				}
+			
+			}
 		//Test
 		
 		
@@ -2091,16 +2117,7 @@ public class Commands {
 
 	public void editTeamTab(boolean quickProject){
 	
-		if (quickProject){
-			sendKeysEnter(Element.lnkPropertiesActions);
-			click(Element.lnkEditTeam);
-			waitFor(2);
-		}else{
-			navigateTab("Team");
-			waitFor(2);
-			clickActions("Edit");
-		}
-		
+
 		parseExcel retrieve = new parseExcel();
 		List <String> team = retrieve.getTeamTab();
 	
