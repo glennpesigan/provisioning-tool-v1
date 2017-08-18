@@ -1062,108 +1062,323 @@ public class Commands {
 	
 	public void updateTaskTab(){
 		
-		List <WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
+		if (titleName.length() > 40){
+			titleName = titleName.substring(0, 40);
+		}
+		
+		navigateTab("Tasks");
+		explicitWait(Element.lblRequiredTasks, 5);
+		List <WebElement> row = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
+		
+		System.out.println("Number of rows in Tasks: " + row.size());
 		parseExcel retrieve = new parseExcel();
 		for (int i=1; i<=row.size(); i++){
-			WebElement objTask = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 5);
-			WebElement objCheck = objTask.findElement(By.xpath("//span[contains(@title,'Template')]"));
+			WebElement objCheck = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//span[contains(@title,'Template')]"),5);
+			System.out.println(i + " XPath: " + objCheck.toString());
 			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
-				WebElement objPhaseName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
+				System.out.println(i + " Phase: " + phaseNameUI);
 				if (retrieve.isPhaseExistInExcel(phaseNameUI)){
 					//Phase
+					System.out.println("Phase: " + phaseNameUI + " exists in Excel");
 					sendKeysEnter(By.linkText(phaseNameUI));
 					click(Element.lnkOpen);
-					List <WebElement> insidePhase = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+					System.out.println("Open " + phaseNameUI + " phase.");
+					waitFor(3);
+					List <WebElement> insidePhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
+					System.out.println("Sub Phase tasks row: " + insidePhase.size());
 					for (int j=1; j<=insidePhase.size(); j++){
-						WebElement objTask1 = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+j+"]"), 5);
-						WebElement objCheck1 = objTask1.findElement(By.xpath("//span[contains(@title,'Template')]"));
+						WebElement objCheck1 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//span[contains(@title,'Template')]"),5);
 						if (objCheck1.getAttribute("title").trim().startsWith("Phase")){
-							WebElement objSubPhaseName = objTask1.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
+							WebElement objSubPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
 							String subPhaseNameUI = objSubPhaseName.getText().trim();
+							System.out.println(j + " Sub-phase: " + subPhaseNameUI);
 							if (retrieve.isSubPhaseExistInExcel(phaseNameUI, subPhaseNameUI)){
 								//Phase
-								sendKeysEnter(By.linkText(phaseNameUI));
+								System.out.println("Sub Phase: " + subPhaseNameUI + " exists in Excel");
+								sendKeysEnter(By.linkText(subPhaseNameUI));
 								click(Element.lnkOpen);
-								List <WebElement> insideSubPhase = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
+								System.out.println("Open " + subPhaseNameUI + " sub-phase.");
+								waitFor(5);
+								List <WebElement> insideSubPhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 								for (int k=1; k<=insideSubPhase.size(); k++){
-									WebElement objTask2 = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+k+"]"), 5);
-									WebElement objCheck2 = objTask2.findElement(By.xpath("//span[contains(@title,'Template')]"));
+									WebElement objCheck2 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+k+"]//span[contains(@title,'Template')]"),5);
 									if (objCheck2.getAttribute("title").trim().startsWith("Task")){
-										WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
-										String taskNameUI = objTaskName.getText().trim();
-										if (retrieve.isTaskExistInExcel(taskNameUI)){
-											sendKeysEnter(By.linkText(taskNameUI));
-											click(Element.lnkEditTask);
-					
-											populateTextField("Title", "Task Title Edited");
+										WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+k+"]//a[contains(@title,'Applicable:')]"),5);
+										String taskNameUI = objTaskName.getText().replace("*", "").trim();
+										if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
+											//Edit Task
+											editTask(phaseNameUI, taskNameUI);
+										}else{
+											//delete the task
+											deleteTask(taskNameUI);
 										}
 									}
-									
 								}
-								
-
-							}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
-								//Task
-								WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
-								String taskNameUI = objTaskName.getText().trim();
-								if (retrieve.isTaskExistInExcel(taskNameUI)){
-									sendKeysEnter(By.linkText(taskNameUI));
-									click(Element.lnkEditTask);
-									
-									populateTextField("Title", "Task Title Edited");
+								if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+									sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 								}
-								
+								waitFor(2);
 							}else{
-								//to delete
+								//Delete Sub-phase
 								
 							}
 						}else if (objCheck1.getAttribute("title").trim().startsWith("Task")){
 							//Task
-							WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
-							String taskNameUI = objTaskName.getText().trim();
-							if (retrieve.isTaskExistInExcel(taskNameUI)){
-								sendKeysEnter(By.linkText(taskNameUI));
-								click(Element.lnkEditTask);
-								
-								populateTextField("Title", "Task Title Edited");
+							WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
+							String taskNameUI = objTaskName.getText().replace("*", "").trim();
+							System.out.println(j + " Task: " + taskNameUI);
+							if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
+								//Edit Task
+								editTask(phaseNameUI, taskNameUI);
+							}else{
+								//delete the task
+								deleteTask(taskNameUI);
 							}
-							
-						}else{
-							//to delete
 							
 						}
 					}
-				}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
-					//Task
-					WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
-					String taskNameUI = objTaskName.getText().trim();
-					if (retrieve.isTaskExistInExcel(taskNameUI)){
-						sendKeysEnter(By.linkText(taskNameUI));
-						click(Element.lnkEditTask);
-						
-						populateTextField("Title", "Task Title Edited");
+					
+					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 					}
+					waitFor(2);
 				}else{
-					//to delete
+					//to delete phase
 					
 				}
 			}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
-				WebElement objTaskName = objTask.findElement(By.xpath("//a[contains(@title,'Applicable:')]"));
-				String taskNameUI = objTaskName.getText().trim();
-				if (retrieve.isTaskExistInExcel(taskNameUI)){
-					sendKeysEnter(By.linkText(taskNameUI));
-					click(Element.lnkEditTask);
-					
-					populateTextField("Title", "Task Title Edited");
+				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
+				String taskNameUI = objTaskName.getText().replace("*", "").trim();
+				System.out.println(i + " Task: " + taskNameUI);
+				if (retrieve.isTaskExistInExcel("",taskNameUI)){
+					//Edit Task
+					editTask("", taskNameUI);
+				}else{
+					//delete the task
+					deleteTask(taskNameUI);
 				}
 			}
 			
 		}
 		
-		
+		if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+			sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+		}
+		waitFor(2);
 	}
 	
+	public void deleteTask(String taskNameUI){
+		//delete the task
+		writeToLogs("Task '" +taskNameUI+ "' is not exist in excel");
+		sendKeysEnter(By.partialLinkText(taskNameUI));
+		click(Element.lnkViewTaskDetails);
+		click(Element.btnActions);
+		click(Element.lnkDelete);
+		waitForButtonToExist("OK", 5);
+		clickButton("OK");
+		writeToLogs("Task '" +taskNameUI+ "' was deleted.");
+	}
+	
+	public void editTask(String phaseNameUI, String taskNameUI){
+		
+		sendKeysEnter(By.partialLinkText(taskNameUI));
+		click(Element.lnkViewTaskDetails);
+		waitForButtonToExist("Cancel", 5);
+		
+		if (isElementVisible(Element.btnActions, 5)){
+			click(Element.btnActions);
+		}else{
+			click(Element.lnkTaskActionsForReview);
+		}
+		
+		click(Element.lnkEdit);
+		
+		parseExcel retrieve = new parseExcel();
+		String [] task = retrieve.getTaskInExcel(phaseNameUI, taskNameUI).split("~", -1);
+		String title = task[0].trim();
+		String description = task[1].trim();
+		String type = task[2].trim();
+		String required = task[3].trim();
+		String isMilestone = task[4].trim();
+		String owner = task[5].trim();
+		String autoApproval = task[6].trim();
+		String approvalRuleFlow = task[7].trim();
+		String approverReviewer = task[8].trim();
+		String observers = task[9].trim();
+		String repeat = task[10].trim();
+		String recipients = task[11].trim();
+		String notificationDays = task[12].trim();
+		String frequency = task[13].trim();
+		String autoStart = task[14].trim();
+		String manualCompletion = task[15].trim();
+		String associatedDocument = task[15].trim();
+		String predecessors = task[17].trim();
+		String conditions = task[18].trim();
+		String signatureProvider = task[19].trim();
+		String signer = task[20].trim();
+		String rank = task[21].trim();
+		
+		
+		populateTextField("Title", title);
+		populateChooserField("Owner", owner);
+		inputDescription(Element.txtProjectDescription, description);
+		populateChooserMultipleAlt("Observers", observers);
+//		populateTextField("Due Date", dueDate);
+		populateRadioButton("Is milestone", isMilestone);
+		populateRadioButton("Required", required);
+		populateTextField("Rank", rank);
+		selectPredecessors(predecessors);
+		populateRadioButton("Repeat for Each Document Draft", repeat);
+		populateCondition(Element.lnkCondition, conditions);
+		populateTextField("Rank", rank);
+		
+		switch (type){
+		case "Negotiation":
+		case "Review":
+			populateChooserMultiple("Reviewers", approverReviewer);
+			//Approval Rule Flow Type
+			if (approvalRuleFlow.isEmpty()){
+				switch (approvalRuleFlow.toLowerCase()){
+				case "parallel":
+					click(Element.rdoParallel);
+					waitFor(3);
+					break;
+				case "serial":
+					click(Element.rdoSerial);
+					waitFor(3);
+					break;
+				case "custom":
+					click(Element.rdoCustom);
+					waitFor(3);
+					break;
+				}
+			}
+			break;
+		case "Approval":
+			populateRadioButton("Allow auto approval", autoApproval);
+			populateChooserMultiple("Approvers", approverReviewer);
+			//Approval Rule Flow Type
+			if (approvalRuleFlow.isEmpty()){
+				switch (approvalRuleFlow.toLowerCase()){
+				case "parallel":
+					click(Element.rdoParallel);
+					waitFor(3);
+					break;
+				case "serial":
+					click(Element.rdoSerial);
+					waitFor(3);
+					break;
+				case "custom":
+					click(Element.rdoCustom);
+					waitFor(3);
+					break;
+				}
+			}
+			break;
+		case "Notification":
+			populateChooserMultiple("Recipients", recipients);
+			if (!notificationDays.isEmpty()){
+				String [] notifDays = notificationDays.split("-");
+				System.out.println(notifDays[0] + " - " + notifDays[1]);
+				populateTextField("Notification Days", notifDays[0]);
+				populateDropdown("Notification Days", notifDays[1]);
+			}
+			
+			populateDropdown("Notification Frequency", frequency);
+			waitFor(2);
+			populateCheckBox("Should Auto-Start Schedule", autoStart);
+			populateCheckBox("Requires Manual Completion", manualCompletion);
+			break;
+		}
+		
+		clickButton("OK");
+		
+		if (!associatedDocument.isEmpty()){
+			waitFor(2);
+			sendKeysEnter(By.partialLinkText(taskNameUI));
+			click(Element.lnkViewTaskDetails);
+			
+			if (isElementVisible(Element.btnActions, 5)){
+				click(Element.btnActions);
+			}else{
+				click(Element.lnkTaskActionsForReview);
+			}
+			
+			click(Element.lnkAssociateDocument);
+			associateDocument(type, associatedDocument);
+			waitForButtonToExist("Cancel", 5);
+			
+			if (isElementVisible(Element.btnOK, 2)){
+				switch (type){
+				case "Negotiation":
+				case "Review":
+					populateChooserMultiple("Reviewers", approverReviewer);
+					//Approval Rule Flow Type
+					if (approvalRuleFlow.isEmpty()){
+						switch (approvalRuleFlow.toLowerCase()){
+						case "parallel":
+							click(Element.rdoParallel);
+							waitFor(3);
+							break;
+						case "serial":
+							click(Element.rdoSerial);
+							waitFor(3);
+							break;
+						case "custom":
+							click(Element.rdoCustom);
+							waitFor(3);
+							break;
+						}
+					}
+					break;
+				case "Approval":
+					populateRadioButton("Allow auto approval", autoApproval);
+					populateChooserMultiple("Approvers", approverReviewer);
+					//Approval Rule Flow Type
+					if (approvalRuleFlow.isEmpty()){
+						switch (approvalRuleFlow.toLowerCase()){
+						case "parallel":
+							click(Element.rdoParallel);
+							waitFor(3);
+							break;
+						case "serial":
+							click(Element.rdoSerial);
+							waitFor(3);
+							break;
+						case "custom":
+							click(Element.rdoCustom);
+							waitFor(3);
+							break;
+						}
+					}
+					break;
+				case "Notification":
+					populateChooserMultiple("Recipients", recipients);
+					if (!notificationDays.isEmpty()){
+						String [] notifDays = notificationDays.split("-");
+						System.out.println(notifDays[0] + " - " + notifDays[1]);
+						populateTextField("Notification Days", notifDays[0]);
+						populateDropdown("Notification Days", notifDays[1]);
+					}
+					
+					populateDropdown("Notification Frequency", frequency);
+					waitFor(2);
+					populateCheckBox("Should Auto-Start Schedule", autoStart);
+					populateCheckBox("Requires Manual Completion", manualCompletion);
+					break;
+				}
+				
+				clickButton("OK");
+			}
+			
+			clickButton("Cancel");
+			
+		}
+	}
 	
 	public void configureTaskTab(){
 		
@@ -2125,7 +2340,7 @@ public class Commands {
 			String [] tm = t.split("~", -1);
 			String projectGroup = tm[0].trim();
 			String projectRoles = tm[1].trim();
-			String canOwnerEdit = tm[2].trim();
+//			String canOwnerEdit = tm[2].trim();
 	//		String systemGroup = tm[3].trim();
 			String members = tm[4].trim();
 			String conditions = tm[5].trim();

@@ -74,6 +74,7 @@ public class Element {
 	public final static By lnkOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='Open']");
 	public final static By lnkEditAttributes = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Attributes')]");
 	public final static By lnkEditTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Task')]");
+	public final static By lnkEdit = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit')]");
 	public final static By lnkDelete = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Delete')]");
 	public final static By lnkViewTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='View Task Details']");
 	public final static By lnkCreatePhase = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Phase')]");
@@ -85,7 +86,7 @@ public class Element {
 	public final static By lnkCreateSignatureTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Signature')]");
 	
 	public final static By lblPageHead = new By.ByClassName("w-page-head");
-	
+	public final static By lnkTaskActionsForReview = new By.ByXPath("//a[@_mid='TaskActionsForReview']");
 	
 	//Predecessors
 	public final static By imgTableOptions = new By.ByXPath("//div[@title='Table Options Menu']");
@@ -192,6 +193,8 @@ public class Element {
 //	public final static By txtFormula = new By.ById("_ssosl");
 
 	public final static By lblStatus = new By.ByXPath("//td[text()='Keywords:']/following-sibling::td//input");
+	public final static By lblRequiredTasks = new By.ByXPath("//span[contains(@class,' u-required-task')]");
+	
 	
 }
 

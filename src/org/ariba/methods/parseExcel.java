@@ -939,15 +939,22 @@ public class parseExcel {
 			return isPhaseExist;
 		}
 		
-		public boolean isTaskExistInExcel(String taskName){
+		public boolean isTaskExistInExcel(String phase, String taskName){
 			boolean isTaskExist = false;
+			String executionQuery = "";
 			try{
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
 				//Connection conn = fillo.getConnection(Details.path);
 				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+				
+				if (phase.isEmpty()){
+					executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+				}else{
+					executionQuery = "Select * from `Tasks Tab` where `Phase (Optional)` = '"+phase+"' and `Task Name`='"+taskName+"'";
+				}
+				
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
 					if (!rs.getField("Task Name").isEmpty()){
@@ -961,6 +968,35 @@ public class parseExcel {
 			}
 			return isTaskExist;
 		}
+		
+		public String getTaskInExcel(String phase, String taskName){
+			String value = "";
+			String executionQuery = "";
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				//Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				if (phase.isEmpty()){
+					executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+				}else{
+					executionQuery = "Select * from `Tasks Tab` where `Phase (Optional)` = '"+phase+"' and `Task Name`='"+taskName+"'";
+				}
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Task Name").isEmpty()){
+						value = rs.getField("Task Name")+"~"+rs.getField("Task Description")+"~"+rs.getField("Type")+"~"+rs.getField("Mandatory")+"~"+rs.getField("Milestone")+"~"+rs.getField("Owner")+"~"+rs.getField("Allow Auto Approval")+"~"+rs.getField("Approval Rule Flow Type")+"~"+rs.getField("Approver/Reviewer")+"~"+rs.getField("Observer")+"~"+rs.getField("Repeat for each document draft")+"~"+rs.getField("Recipients")+"~"+rs.getField("Notification Days")+"~"+rs.getField("Frequency")+"~"+rs.getField("Auto Start")+"~"+rs.getField("Requires Manual Completion")+"~"+rs.getField("Associated Documents")+"~"+rs.getField("Predecessor")+"~"+rs.getField("Conditions")+"~"+rs.getField("Signature Provider")+"~"+rs.getField("Signer")+"~"+rs.getField("Rank");
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				e.printStackTrace();
+			}
+			return value;
+		}
+		
 		
 		public boolean isProjectGroupExistInExcel(String projectGroup){
 			boolean isProjectGroupExist = false;
