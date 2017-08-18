@@ -9,7 +9,8 @@ public class Test {
 //		parseExcel retrieve = new parseExcel();
 //		System.out.println(retrieve.isTaskExistInExcel("Test Phase 2","To Do Task 1"));
 		
-		System.out.println("To Do Task 1 *".replace("*", "").trim());
+		String task = "~Task 2~Task 1";
+		System.out.println(task.substring(1, task.length()));
 		
 		}
 	}

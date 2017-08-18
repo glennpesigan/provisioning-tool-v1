@@ -65,10 +65,12 @@ public class Commands {
 	public void clickActions(String action){
 		click(Element.btnActions);
 		click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'"+action+"')]"));
+		writeToLogs("Click 'Actions' > '" +action+ "'");
 	}
 	
 	public void clickButton(String button){
 		click(By.xpath("//button/span[contains(text(),'"+button+"')]"));
+		writeToLogs("Click '" +button+ "' button");
 	}
 	
 	
@@ -1074,19 +1076,19 @@ public class Commands {
 		
 		System.out.println("Number of rows in Tasks: " + row.size());
 		parseExcel retrieve = new parseExcel();
+		String tasksToDelete = "";
 		for (int i=1; i<=row.size(); i++){
 			WebElement objCheck = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//span[contains(@title,'Template')]"),5);
-			System.out.println(i + " XPath: " + objCheck.toString());
 			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
 				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
 				System.out.println(i + " Phase: " + phaseNameUI);
 				if (retrieve.isPhaseExistInExcel(phaseNameUI)){
 					//Phase
-					System.out.println("Phase: " + phaseNameUI + " exists in Excel");
+					writeToLogs("Phase: " + phaseNameUI + " exists in Excel");
 					sendKeysEnter(By.linkText(phaseNameUI));
 					click(Element.lnkOpen);
-					System.out.println("Open " + phaseNameUI + " phase.");
+					writeToLogs("Open " + phaseNameUI + " phase.");
 					waitFor(3);
 					List <WebElement> insidePhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 					System.out.println("Sub Phase tasks row: " + insidePhase.size());
@@ -1098,10 +1100,10 @@ public class Commands {
 							System.out.println(j + " Sub-phase: " + subPhaseNameUI);
 							if (retrieve.isSubPhaseExistInExcel(phaseNameUI, subPhaseNameUI)){
 								//Phase
-								System.out.println("Sub Phase: " + subPhaseNameUI + " exists in Excel");
+								writeToLogs("Sub Phase: " + subPhaseNameUI + " exists in Excel");
 								sendKeysEnter(By.linkText(subPhaseNameUI));
 								click(Element.lnkOpen);
-								System.out.println("Open " + subPhaseNameUI + " sub-phase.");
+								writeToLogs("Open " + subPhaseNameUI + " sub-phase.");
 								waitFor(5);
 								List <WebElement> insideSubPhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 								for (int k=1; k<=insideSubPhase.size(); k++){
@@ -1111,13 +1113,27 @@ public class Commands {
 										String taskNameUI = objTaskName.getText().replace("*", "").trim();
 										if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
 											//Edit Task
+											writeToLogs("Task '" + taskNameUI + "' is exists in excel.");
 											editTask(phaseNameUI, taskNameUI);
 										}else{
 											//delete the task
-											deleteTask(taskNameUI);
+//											deleteTask(taskNameUI);
+											writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
+											tasksToDelete = "~" + taskNameUI + tasksToDelete;
 										}
 									}
 								}
+								
+								//Delete Tasks
+								if (!tasksToDelete.isEmpty()){
+									tasksToDelete = tasksToDelete.substring(1, tasksToDelete.length());
+									String [] deleteTask = tasksToDelete.split("~");
+									for (String dt : deleteTask){
+										deleteTask(dt);
+									}
+									tasksToDelete = "";
+								}
+								
 								if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
 									sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 								}
@@ -1136,10 +1152,22 @@ public class Commands {
 								editTask(phaseNameUI, taskNameUI);
 							}else{
 								//delete the task
-								deleteTask(taskNameUI);
+//								deleteTask(taskNameUI);
+								writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
+								tasksToDelete = "~" + taskNameUI + tasksToDelete;
 							}
 							
 						}
+					}
+					
+					//Delete Tasks
+					if (!tasksToDelete.isEmpty()){
+						tasksToDelete = tasksToDelete.substring(1, tasksToDelete.length());
+						String [] deleteTask = tasksToDelete.split("~");
+						for (String dt : deleteTask){
+							deleteTask(dt);
+						}
+						tasksToDelete = "";
 					}
 					
 					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -1159,15 +1187,33 @@ public class Commands {
 					editTask("", taskNameUI);
 				}else{
 					//delete the task
-					deleteTask(taskNameUI);
+//					deleteTask(taskNameUI);
+					writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
+					tasksToDelete = "~" + taskNameUI + tasksToDelete;
+					
 				}
 			}
 			
 		}
 		
+		//Delete Tasks
+		if (!tasksToDelete.isEmpty()){
+			tasksToDelete = tasksToDelete.substring(1, tasksToDelete.length());
+			String [] deleteTask = tasksToDelete.split("~");
+			for (String dt : deleteTask){
+				deleteTask(dt);
+			}
+			tasksToDelete = "";
+		}
+		
+		//Delete Phases
+		
 		if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
 			sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 		}
+		
+		
+		
 		waitFor(2);
 	}
 	
@@ -1176,7 +1222,12 @@ public class Commands {
 		writeToLogs("Task '" +taskNameUI+ "' is not exist in excel");
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
-		click(Element.btnActions);
+		waitFor(2);
+		if (isElementVisible(Element.btnActions, 5)){
+			click(Element.btnActions);
+		}else{
+			click(Element.lnkTaskActionsForReview);
+		}
 		click(Element.lnkDelete);
 		waitForButtonToExist("OK", 5);
 		clickButton("OK");
@@ -1188,7 +1239,7 @@ public class Commands {
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
 		waitForButtonToExist("Cancel", 5);
-		
+		writeToLogs("Click '" +taskNameUI+ "' > 'View Task Details'");
 		if (isElementVisible(Element.btnActions, 5)){
 			click(Element.btnActions);
 		}else{
@@ -1196,7 +1247,7 @@ public class Commands {
 		}
 		
 		click(Element.lnkEdit);
-		
+		writeToLogs("Click 'Actions' > 'Edit'");
 		parseExcel retrieve = new parseExcel();
 		String [] task = retrieve.getTaskInExcel(phaseNameUI, taskNameUI).split("~", -1);
 		String title = task[0].trim();
