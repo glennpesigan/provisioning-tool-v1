@@ -302,6 +302,7 @@ public class Templates {
 		case "Update Existing":
 			if (editTasks.equals("Yes")){
 				action.writeToLogs("-----------------TASKS------------------");
+				action.addDocumentsFromExcelToUI();
 				action.updateTaskTab();
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");

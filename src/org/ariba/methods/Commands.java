@@ -20,8 +20,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.thoughtworks.selenium.webdriven.commands.IsElementPresent;
-
 public class Commands {
 	
 	static int phaseCount = 0;
@@ -1367,7 +1365,7 @@ public class Commands {
 		String frequency = task[13].trim();
 		String autoStart = task[14].trim();
 		String manualCompletion = task[15].trim();
-		String associatedDocument = task[15].trim();
+		String associatedDocument = task[16].trim();
 		String predecessors = task[17].trim();
 		String conditions = task[18].trim();
 		String signatureProvider = task[19].trim();
@@ -1450,6 +1448,7 @@ public class Commands {
 		
 		clickButton("OK");
 		
+		System.out.println("Associated Document: " + associatedDocument);
 		if (!associatedDocument.isEmpty()){
 			waitFor(2);
 			sendKeysEnter(By.partialLinkText(taskNameUI));
@@ -1465,7 +1464,7 @@ public class Commands {
 			associateDocument(type, associatedDocument);
 			waitForButtonToExist("Cancel", 5);
 			
-			if (isElementVisible(Element.btnOK, 2)){
+			if (isElementVisible(Element.btnOK, 5)){
 				switch (type){
 				case "Negotiation":
 				case "Review":
@@ -1524,10 +1523,10 @@ public class Commands {
 					populateCheckBox("Requires Manual Completion", manualCompletion);
 					break;
 				}
-				
 				clickButton("OK");
+				waitFor(2);
 			}
-			
+
 			clickButton("Cancel");
 			
 		}
@@ -2124,6 +2123,7 @@ public class Commands {
 			WebElement objDoc = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+i+"]"), 10);
 			if (objDoc.getAttribute("_mid").contains("Doc")){
 				String docUI = objDoc.getText().trim();
+				System.out.println("Get Text: " + docUI);
 				if(docUI.equals(documentName)){
 					return isExist = true;
 				}
@@ -2142,7 +2142,7 @@ public class Commands {
 		
 		parseExcel retrieve = new parseExcel();
 		List <String> documents = retrieve.getDocumentsTab();
-
+		
 		for(String d : documents){
 			String [] document = d.split("~", -1);
 			String folderName = document[0].trim();
@@ -2158,7 +2158,7 @@ public class Commands {
 			String documentPath = document[10].trim();
 			String documentChoiceType = document[11].trim();
 			String documentChoice = document[12].trim();
-			
+			System.out.println("Document: " + documentName);
 			if (!folderName.isEmpty()){
 
 				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -2235,6 +2235,164 @@ public class Commands {
 						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
 						break;
 					}
+				}
+				
+				
+
+				
+			}
+			
+			writeToLogs("");
+		}
+		
+		
+	}
+	
+	public void addDocumentsFromExcelToUI(){
+		
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
+		
+		navigateTab("Documents");
+		
+		parseExcel retrieve = new parseExcel();
+		List <String> documents = retrieve.getDocumentsTab();
+		
+		for(String d : documents){
+			String [] document = d.split("~", -1);
+			String folderName = document[0].trim();
+			String folderDescription = document[1].trim();
+			String documentName = document[2].trim();
+			String documentDescription = document[3].trim();
+			String type = document[4].trim();
+			String owner = document[5].trim();
+			String editors = document[6].trim();
+			String accessControl = document[7].trim();
+			String isPublishRequired = document[8].trim();
+			String conditions = document[9].trim();
+			String documentPath = document[10].trim();
+			String documentChoiceType = document[11].trim();
+			String documentChoice = document[12].trim();
+			System.out.println("Folder: " + folderName);
+			System.out.println("Document: " + documentName);
+			if (!folderName.isEmpty()){
+
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+					waitFor(3);
+				}
+				
+				if (!isDocFolderExistInUI(folderName)){
+					//add folder
+					System.out.println("Folder '" +folderName+ "' is not exists in UI.");
+					createNewFolder(folderName, folderDescription);
+					switch (type){
+					case "Document":
+						if(!documentName.isEmpty()){
+							waitFor(2);
+							sendKeysEnter(By.linkText(folderName));
+							click(Element.lnkOpen);
+							waitFor(2);
+							click(Element.btnActions);
+							createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+							populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						}
+						break;
+						
+					case "Contract Terms":
+						waitFor(2);
+						sendKeysEnter(By.linkText(folderName));
+						click(Element.lnkOpen);
+						waitFor(2);
+						createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						break;
+						
+					case "Document Choice":
+						waitFor(2);
+						sendKeysEnter(By.linkText(folderName));
+						click(Element.lnkOpen);
+						waitFor(2);
+						createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						break;
+						
+					}
+				}else{
+					//Folder exist in UI
+					System.out.println("Folder '" +folderName+ "' is exists in UI.");
+					sendKeysEnter(By.linkText(folderName));
+					click(Element.lnkOpen);
+					waitFor(3);
+					if (!isDocumentExistInUI(documentName)){
+						//add document
+						System.out.println("Document '" +documentName+ "' is not exists in UI.");
+						switch (type){
+						case "Document":
+							waitFor(2);
+							click(Element.btnActions);
+							createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+							populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+							break;
+							
+						case "Contract Terms":
+							waitFor(2);
+							createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+							populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+							break;
+							
+						case "Document Choice":
+							waitFor(2);
+							sendKeysEnter(By.linkText(folderName));
+							click(Element.lnkOpen);
+							waitFor(2);
+							createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+							populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+							break;
+						}
+					}else{
+						System.out.println("Document '" +documentName+ "' is exists in UI.");
+					}
+					
+				}
+				
+				
+			}else{
+				
+				
+				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
+					sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
+					waitFor(3);
+				}
+				
+				if (!isDocumentExistInUI(documentName)){
+					//add document
+					System.out.println("Document '" +documentName+ "' is not exists in UI.");
+					switch (type){
+					case "Document":
+						waitFor(2);
+						click(Element.btnActions);
+						createNewDocument(documentPath, documentName, documentDescription, owner, isPublishRequired);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						break;
+						
+					case "Contract Terms":
+						waitFor(2);
+						createContractTerms(documentName, documentDescription, owner, editors, accessControl, isPublishRequired);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						break;
+						
+					case "Document Choice":
+						waitFor(2);
+						sendKeysEnter(By.linkText(folderName));
+						click(Element.lnkOpen);
+						waitFor(2);
+						createDocumentChoice(documentName, documentDescription, documentChoiceType, documentChoice);
+						populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+documentName+"')]/following-sibling::td[2]//a"), conditions);
+						break;
+					}
+				}else{
+					System.out.println("Document '" +documentName+ "' is exists in UI.");
 				}
 				
 				

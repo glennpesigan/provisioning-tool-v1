@@ -6,11 +6,11 @@ public class Test {
 	public static void main(String args[]) {
 		
 		
-//		parseExcel retrieve = new parseExcel();
-//		System.out.println(retrieve.isTaskExistInExcel("Test Phase 2","To Do Task 1"));
+		parseExcel retrieve = new parseExcel();
+		String [] task = retrieve.getTaskInExcel("Test Phase 1", "To Do Task 1").split("~", -1);
+		String associatedDocument = task[16].trim();
+		System.out.println("Document: " + associatedDocument);
 		
-		String task = "~Task 2~Task 1";
-		System.out.println(task.substring(1, task.length()));
 		
 		}
 	}
