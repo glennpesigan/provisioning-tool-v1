@@ -194,7 +194,8 @@ public class Element {
 
 	public final static By lblStatus = new By.ByXPath("//td[text()='Keywords:']/following-sibling::td//input");
 	public final static By lblRequiredTasks = new By.ByXPath("//span[contains(@class,' u-required-task')]");
-	
+	public final static By lblTaskPageHead = new By.ByXPath("//td[@class='w-stepnavbar-title-area']/span");
+	public final static By tasksRowCount =  new By.ByXPath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]");
 	
 }
 

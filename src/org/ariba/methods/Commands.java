@@ -20,6 +20,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.thoughtworks.selenium.webdriven.commands.IsElementPresent;
+
 public class Commands {
 	
 	static int phaseCount = 0;
@@ -1077,12 +1079,13 @@ public class Commands {
 		System.out.println("Number of rows in Tasks: " + row.size());
 		parseExcel retrieve = new parseExcel();
 		String tasksToDelete = "";
+		int rowCount = 0;
 		for (int i=1; i<=row.size(); i++){
 			WebElement objCheck = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//span[contains(@title,'Template')]"),5);
 			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
 				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
-				System.out.println(i + " Phase: " + phaseNameUI);
+				System.out.println("i=" + i + " Phase: " + phaseNameUI);
 				if (retrieve.isPhaseExistInExcel(phaseNameUI)){
 					//Phase
 					writeToLogs("Phase: " + phaseNameUI + " exists in Excel");
@@ -1092,12 +1095,17 @@ public class Commands {
 					waitFor(3);
 					List <WebElement> insidePhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 					System.out.println("Sub Phase tasks row: " + insidePhase.size());
-					for (int j=1; j<=insidePhase.size(); j++){
+					rowCount = insidePhase.size();
+					if (insidePhase.get(0).getText().contains("No items")){
+						rowCount = 0;
+					}
+					String deleteTaskInsidePhase = "";
+					for (int j=1; j<=rowCount; j++){
 						WebElement objCheck1 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//span[contains(@title,'Template')]"),5);
 						if (objCheck1.getAttribute("title").trim().startsWith("Phase")){
 							WebElement objSubPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
 							String subPhaseNameUI = objSubPhaseName.getText().trim();
-							System.out.println(j + " Sub-phase: " + subPhaseNameUI);
+							System.out.println("j=" + j + " Sub-phase: " + subPhaseNameUI);
 							if (retrieve.isSubPhaseExistInExcel(phaseNameUI, subPhaseNameUI)){
 								//Phase
 								writeToLogs("Sub Phase: " + subPhaseNameUI + " exists in Excel");
@@ -1106,11 +1114,18 @@ public class Commands {
 								writeToLogs("Open " + subPhaseNameUI + " sub-phase.");
 								waitFor(5);
 								List <WebElement> insideSubPhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
-								for (int k=1; k<=insideSubPhase.size(); k++){
+								rowCount = insideSubPhase.size();
+								if (insidePhase.get(0).getText().contains("No items")){
+									rowCount = 0;
+								}
+								String tasksToDeleteInsideSubPhase = "";
+								for (int k=1; k<=rowCount; k++){
 									WebElement objCheck2 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+k+"]//span[contains(@title,'Template')]"),5);
-									if (objCheck2.getAttribute("title").trim().startsWith("Task")){
+									
+									if (objCheck2.getAttribute("title").trim().contains("Task")){
 										WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+k+"]//a[contains(@title,'Applicable:')]"),5);
 										String taskNameUI = objTaskName.getText().replace("*", "").trim();
+										System.out.println("k=" + k + " Task: " + taskNameUI);
 										if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
 											//Edit Task
 											writeToLogs("Task '" + taskNameUI + "' is exists in excel.");
@@ -1119,19 +1134,20 @@ public class Commands {
 											//delete the task
 //											deleteTask(taskNameUI);
 											writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-											tasksToDelete = "~" + taskNameUI + tasksToDelete;
+											System.out.println("For deletion: " + taskNameUI);
+											tasksToDeleteInsideSubPhase = "~" + taskNameUI + tasksToDeleteInsideSubPhase;
 										}
 									}
 								}
 								
 								//Delete Tasks
-								if (!tasksToDelete.isEmpty()){
-									tasksToDelete = tasksToDelete.substring(1, tasksToDelete.length());
-									String [] deleteTask = tasksToDelete.split("~");
+								if (!tasksToDeleteInsideSubPhase.isEmpty()){
+									tasksToDeleteInsideSubPhase = tasksToDeleteInsideSubPhase.substring(1, tasksToDeleteInsideSubPhase.length());
+									String [] deleteTask = tasksToDeleteInsideSubPhase.split("~");
 									for (String dt : deleteTask){
 										deleteTask(dt);
 									}
-									tasksToDelete = "";
+									tasksToDeleteInsideSubPhase = "";
 								}
 								
 								if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -1140,13 +1156,14 @@ public class Commands {
 								waitFor(2);
 							}else{
 								//Delete Sub-phase
-								
+								writeToLogs("Phase '" + subPhaseNameUI + "' is not exists in excel.");
+								System.out.println("For deletion: " + subPhaseNameUI);
 							}
-						}else if (objCheck1.getAttribute("title").trim().startsWith("Task")){
+						}else if (objCheck1.getAttribute("title").trim().contains("Task")){
 							//Task
 							WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
 							String taskNameUI = objTaskName.getText().replace("*", "").trim();
-							System.out.println(j + " Task: " + taskNameUI);
+							System.out.println("j=" + j + " Task: " + taskNameUI);
 							if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
 								//Edit Task
 								editTask(phaseNameUI, taskNameUI);
@@ -1154,20 +1171,20 @@ public class Commands {
 								//delete the task
 //								deleteTask(taskNameUI);
 								writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-								tasksToDelete = "~" + taskNameUI + tasksToDelete;
+								System.out.println("For deletion: " + taskNameUI);
+								deleteTaskInsidePhase = "~" + taskNameUI + deleteTaskInsidePhase;
 							}
 							
 						}
 					}
 					
 					//Delete Tasks
-					if (!tasksToDelete.isEmpty()){
-						tasksToDelete = tasksToDelete.substring(1, tasksToDelete.length());
-						String [] deleteTask = tasksToDelete.split("~");
+					if (!deleteTaskInsidePhase.isEmpty()){
+						deleteTaskInsidePhase = deleteTaskInsidePhase.substring(1, deleteTaskInsidePhase.length());
+						String [] deleteTask = deleteTaskInsidePhase.split("~");
 						for (String dt : deleteTask){
 							deleteTask(dt);
 						}
-						tasksToDelete = "";
 					}
 					
 					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -1176,12 +1193,14 @@ public class Commands {
 					waitFor(2);
 				}else{
 					//to delete phase
+					writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
+					System.out.println("For deletion: " + phaseNameUI);
 					
 				}
-			}else if (objCheck.getAttribute("title").trim().startsWith("Task")){
+			}else if (objCheck.getAttribute("title").trim().contains("Task")){
 				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String taskNameUI = objTaskName.getText().replace("*", "").trim();
-				System.out.println(i + " Task: " + taskNameUI);
+				System.out.println("i=" + i + " Task: " + taskNameUI);
 				if (retrieve.isTaskExistInExcel("",taskNameUI)){
 					//Edit Task
 					editTask("", taskNameUI);
@@ -1189,6 +1208,7 @@ public class Commands {
 					//delete the task
 //					deleteTask(taskNameUI);
 					writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
+					System.out.println("For deletion: " + taskNameUI);
 					tasksToDelete = "~" + taskNameUI + tasksToDelete;
 					
 				}
@@ -1219,7 +1239,7 @@ public class Commands {
 	
 	public void deleteTask(String taskNameUI){
 		//delete the task
-		writeToLogs("Task '" +taskNameUI+ "' is not exist in excel");
+//		writeToLogs("Task '" +taskNameUI+ "' is not exist in excel");
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
 		waitFor(2);
@@ -1238,9 +1258,10 @@ public class Commands {
 		
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
-		waitForButtonToExist("Cancel", 5);
+		explicitWait(Element.lblTaskPageHead, 5);
 		writeToLogs("Click '" +taskNameUI+ "' > 'View Task Details'");
-		if (isElementVisible(Element.btnActions, 5)){
+		
+		if (isElementVisible(Element.btnActions, 0)){
 			click(Element.btnActions);
 		}else{
 			click(Element.lnkTaskActionsForReview);
@@ -1273,7 +1294,8 @@ public class Commands {
 		String signer = task[20].trim();
 		String rank = task[21].trim();
 		
-		
+		waitForButtonToExist("OK", 5);
+		waitFor(2);
 		populateTextField("Title", title);
 		populateChooserField("Owner", owner);
 		inputDescription(Element.txtProjectDescription, description);
