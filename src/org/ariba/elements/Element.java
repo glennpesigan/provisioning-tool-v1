@@ -77,6 +77,7 @@ public class Element {
 	public final static By lnkEdit = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit')]");
 	public final static By lnkDelete = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Delete')]");
 	public final static By lnkViewTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='View Task Details']");
+	public final static By lnkPhaseTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[normalize-space()='View Phase Details']");
 	public final static By lnkCreatePhase = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Phase')]");
 	public final static By lnkCreateToDoTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'To Do Task')]");
 	public final static By lnkNotificationTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Notification Task')]");
@@ -87,6 +88,7 @@ public class Element {
 	
 	public final static By lblPageHead = new By.ByClassName("w-page-head");
 	public final static By lnkTaskActionsForReview = new By.ByXPath("//a[@_mid='TaskActionsForReview']");
+	public final static By lnkPhaseActions = new By.ByXPath("//a[@_mid='PhaseActions']");
 	
 	//Predecessors
 	public final static By imgTableOptions = new By.ByXPath("//div[@title='Table Options Menu']");
@@ -196,6 +198,8 @@ public class Element {
 	public final static By lblRequiredTasks = new By.ByXPath("//span[contains(@class,' u-required-task')]");
 	public final static By lblTaskPageHead = new By.ByXPath("//td[@class='w-stepnavbar-title-area']/span");
 	public final static By tasksRowCount =  new By.ByXPath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]");
+	
+	public final static By lnkParentPhase = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
 	
 }
 

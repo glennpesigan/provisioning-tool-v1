@@ -1079,6 +1079,7 @@ public class Commands {
 		System.out.println("Number of rows in Tasks: " + row.size());
 		parseExcel retrieve = new parseExcel();
 		String tasksToDelete = "";
+		String phaseToDelete = "";
 		int rowCount = 0;
 		for (int i=1; i<=row.size(); i++){
 			WebElement objCheck = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//span[contains(@title,'Template')]"),5);
@@ -1100,6 +1101,7 @@ public class Commands {
 						rowCount = 0;
 					}
 					String deleteTaskInsidePhase = "";
+					String deletePhaseInsidePhase = "";
 					for (int j=1; j<=rowCount; j++){
 						WebElement objCheck1 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//span[contains(@title,'Template')]"),5);
 						if (objCheck1.getAttribute("title").trim().startsWith("Phase")){
@@ -1158,6 +1160,7 @@ public class Commands {
 								//Delete Sub-phase
 								writeToLogs("Phase '" + subPhaseNameUI + "' is not exists in excel.");
 								System.out.println("For deletion: " + subPhaseNameUI);
+								deletePhaseInsidePhase = "~" + subPhaseNameUI + deletePhaseInsidePhase;
 							}
 						}else if (objCheck1.getAttribute("title").trim().contains("Task")){
 							//Task
@@ -1187,6 +1190,16 @@ public class Commands {
 						}
 					}
 					
+					//Delete Phases
+					if (!deletePhaseInsidePhase.isEmpty()){
+						deletePhaseInsidePhase = deletePhaseInsidePhase.substring(1, deletePhaseInsidePhase.length());
+						String [] deletePhase = deletePhaseInsidePhase.split("~");
+						for (String dp : deletePhase){
+							deletePhase(dp);
+						}
+						deletePhaseInsidePhase = "";
+					}
+					
 					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
 						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
 					}
@@ -1195,6 +1208,7 @@ public class Commands {
 					//to delete phase
 					writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
 					System.out.println("For deletion: " + phaseNameUI);
+					phaseToDelete = "~" + phaseNameUI + phaseToDelete;
 					
 				}
 			}else if (objCheck.getAttribute("title").trim().contains("Task")){
@@ -1227,6 +1241,17 @@ public class Commands {
 		}
 		
 		//Delete Phases
+		if (!phaseToDelete.isEmpty()){
+			phaseToDelete = phaseToDelete.substring(1, phaseToDelete.length());
+			String [] deletePhase = phaseToDelete.split("~");
+			for (String dp : deletePhase){
+				deletePhase(dp);
+			}
+			phaseToDelete = "";
+		}
+		
+		
+		
 		
 		if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
 			sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
@@ -1253,6 +1278,61 @@ public class Commands {
 		clickButton("OK");
 		writeToLogs("Task '" +taskNameUI+ "' was deleted.");
 	}
+	
+	
+	public void deletePhase(String phaseNameUI){
+		
+		sendKeysEnter(By.linkText(phaseNameUI));
+		click(Element.lnkOpen);
+		writeToLogs("Open " + phaseNameUI + " phase.");
+		waitFor(3);
+		List <WebElement> insidePhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
+		int rowCount = insidePhase.size();
+		if (insidePhase.get(0).getText().contains("No items")){
+			rowCount = 0;
+		}
+		String tasksToDeleteInsidePhase = "";
+		for (int i=1; i<=rowCount; i++){
+			WebElement objCheck2 = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//span[contains(@title,'Template')]"),5);
+			if (objCheck2.getAttribute("title").trim().contains("Task")){
+				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
+				String taskNameUI = objTaskName.getText().replace("*", "").trim();
+				System.out.println("For deletion: " + taskNameUI);
+				tasksToDeleteInsidePhase = "~" + taskNameUI + tasksToDeleteInsidePhase;
+			}else if (objCheck2.getAttribute("title").trim().startsWith("Phase")){
+				WebElement objSubPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
+				String phaseName = objSubPhaseName.getText().trim();
+				System.out.println("For deletion: " + phaseName);
+				deletePhase(phaseName);
+			}
+		}
+		
+		//Delete Tasks
+		if (!tasksToDeleteInsidePhase.isEmpty()){
+			tasksToDeleteInsidePhase = tasksToDeleteInsidePhase.substring(1, tasksToDeleteInsidePhase.length());
+			String [] deleteTask = tasksToDeleteInsidePhase.split("~");
+			for (String dt : deleteTask){
+				deleteTask(dt);
+			}
+		}
+		
+		if (isElementVisible(Element.lnkParentPhase, 5)){
+			sendKeysEnter(Element.lnkParentPhase);
+			System.out.println("Click Parent Phase.");
+		}
+		
+		sendKeysEnter(By.linkText(phaseNameUI));
+		click(Element.lnkPhaseTaskDetails);
+		waitFor(2);
+		explicitWait(Element.lnkPhaseActions, 5);
+		click(Element.lnkPhaseActions);
+		click(Element.lnkDelete);
+		waitForButtonToExist("OK", 5);
+		clickButton("OK");
+		writeToLogs("Phase '" +phaseNameUI+ "' was deleted.");
+		
+	}
+	
 	
 	public void editTask(String phaseNameUI, String taskNameUI){
 		
