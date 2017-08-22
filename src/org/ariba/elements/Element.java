@@ -200,6 +200,7 @@ public class Element {
 	public final static By tasksRowCount =  new By.ByXPath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]");
 	
 	public final static By lnkParentPhase = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
+	public final static By lnkDocAssociated = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
 	
 }
 

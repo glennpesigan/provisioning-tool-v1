@@ -982,6 +982,27 @@ public class Commands {
 		}
 	}
 	
+	public String getElementText(By locator){
+		short count = 0;
+		while (true){
+			try{
+				Actions action = new Actions(driver);
+				WebElement element = driver.findElement(locator);
+				action.moveToElement(element).perform();
+				return element.getText().trim();
+			}catch(Exception e){
+				if (count > 5){
+					System.out.println("[FAILED] Get text on element with locator: " + locator.toString());
+					throw e;
+				}else{
+					System.out.println("[TRY: "+count+"] Get text on element with locator: " + locator.toString());
+					waitFor(1);
+					count++;
+				}
+			}
+		}
+	}
+	
 	public void clickAlt(By locator){
 		short count = 0;
 		while (true){
@@ -1339,6 +1360,12 @@ public class Commands {
 		explicitWait(Element.lblTaskPageHead, 5);
 		writeToLogs("Click '" +taskNameUI+ "' > 'View Task Details'");
 		
+		String docAssociated = "";
+		if (isElementVisible(Element.lnkDocAssociated, 0)){
+			docAssociated = getElementText(Element.lnkDocAssociated);
+			System.out.println("Document Associated: " + docAssociated);
+		}
+		
 		if (isElementVisible(Element.btnActions, 0)){
 			click(Element.btnActions);
 		}else{
@@ -1449,12 +1476,13 @@ public class Commands {
 		clickButton("OK");
 		
 		System.out.println("Associated Document: " + associatedDocument);
+		
 		if (!associatedDocument.isEmpty()){
 			waitFor(2);
 			sendKeysEnter(By.partialLinkText(taskNameUI));
 			click(Element.lnkViewTaskDetails);
-			
-			if (isElementVisible(Element.btnActions, 5)){
+			explicitWait(Element.lblTaskPageHead, 5);
+			if (isElementVisible(Element.btnActions, 0)){
 				click(Element.btnActions);
 			}else{
 				click(Element.lnkTaskActionsForReview);
@@ -1462,9 +1490,10 @@ public class Commands {
 			
 			click(Element.lnkAssociateDocument);
 			associateDocument(type, associatedDocument);
+			
 			waitForButtonToExist("Cancel", 5);
 			
-			if (isElementVisible(Element.btnOK, 5)){
+			if (isElementVisible(Element.btnOK, 0)){
 				switch (type){
 				case "Negotiation":
 				case "Review":
@@ -1526,9 +1555,27 @@ public class Commands {
 				clickButton("OK");
 				waitFor(2);
 			}
-
 			clickButton("Cancel");
 			
+		}else if (type.equals("To Do") && associatedDocument.isEmpty()){
+			if (isElementVisible(Element.lnkDocAssociated, 5)){
+				waitFor(2);
+				sendKeysEnter(By.partialLinkText(taskNameUI));
+				click(Element.lnkViewTaskDetails);
+				explicitWait(Element.lblTaskPageHead, 5);
+				if (isElementVisible(Element.btnActions, 0)){
+					click(Element.btnActions);
+				}else{
+					click(Element.lnkTaskActionsForReview);
+				}
+				click(Element.lnkAssociateDocument);
+				associateDocument(type, "(no value)");
+				waitFor(2);
+				if (isElementVisible(Element.btnOK, 5)){
+					click(Element.btnOK);
+				}
+				clickButton("Exit");
+			}
 		}
 	}
 	
