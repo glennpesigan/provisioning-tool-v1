@@ -201,6 +201,6 @@ public class Element {
 	
 	public final static By lnkParentPhase = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
 	public final static By lnkDocAssociated = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
-	
+	public final static By lblNoItems = new By.ByXPath("//td[normalize-space()='No items']");
 }
 
