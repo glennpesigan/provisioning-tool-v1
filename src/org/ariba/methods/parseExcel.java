@@ -422,7 +422,7 @@ public class parseExcel {
 			Recordset rs = conn.executeQuery(executionQuery);
 			while (rs.next()){
 				if (!rs.getField("Project Group").isEmpty()){
-					output.add(rs.getField("Project Group")+"~"+rs.getField("Project Roles")+"~"+rs.getField("Can Owner Edit this Project Group")+"~"+rs.getField("System Group")+"~"+rs.getField("Members")+"~"+rs.getField("Conditions"));
+					output.add(rs.getField("Project Group")+"~"+rs.getField("Project Roles")+"~"+rs.getField("Can Owner Edit this Project Group")+"~"+rs.getField("Members")+"~"+rs.getField("Conditions"));
 				}
 			}
 
@@ -1002,11 +1002,11 @@ public class parseExcel {
 			boolean isProjectGroupExist = false;
 			try{
 				System.setProperty("ROW", "3");//Table start row
-				System.setProperty("COLUMN", "1");//Table start column
+				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
 				Connection conn = fillo.getConnection(Details.path);
 				//Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Team Tab` where `Project Group`='"+projectGroup+"'";
+				String executionQuery = "Select * from `Team Tab` where `Project Group` = '"+projectGroup+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
 					if (!rs.getField("Project Group").isEmpty()){

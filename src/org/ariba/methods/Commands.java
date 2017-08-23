@@ -2743,30 +2743,50 @@ public class Commands {
 			clickActions("Edit");
 		}
 		
-		List<WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[2]"));
-			parseExcel retrieve = new parseExcel();
-			for (int i=1; i<=row.size(); i++){
-				WebElement objProjectGroupUI = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[2])["+i+"]"), 5);			
-				//if project group exist in excel and ui
-				if (objProjectGroupUI.getAttribute("class").contains("normal")){
-					String projectGroup = objProjectGroupUI.getText().trim();
-					if (retrieve.isProjectGroupExistInExcel(projectGroup)){
-						
-					}
-				//if project group exist in excel file
-				}//else if (objProjectGroupUI.getAttribute("").contains("")) {
-					
-//				} else if (objProjectGroupUI.getAttribute("").contains("")) {
-				
-					
-				//if project group exist in ui but not in excel (for deletion)
-//				}
+		List <WebElement> row = driver.findElements(By.xpath("//span[@class='normal']"));
+		System.out.println("Number of rows in Team: " + row.size());
+		
+		parseExcel retrieve = new parseExcel();
+//		int rowCount = 0;
+		String projectGroup = "";
+		for (int i=1; i<=row.size(); i++){
+			WebElement objCheck = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
 			
+				if (objCheck.getAttribute("class").trim().contains("normal")){		
+					WebElement objProjectGroup = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
+					String projectGroupUI = objProjectGroup.getText().replace("*", "").trim();
+					System.out.println("i=" + i + " projectGroupUI: " + projectGroupUI);			
+						
+						if (retrieve.isProjectGroupExistInExcel(projectGroupUI)){
+							writeToLogs("Project Group: " + projectGroupUI + " exists in Excel");
+							editTeamTab(quickProject);
+							}else{
+							//delete project group
+							writeToLogs("Project Group '" +projectGroup+ "' is not exist in excel");
+							deleteProjectGroup(projectGroup);							
+							
+						}
 			}
-		//Test
+		}
 		
+	
 		
-	}	
+	}
+	
+	public void deleteProjectGroup(String projectGroup){
+
+//		writeToLogs("Project Group '" +projectGroup+ "' is not exist in excel");
+//		sendKeysEnter(By.partialLinkText(projectGroup));
+		if (!projectGroup.equals("Project Owner")){
+					click(By.xpath("//table[@class='tableBody']//tr[contains(.,'"+projectGroup+"')]//td//label"));
+					waitFor(2);
+					clickButton("Delete");
+					waitFor(2);
+					clickButton("OK");
+				}
+				
+		writeToLogs("Project Group '" +projectGroup+ "' was deleted.");
+	}
 	
 	public void configureTeamTab(boolean quickProject){
 	
@@ -2909,8 +2929,8 @@ public class Commands {
 			String projectRoles = tm[1].trim();
 //			String canOwnerEdit = tm[2].trim();
 	//		String systemGroup = tm[3].trim();
-			String members = tm[4].trim();
-			String conditions = tm[5].trim();
+			String members = tm[3].trim();
+			String conditions = tm[4].trim();
 			
 			
 			waitFor(2);
