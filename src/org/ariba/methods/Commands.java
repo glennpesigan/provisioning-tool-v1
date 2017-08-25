@@ -40,7 +40,7 @@ public class Commands {
 	public Commands(int timeOut){
 		this.timeOut = timeOut;
 //		System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "/src/drivers/chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver", "drivers/ChromeDriver/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "Driver/chromedriver.exe");
 		
 		driver = new ChromeDriver();
 		driver.manage().window().maximize();
@@ -6103,7 +6103,7 @@ public class Commands {
 		
 		List <WebElement> row = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1]"));
 		for (int i=1; i<=row.size(); i++){
-			WebElement eleCondition = explicitWait(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 10);
+			WebElement eleCondition = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 10);
 			String name = eleCondition.getText().trim();
 			click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"));
 			click(Element.lnkDelete);
