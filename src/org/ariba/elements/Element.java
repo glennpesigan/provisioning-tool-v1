@@ -32,6 +32,7 @@ public class Element {
 	public final static By btnIgnore = new By.ByXPath("//button/span[contains(text(),'Ignore')]");
 	public final static By btnActions = new By.ByXPath("//button/span[contains(text(),'Actions')]");
 	public final static By lnkCondition = new By.ByXPath("//label[contains(text(),'Condition')]/../following-sibling::td//a");
+	public final static By btnWrapperOk = new By.ByXPath("//div[contains(@class,'w-dlg-buttons')]//button/span[contains(text(),'OK')]");
 	
 	//Chooser Field
 	public final static By lnkSearchMore = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[@class='w-chSearchLink']");

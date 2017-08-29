@@ -31,9 +31,11 @@ public class EventTemplates {
 		String conditions = data.getSpecificData("Overview Tab", "Conditions").trim();
 		String isPublish = data.getSpecificData("Overview Tab", "Publish").trim();
 		String eventType = data.getSpecificData(Details.path, "Overview Tab", "Event Type", "Value").trim();
-		
+
 		String editConditions = data.getSpecificData(Details.path, "Configuration", "Conditions", "Value").trim();
-		
+		String editOverview = data.getSpecificData(Details.path, "Configuration", "Overview", "Value").trim();
+		String editTasks = data.getSpecificData(Details.path, "Configuration", "Tasks", "Value").trim();
+
 		Details.eventType = eventType;
 
 		Commands action = new Commands(15);
@@ -80,10 +82,10 @@ public class EventTemplates {
 
 		action.waitFor(3);
 
-		switch (Details.actionToPerform ){
+		switch (Details.actionToPerform){
 
 		/*------------Create New Project Template Page--------------*/
-		
+
 		case "Create New":
 
 			if (!folder.isEmpty()){
@@ -119,7 +121,7 @@ public class EventTemplates {
 
 
 
-			
+
 			action.writeToLogs("------------CREATE TEMPLATE-------------");
 			//Select type of project for template
 			action.selectProjectTypeTemplate("Sourcing Project");
@@ -204,15 +206,26 @@ public class EventTemplates {
 		/*--------------End of Conditions------------*/
 
 
-		System.exit(0);
-		
 		/*--------------Overview Tab---------------*/
-		action.writeToLogs("----------------OVERVIEW----------------");
-		action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
-		/*--------------End of Overview------------*/
 
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("----------------OVERVIEW----------------");
+			action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			if (editOverview.equals("Yes")){
+				action.writeToLogs("----------------OVERVIEW----------------");
+				action.configureOverviewTab(owner, processStatus, rank, accessControl, conditions, description);
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
+
+		/*--------------End of Overview------------*/
 
 		/*--------------Team Tab------------------*/
 		action.writeToLogs("------------------TEAM------------------");
@@ -235,10 +248,27 @@ public class EventTemplates {
 
 
 		/*---------------Tasks Tab------------------*/
-		action.writeToLogs("-----------------TASKS------------------");
-		action.configureEventTaskTab();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("-----------------TASKS------------------");
+			action.configureEventTemplateTaskTab();
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			if (editTasks.equals("Yes")){
+				action.writeToLogs("-----------------TASKS------------------");
+				action.addDocumentsFromExcelToUI();
+				action.updateTaskTab();
+				action.addTasks();
+				action.updateDocumentsTab();
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
+		
+		System.exit(0);
 		/*--------------End of Tasks-----------------*/
 
 
