@@ -2939,7 +2939,7 @@ public class Commands {
 		
 		parseExcel retrieve = new parseExcel();
 //		int rowCount = 0;
-		String projectGroup = "";
+		String projectGroupToDelete = "";
 		for (int i=1; i<=row.size(); i++){
 			WebElement objCheck = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
 			
@@ -2950,33 +2950,40 @@ public class Commands {
 						
 						if (retrieve.isProjectGroupExistInExcel(projectGroupUI)){
 							writeToLogs("Project Group: " + projectGroupUI + " exists in Excel");
-							editTeamTab(quickProject);
+							editTeamTab(quickProject, projectGroupUI);
 							}else{
 							//delete project group
-							writeToLogs("Project Group '" +projectGroup+ "' is not exist in excel");
-							deleteProjectGroup(projectGroup);							
-							
+							writeToLogs("Project Group '" +projectGroupUI+ "' is not exist in excel");
+							System.out.println("For deletion: " + projectGroupUI);
+							projectGroupToDelete = "~" + projectGroupUI + projectGroupToDelete;												
 						}
 			}
 		}
 		
-	
-		
+		if (!projectGroupToDelete.isEmpty()){
+			projectGroupToDelete = projectGroupToDelete.substring(1, projectGroupToDelete.length());
+			String [] deleteProjectGroup = projectGroupToDelete.split("~");
+			for (String pg : deleteProjectGroup){
+				deleteProjectGroup(pg);
+			}
+		}
+		waitFor(2);
+		clickButton("OK");
 	}
 	
-	public void deleteProjectGroup(String projectGroup){
+	public void deleteProjectGroup(String projectGroupUI){
 
 //		writeToLogs("Project Group '" +projectGroup+ "' is not exist in excel");
 //		sendKeysEnter(By.partialLinkText(projectGroup));
-		if (!projectGroup.equals("Project Owner")){
-					click(By.xpath("//table[@class='tableBody']//tr[contains(.,'"+projectGroup+"')]//td//label"));
+		if (!projectGroupUI.equals("Project Owner")){
+					click(By.xpath("//table[@class='tableBody']//tr[contains(.,'"+projectGroupUI+"')]//td//label"));
 					waitFor(2);
 					clickButton("Delete");
 					waitFor(2);
 					clickButton("OK");
 				}
 				
-		writeToLogs("Project Group '" +projectGroup+ "' was deleted.");
+		writeToLogs("Project Group '" +projectGroupUI+ "' was deleted.");
 	}
 	
 	public void configureTeamTab(boolean quickProject){
@@ -3108,20 +3115,16 @@ public class Commands {
 
 	}
 
-	public void editTeamTab(boolean quickProject){
+	public void editTeamTab(boolean quickProject, String projectGroupUI){
 	
 
 		parseExcel retrieve = new parseExcel();
-		List <String> team = retrieve.getTeamTab();
-	
-		for(String t : team){
-			String [] tm = t.split("~", -1);
-			String projectGroup = tm[0].trim();
-			String projectRoles = tm[1].trim();
-//			String canOwnerEdit = tm[2].trim();
-	//		String systemGroup = tm[3].trim();
-			String members = tm[3].trim();
-			String conditions = tm[4].trim();
+
+			String [] team = retrieve.getProjectGroupInExcel(projectGroupUI).split("~", -1);
+			String projectGroup = team[0].trim();
+			String projectRoles = team[1].trim();
+			String members = team[3].trim();
+			String conditions = team[4].trim();
 			
 			
 			waitFor(2);
@@ -3138,7 +3141,7 @@ public class Commands {
 				click(Element.btnSearchField);
 				waitFor(2);
 				if (explicitWait(By.xpath("//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
-	//				click(By.xpath("//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+					click(By.xpath("//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
 					waitFor(2);
 				}else{
 					writeToLogs("[ERROR] Cannot find " +val+ " value for Roles");
@@ -3179,7 +3182,6 @@ public class Commands {
 		}
 		
 		populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
-		}					
 	}
 
 

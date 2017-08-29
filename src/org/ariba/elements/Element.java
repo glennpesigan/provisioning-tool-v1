@@ -55,7 +55,14 @@ public class Element {
 	//Add Group
 	public final static By btnAddGroup = new By.ByXPath("//button/span[normalize-space()='Add Group']");
 	public final static By txtGroupTitle = new By.ByXPath("//label[text()='Title:']/../following-sibling::td[2]//input");
-	public final static By lnkSelectRole = new By.ByXPath("//label[text()='Roles:']/../following-sibling::td[2]//a");
+	public final static By drpCanOwnerEdit = new By.ById("_dwwkhd");
+	public final static By optYes = new By.ById("_dwwkhd0");
+	public final static By optNo = new By.ById("_dwwkhd1");
+	public final static By lnkSelectRole = new By.ByXPath("//label[text()='Roles:']/../following-sibling::td[2]//a[text()='select']");
+	public final static By txtSearch = new By.ById("_ejawzd");
+	public final static By btnSearch = new By.ById("_dyrw2b");
+	public final static By chkSelect = new By.ByXPath("//input[@id='_pf9st']/following-sibling::label");
+	public final static By btnDone = new By.ById("_9l$jub");
 	
 	//Task Actions
 	public final static By lnkTaskActions = new By.ByXPath("//a[@_mid='CreateMenu' and normalize-space(text()='Actions')]");
