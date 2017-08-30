@@ -35,6 +35,7 @@ public class EventTemplates {
 		String editConditions = data.getSpecificData(Details.path, "Configuration", "Conditions", "Value").trim();
 		String editOverview = data.getSpecificData(Details.path, "Configuration", "Overview", "Value").trim();
 		String editTasks = data.getSpecificData(Details.path, "Configuration", "Tasks", "Value").trim();
+		String editTeam = data.getSpecificData(Details.path, "Configuration", "Team", "Value").trim();
 
 		Details.eventType = eventType;
 
@@ -228,10 +229,23 @@ public class EventTemplates {
 		/*--------------End of Overview------------*/
 
 		/*--------------Team Tab------------------*/
-		action.writeToLogs("------------------TEAM------------------");
-		action.configureTeamTab(true);
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
+		switch (Details.actionToPerform){
+		case "Create New":
+			action.writeToLogs("------------------TEAM------------------");
+			action.configureTeamTab(false);
+			action.writeToLogs("------------------------------------------");
+			action.writeToLogs("");
+			break;
+		case "Update Existing":
+			
+			if (editTeam.equals("Yes")){
+				action.writeToLogs("------------------TEAM------------------");
+				action.updateTeamTab(false);
+				action.writeToLogs("------------------------------------------");
+				action.writeToLogs("");
+			}
+			break;
+		}
 		/*--------------End of Team---------------*/
 
 
