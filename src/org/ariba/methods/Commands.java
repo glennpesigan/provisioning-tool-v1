@@ -2958,7 +2958,20 @@ public class Commands {
 							projectGroupToDelete = "~" + projectGroupUI + projectGroupToDelete;												
 						}
 			}
+				
 		}
+		//from excel to UI
+		List <String> addPG = retrieve.getTeamTab();
+		for(String pg : addPG){
+			String [] aPG = pg.split("~", -1);
+			String projectGroup = aPG[0].trim();		
+			if (!isProjectGroupExistInUI(projectGroup)){
+				//add folder
+				System.out.println("Project Group '" +projectGroup+ "' is not exists in UI.");
+				addTeamTab(quickProject);
+				}
+		}
+
 		
 		if (!projectGroupToDelete.isEmpty()){
 			projectGroupToDelete = projectGroupToDelete.substring(1, projectGroupToDelete.length());
@@ -2973,8 +2986,6 @@ public class Commands {
 	
 	public void deleteProjectGroup(String projectGroupUI){
 
-//		writeToLogs("Project Group '" +projectGroup+ "' is not exist in excel");
-//		sendKeysEnter(By.partialLinkText(projectGroup));
 		if (!projectGroupUI.equals("Project Owner")){
 					click(By.xpath("//table[@class='tableBody']//tr[contains(.,'"+projectGroupUI+"')]//td//label"));
 					waitFor(2);
@@ -2986,8 +2997,124 @@ public class Commands {
 		writeToLogs("Project Group '" +projectGroupUI+ "' was deleted.");
 	}
 	
-	public void configureTeamTab(boolean quickProject){
+	public void addTeamTab(boolean quickProject){
 	
+		parseExcel retrieve = new parseExcel();
+		List <String> team = retrieve.getTeamTab();
+
+		for(String t : team){
+			String [] tm = t.split("~", -1);
+			String projectGroup = tm[0].trim();
+			String projectRoles = tm[1].trim();
+			String canOwnerEdit = tm[2].trim();
+			String members = tm[3].trim();
+			String conditions = tm[4].trim();
+			
+			
+			waitFor(2);
+			
+			if (!isProjectGroupExistInUI(projectGroup)){
+				if(projectGroup.equals("Project Owner")){
+					writeToLogs("Team " + projectGroup + " is already added!");
+					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+				}else{
+					//Click Add Group button
+					click(Element.btnAddGroup);
+					writeToLogs("Add Group: " + projectGroup);
+					//Team Title
+					explicitWait(Element.txtGroupTitle, 15);
+					inputText(Element.txtGroupTitle, projectGroup);
+					
+					//Can Edit?
+					/*if (!canOwnerEdit.isEmpty()){
+						click(Element.drpCanOwnerEdit);
+						switch(canOwnerEdit.toLowerCase()){
+						case "yes":
+							click(Element.optYes);
+							break;
+						case "no":
+							click(Element.optNo);
+							break;
+						}
+						writeToLogs(">>Can Owner Edit this Project Group: " + canOwnerEdit);
+						waitFor(2);
+					}*/
+					populateDropdown("Can owner edit this Project Group", canOwnerEdit);
+					/*-----------Select Values for Roles------------*/
+					
+					
+					
+					if (!projectRoles.isEmpty()){
+						waitFor(2);
+						sendKeysEnter(Element.lnkSelectRole);
+			
+						String [] data = projectRoles.split("\\|");
+						for(String val : data){
+							inputText(Element.txtSearchField, val);
+							click(Element.btnSearchField);
+							waitFor(2);
+							if (explicitWait(By.xpath("//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
+								click(By.xpath("//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+								waitFor(2);
+							}else{
+								writeToLogs("[ERROR] Cannot find " +val+ " value for Roles");
+							}
+						}
+						writeToLogs(">>Project Roles: " + projectRoles);
+						click(Element.btnDoneSearch);
+						waitFor(2);
+					}
+					
+					
+					/*-----------Select Values for Roles------------*/
+					
+					
+					click(Element.btnOK);
+					
+					
+					/*-----------Select Values for Members------------*/
+					if (!members.isEmpty()){
+						
+						waitFor(2);
+						explicitWait(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"), 5);
+						click(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//div[@title='Select from the list']"));
+						click(Element.lnkSearchMore);
+			
+						String [] member = members.split("\\|");
+						
+						for(String val : member){
+							inputText(Element.txtSearchField, val);
+							click(Element.btnSearchField);
+							waitFor(2);
+							if (explicitWait(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
+								click(By.xpath("//div[@class='w-dlg-content']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
+								waitFor(2);
+							}else{
+								writeToLogs("[INFO] Cannot find " +val+ " value for Signers");
+							}
+						}
+						writeToLogs(">>Members: " + members);
+						click(Element.btnDoneSearch);
+						waitFor(2);
+					}
+					/*-----------Select Values for Members------------*/
+					
+					
+					
+					/*-----------Select Conditions------------*/
+					populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
+					/*-----------Select Conditions------------*/
+		
+				}
+		}
+			
+			writeToLogs("");
+		}
+
+	}
+
+	public void configureTeamTab(boolean quickProject){
+		
 		if (quickProject){
 			sendKeysEnter(Element.lnkPropertiesActions);
 			click(Element.lnkEditTeam);
@@ -3006,9 +3133,8 @@ public class Commands {
 			String projectGroup = tm[0].trim();
 			String projectRoles = tm[1].trim();
 			String canOwnerEdit = tm[2].trim();
-//			String systemGroup = tm[3].trim();
-			String members = tm[4].trim();
-			String conditions = tm[5].trim();
+			String members = tm[3].trim();
+			String conditions = tm[4].trim();
 			
 			
 			waitFor(2);
@@ -3184,7 +3310,21 @@ public class Commands {
 		populateCondition(By.xpath("//span[text()='"+projectGroup+"']/../../../../../../../following-sibling::td//a[contains(text(),'(none)')]"), conditions);
 	}
 
-
+	public boolean isProjectGroupExistInUI(String projectGroup){	
+		boolean isExist = false;
+		List<WebElement> rows = driver.findElements(By.xpath("//span[@class='normal']"));
+		for (int i=1; i<=rows.size(); i++){
+			WebElement objProjectGroup = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
+			if (objProjectGroup.getAttribute("class").trim().contains("normal")){
+				String pgUI = objProjectGroup.getText().trim();
+				System.out.println("Get Text: " + pgUI);
+				if(pgUI.equals(projectGroup)){
+					return isExist = true;
+				}
+			}
+		}
+		return isExist;
+	}
 	
 
 	public void configureOverviewTab(String owner, String processStatus, String rank, String accessControl, String conditions, String description){
