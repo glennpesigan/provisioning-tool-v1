@@ -2921,7 +2921,7 @@ public class Commands {
 			if (!isProjectGroupExistInUI(projectGroup)){
 				//add folder
 				System.out.println("Project Group '" +projectGroup+ "' is not exists in UI.");
-				addTeamTab(quickProject);
+				addTeamTab();
 				}
 		}
 
@@ -2950,7 +2950,7 @@ public class Commands {
 		writeToLogs("Project Group '" +projectGroupUI+ "' was deleted.");
 	}
 	
-	public void addTeamTab(boolean quickProject){
+	public void addTeamTab(){
 	
 		parseExcel retrieve = new parseExcel();
 		List <String> team = retrieve.getTeamTab();
