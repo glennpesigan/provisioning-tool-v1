@@ -272,10 +272,10 @@ public class EventTemplates {
 		case "Update Existing":
 			if (editTasks.equals("Yes")){
 				action.writeToLogs("-----------------TASKS------------------");
-				action.addDocumentsFromExcelToUI();
-				action.updateTaskTab();
+				//action.addDocumentsFromExcelToUI();
+				action.updateEventTemplateTaskTab();
 				action.addTasks();
-				action.updateDocumentsTab();
+				//action.updateDocumentsTab();
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");
 			}

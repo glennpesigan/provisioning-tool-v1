@@ -826,8 +826,8 @@ public class parseExcel {
 				System.setProperty("ROW", "2");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"' and `Document Name` = '"+documentName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
@@ -850,8 +850,8 @@ public class parseExcel {
 				System.setProperty("ROW", "2");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
@@ -874,8 +874,8 @@ public class parseExcel {
 				System.setProperty("ROW", "2");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				String executionQuery = "Select * from `Documents Tab` where `Folder Name` = '"+folderName+"' and `Document Name` = '"+documentName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
@@ -922,8 +922,8 @@ public class parseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				String executionQuery = "Select * from `Tasks Tab` where `Phase (Optional)`='"+phaseName+"' and `Sub-phase n (Optional)`='"+subPhaseName+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
@@ -946,8 +946,8 @@ public class parseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				
 				if (phase.isEmpty()){
 					executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
@@ -976,8 +976,8 @@ public class parseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "2");//Table start column
 				Fillo fillo = new Fillo();
-				//Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				if (phase.isEmpty()){
 					executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
 				}else{
@@ -1005,7 +1005,7 @@ public class parseExcel {
 				System.setProperty("COLUMN", "1");//Table start column
 				Fillo fillo = new Fillo();
 				Connection conn = fillo.getConnection(Details.path);
-				//Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
 				String executionQuery = "Select * from `Team Tab` where `Project Group` = '"+projectGroup+"'";
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){

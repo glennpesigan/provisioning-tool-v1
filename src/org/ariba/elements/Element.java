@@ -29,6 +29,7 @@ public class Element {
 	
 	//Common Elements
 	public final static By btnOK = new By.ByXPath("//button/span[contains(text(),'OK')]");
+	public final static By btnExit = new By.ByXPath("//button/span[contains(text(),'Exit')]");
 	public final static By btnIgnore = new By.ByXPath("//button/span[contains(text(),'Ignore')]");
 	public final static By btnActions = new By.ByXPath("//button/span[contains(text(),'Actions')]");
 	public final static By lnkCondition = new By.ByXPath("//label[contains(text(),'Condition')]/../following-sibling::td//a");
@@ -209,5 +210,9 @@ public class Element {
 	public final static By lnkParentPhase = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
 	public final static By lnkDocAssociated = new By.ByXPath("//div[contains(@class,'accentBox')]/../preceding-sibling::span[1]//a");
 	public final static By lblNoItems = new By.ByXPath("//td[normalize-space()='No items']");
+	
+	
+	//Event Template
+	public final static By divCollapseIcon = new By.ByXPath("//div[contains(@class,'w-oc-icon-off')]");
 }
 
