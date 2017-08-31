@@ -1045,29 +1045,5 @@ public class parseExcel {
 			return value;
 		}
 		
-		public boolean quickProject(){
-			boolean qP = false;
-			try{
-				System.setProperty("ROW", "6");//Table start row
-				System.setProperty("COLUMN", "3");//Table start column
-				Fillo fillo = new Fillo();
-				Connection conn = fillo.getConnection(Details.path);
-//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Tasks Tab` where `Value` = 'Quick Project'";
-				Recordset rs = conn.executeQuery(executionQuery);
-				while (rs.next()){
-					if (!rs.getField("Value").isEmpty()){
-						qP = true;
-					}else{
-						qP= false;
-					}
-				}
-				rs.close();
-				conn.close();
-			}catch(FilloException e){
-				return qP;
-			}
-			return qP;
-		}
 		
 }

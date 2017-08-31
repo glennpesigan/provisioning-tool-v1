@@ -1048,11 +1048,11 @@ public class Commands {
 						waitFor(1);
 						count++;
 					}
+					}
 				}
 			}
 		}
-	}
-
+	
 	public void inputDescription(By locator, String text){
 		if(!text.isEmpty()){
 			driver.switchTo().defaultContent();
@@ -1067,8 +1067,8 @@ public class Commands {
 			waitFor(3);
 		}
 	}
-
-
+	
+	
 	public boolean isElementVisible(By by, int timeOutInSeconds){
 		driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
 		if(driver.findElements(by).size() > 0){
@@ -3183,7 +3183,7 @@ public class Commands {
 			if (!isProjectGroupExistInUI(projectGroup)){
 				//add folder
 				System.out.println("Project Group '" +projectGroup+ "' is not exists in UI.");
-				addTeamTab(quickProject);
+				addTeamTab();
 			}
 		}
 
@@ -3212,7 +3212,7 @@ public class Commands {
 		writeToLogs("Project Group '" +projectGroupUI+ "' was deleted.");
 	}
 
-	public void addTeamTab(boolean quickProject){
+	public void addTeamTab(){
 
 		parseExcel retrieve = new parseExcel();
 		List <String> team = retrieve.getTeamTab();

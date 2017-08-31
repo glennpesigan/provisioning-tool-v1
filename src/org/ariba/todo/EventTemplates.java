@@ -232,7 +232,7 @@ public class EventTemplates {
 		switch (Details.actionToPerform){
 		case "Create New":
 			action.writeToLogs("------------------TEAM------------------");
-			action.configureTeamTab(false);
+			action.configureTeamTab(true);
 			action.writeToLogs("------------------------------------------");
 			action.writeToLogs("");
 			break;
@@ -240,7 +240,7 @@ public class EventTemplates {
 			
 			if (editTeam.equals("Yes")){
 				action.writeToLogs("------------------TEAM------------------");
-				action.updateTeamTab(false);
+				action.updateTeamTab(true);
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");
 			}
