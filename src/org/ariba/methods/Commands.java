@@ -141,6 +141,8 @@ public class Commands {
 		writeToLogs("Create To Do Task");
 		
 		waitFor(2);
+		explicitWait(Element.btnOK, 10);
+		
 		populateTextField("Title", title);
 		inputDescription(Element.txtProjectDescription, description);
 		populateChooserField("Owner", owner);
@@ -1897,10 +1899,6 @@ public class Commands {
 				
 				if (phase.isEmpty()){
 					
-					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
-						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-					}
-					
 					//Create Task outside Phase
 					waitFor(2);
 					click(Element.btnActions);
@@ -1984,7 +1982,7 @@ public class Commands {
 			titleName = titleName.substring(0, 40);
 		}
 
-//		navigateTab("Tasks");
+		navigateTab("Overview");
 
 		parseExcel retrieve = new parseExcel();
 		List <String> tasks = retrieve.getTasksTab();
@@ -2034,127 +2032,82 @@ public class Commands {
 
 				if (!phase.isEmpty() && subPhase1.isEmpty()){
 
-					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
-						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-					}
-
 					//Create Phase
 					waitFor(2);
-					click(Element.btnActions);
+					click(Element.lnkTaskActions);
 					click(Element.lnkCreatePhase);
 					createPhase(phase, task[3], task[4], task[5], task[23]);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+phase+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+phase+"')]/following-sibling::td[2]//a"), conditions);
 
 				}else if(!phase.isEmpty() && !subPhase1.isEmpty() && subPhase2.isEmpty()){
 
-					if (!isElementVisible(By.xpath("//div[@class='accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite' and contains(text(),'"+phase+"')]"), 5)){
-						if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 0)){
-							sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-						}
-						waitFor(2);
-						sendKeysEnter(By.linkText(phase));
-						click(Element.lnkOpen);
-					}
-
 					//Create Sub Phase 1
 					waitFor(2);
-					click(Element.btnActions);
+					sendKeysEnter(By.linkText(phase));
 					click(Element.lnkCreatePhase);
 					createPhase(subPhase1, task[3], task[4], task[5], task[23]);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+subPhase1+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+subPhase1+"')]/following-sibling::td[2]//a"), conditions);
 
 				}else if(!phase.isEmpty() && !subPhase1.isEmpty() && !subPhase2.isEmpty()){
 
-					if (!isElementVisible(By.xpath("//div[@class='accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite' and contains(text(),'"+subPhase1+"')]"), 5)){
-						if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 0)){
-							sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-						}
-						waitFor(2);
-						sendKeysEnter(By.linkText(phase));
-						click(Element.lnkOpen);
-						waitFor(2);
-						sendKeysEnter(By.linkText(subPhase1));
-						click(Element.lnkOpen);
+					if(!isElementVisible(By.linkText(subPhase1), 5)) {
+						click(By.xpath("//td//a[contains(.,'"+phase+"')]/../../../preceding-sibling::td//a[contains(@role,'treeitem')]/div"));
 					}
-
+					
 					//Create Sub Phase 2
 					waitFor(2);
-					click(Element.btnActions);
+					sendKeysEnter(By.linkText(subPhase1));
 					click(Element.lnkCreatePhase);
 					createPhase(subPhase2, task[3], task[4], task[5], task[23]);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+subPhase2+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+subPhase2+"')]/following-sibling::td[2]//a"), conditions);
 				}
 			}else{
 
 				if (phase.isEmpty()){
 
-					if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
-						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-					}
-
 					//Create Task outside Phase
 					waitFor(2);
-					click(Element.btnActions);
+					click(Element.lnkTaskActions);
 					createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[2]//a"), conditions);
 
 				}else if (!phase.isEmpty() && subPhase1.isEmpty()){
-
-					if (!isElementVisible(By.xpath("//div[@class='accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite' and contains(text(),'"+phase+"')]"), 5)){
-						if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 0)){
-							sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-						}
-						waitFor(2);
-						sendKeysEnter(By.linkText(phase));
-						click(Element.lnkOpen);
-					}
-
+					
 					//Create Task in Phase
 					waitFor(2);
-					click(Element.btnActions);
+					click(By.linkText(phase));
 					createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[2]//a"), conditions);
 
 				}else if(!phase.isEmpty() && !subPhase1.isEmpty() && subPhase2.isEmpty()){
 
-					if (!isElementVisible(By.xpath("//div[@class='accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite' and contains(text(),'"+subPhase1+"')]"), 5)){
-						if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 0)){
-							sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-						}
-						waitFor(2);
-						sendKeysEnter(By.linkText(phase));
-						click(Element.lnkOpen);
-						waitFor(2);
-						sendKeysEnter(By.linkText(subPhase1));
-						click(Element.lnkOpen);
+					if(!isElementVisible(By.linkText(subPhase1), 5)) {
+						click(By.xpath("//td//a[contains(.,'"+phase+"')]/../../../preceding-sibling::td//a[contains(@role,'treeitem')]/div"));
 					}
-
+					
 					//Create Task in Sub Phase 1
 					waitFor(2);
-					click(Element.btnActions);
+					click(By.linkText(subPhase1));
 					createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[2]//a"), conditions);
 
 				}else if(!phase.isEmpty() && !subPhase1.isEmpty() && !subPhase2.isEmpty()){
 
-
-					if (!isElementVisible(By.xpath("//div[@class='accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite' and contains(text(),'"+subPhase1+"')]"), 5)){
-						sendKeysEnter(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node']/a[contains(text(),'"+titleName+"')]"));
-						waitFor(2);
-						sendKeysEnter(By.linkText(phase));
-						click(Element.lnkOpen);
-						waitFor(2);
-						sendKeysEnter(By.linkText(subPhase1));
-						click(Element.lnkOpen);
-						waitFor(2);
-						sendKeysEnter(By.linkText(subPhase2));
-						click(Element.lnkOpen);
+					if(!isElementVisible(By.linkText(subPhase1), 5)) {
+						click(By.xpath("//td//a[contains(.,'"+phase+"')]/../../../preceding-sibling::td//a[contains(@role,'treeitem')]/div"));
 					}
+					waitFor(2);
+					
+					if(!isElementVisible(By.linkText(subPhase2), 5)) {
+						click(By.xpath("//td//a[contains(.,'"+subPhase1+"')]/../../../preceding-sibling::td//a[contains(@role,'treeitem')]/div"));
+					}
+					waitFor(2);
+					
 					//Create Task in Sub Phase 2
 					waitFor(2);
-					click(Element.btnActions);
+					click(By.linkText(subPhase1));
 					createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
-					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
+					populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[2]//a"), conditions);
 
 				}
 

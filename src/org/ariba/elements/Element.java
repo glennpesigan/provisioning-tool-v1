@@ -67,7 +67,6 @@ public class Element {
 	//Task Actions
 	public final static By lnkTaskActions = new By.ByXPath("//a[@_mid='CreateMenu' and normalize-space(text()='Actions')]");
 	
-	
 	//Team tab
 	public final static By lnkTeamTab = new By.ByXPath("//div[@class='w-page-tabs']//a[text()='Team']");
 
