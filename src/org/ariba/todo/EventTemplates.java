@@ -260,6 +260,7 @@ public class EventTemplates {
 		action.writeToLogs("");
 		/*-----------End of Documents----------------*/
 
+		System.exit(0);
 
 		/*---------------Tasks Tab------------------*/
 		switch (Details.actionToPerform){
@@ -274,6 +275,7 @@ public class EventTemplates {
 				action.writeToLogs("-----------------TASKS------------------");
 				//action.addDocumentsFromExcelToUI();
 				action.updateEventTemplateTaskTab();
+				action.expandAllTasks();
 				action.addTasks();
 				//action.updateDocumentsTab();
 				action.writeToLogs("------------------------------------------");
@@ -282,7 +284,6 @@ public class EventTemplates {
 			break;
 		}
 		
-		System.exit(0);
 		/*--------------End of Tasks-----------------*/
 
 

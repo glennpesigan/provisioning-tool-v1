@@ -939,6 +939,45 @@ public class parseExcel {
 			return isPhaseExist;
 		}
 		
+		public boolean isEventPhaseExistInExcel(String phaseName) {
+			boolean isPhaseExist = false;
+			try{
+				
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQueryPhase = "Select * from `Tasks Tab` where `Phase (Optional)` = '"+phaseName+"'";
+				Recordset rs = conn.executeQuery(executionQueryPhase);
+				if(rs.next()) {
+					isPhaseExist = true;
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				
+			}
+			
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				String executionQuerySubPhase1 = "Select * from `Tasks Tab` where  `Sub-phase n (Optional)`='"+phaseName+"'";
+				Recordset rs = conn.executeQuery(executionQuerySubPhase1);
+				if(rs.next()) {
+					isPhaseExist = true;
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				
+			}
+			return isPhaseExist;
+		}
+		
 		public boolean isTaskExistInExcel(String phase, String taskName){
 			boolean isTaskExist = false;
 			String executionQuery = "";
