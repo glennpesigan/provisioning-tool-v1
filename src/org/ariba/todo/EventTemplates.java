@@ -19,13 +19,11 @@ public class EventTemplates {
 		parseExcel data = new parseExcel();
 		Details.actionToPerform = data.getSpecificData(Details.path, "Configuration", "Action", "Value").trim();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
-		String projectType = data.getSpecificData(Details.path, "Overview Tab", "Template", "Value").trim();
 		String templateName = data.getSpecificData(Details.path, "Overview Tab", "Template Name", "Value").trim();
 		String description = data.getSpecificData(Details.path, "Overview Tab", "Description", "Value").trim();
 		String owner = data.getSpecificData(Details.path, "Overview Tab", "Owner", "Value").trim();
 		String processStatus = data.getSpecificData(Details.path, "Overview Tab", "Process Status", "Value").trim();
 		String baseLanguage = data.getSpecificData(Details.path, "Overview Tab", "Base Language", "Value").trim();
-		String project = data.getSpecificData(Details.path, "Overview Tab", "Project", "Value").trim();
 		String rank = data.getSpecificData(Details.path, "Overview Tab", "Rank", "Value").trim();
 		String accessControl = data.getSpecificData(Details.path, "Overview Tab", "Access Control", "Value").trim();
 		String conditions = data.getSpecificData("Overview Tab", "Conditions").trim();
@@ -260,8 +258,6 @@ public class EventTemplates {
 		action.writeToLogs("");
 		/*-----------End of Documents----------------*/
 
-		System.exit(0);
-
 		/*---------------Tasks Tab------------------*/
 		switch (Details.actionToPerform){
 		case "Create New":
@@ -274,8 +270,8 @@ public class EventTemplates {
 			if (editTasks.equals("Yes")){
 				action.writeToLogs("-----------------TASKS------------------");
 				//action.addDocumentsFromExcelToUI();
-				action.updateEventTemplateTaskTab();
 				action.expandAllTasks();
+				action.updateEventTemplateTaskTab();
 				action.addTasks();
 				//action.updateDocumentsTab();
 				action.writeToLogs("------------------------------------------");
@@ -286,6 +282,7 @@ public class EventTemplates {
 		
 		/*--------------End of Tasks-----------------*/
 
+		System.exit(0);
 
 		/*---------------Event Template------------------*/
 
@@ -421,10 +418,13 @@ public class EventTemplates {
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 
+		action.waitForButtonToExist("Next", 5);
 		action.clickButton("Next");
 		action.waitFor(2);
+		action.waitForButtonToExist("Exit", 5);
 		action.clickButton("Exit");
 		action.waitFor(2);
+		action.isElementVisible(By.linkText("return to project"),5);
 		action.click(By.linkText("return to project"));
 		/*--------------End of Tasks-----------------*/
 

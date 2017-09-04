@@ -1311,31 +1311,46 @@ public class Commands {
 				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
 				System.out.println("i=" + i + " Phase: " + phaseNameUI);
-			
-				if (retrieve.isEventPhaseExistInExcel(phaseNameUI)){
-					//Phase
-					writeToLogs("Phase: " + phaseNameUI + " exists in Excel");
-				}else{
-					//to delete phase
+				String phase = retrieve.getPhasePhaseBasedOnSubphase(phaseNameUI);
+				if(phase.trim().length()<=0||isElementVisible(By.partialLinkText(phase), 5)){
+					if (retrieve.isEventPhaseExistInExcel(phaseNameUI)){
+						//Phase
+						writeToLogs("Phase: " + phaseNameUI + " exists in Excel");
+					}else{
+						//to delete phase
+						writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
+						System.out.println("For deletion: " + phaseNameUI);
+						arrPhaseToDelete.add(phaseNameUI);
+
+					}
+				}else {
 					writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
 					System.out.println("For deletion: " + phaseNameUI);
 					arrPhaseToDelete.add(phaseNameUI);
-
 				}
 			}else if (objCheck.getAttribute("title").trim().contains("Task")){
 				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String taskNameUI = objTaskName.getText().replace("*", "").trim();
 				System.out.println("i=" + i + " Task: " + taskNameUI);
-				if (retrieve.isTaskExistInExcel("",taskNameUI)){
-					//Edit Task
-					editTask("", taskNameUI);
-				}else{
-					//delete the task
-					//					deleteTask(taskNameUI);
+				String phase = retrieve.getPhaseBasedOnTask(taskNameUI);
+				String subphase = retrieve.getSubPhaseBasedOnTask(taskNameUI);
+				System.out.println("Phase:"+phase+" Subphase:"+subphase);
+				if((phase.trim().length()<=0||isElementVisible(By.partialLinkText(phase), 5))&&(subphase.trim().length()<=0||isElementVisible(By.partialLinkText(subphase), 5))) {
+					if (retrieve.isTaskExistInExcel("",taskNameUI)){
+						//Edit Task
+						editTask("", taskNameUI);
+					}else{
+						//delete the task
+						//					deleteTask(taskNameUI);
+						writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
+						System.out.println("For deletion: " + taskNameUI);
+						arrTaskToDelete.add(taskNameUI);
+
+					}
+				}else {
 					writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
 					System.out.println("For deletion: " + taskNameUI);
 					arrTaskToDelete.add(taskNameUI);
-
 				}
 			}
 

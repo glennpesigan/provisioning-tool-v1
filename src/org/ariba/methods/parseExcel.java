@@ -939,6 +939,32 @@ public class parseExcel {
 			return isPhaseExist;
 		}
 		
+		public String getPhasePhaseBasedOnSubphase(String subphase){
+			String phase = "";
+			String executionQuery = "";
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+				//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				
+				executionQuery = "Select * from `Tasks Tab` where `Sub-phase n (Optional)`='"+subphase+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Phase (Optional)").isEmpty()){
+						phase = rs.getField("Phase (Optional)");
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return phase;
+			}
+			return phase;
+		}
+		
 		public boolean isEventPhaseExistInExcel(String phaseName) {
 			boolean isPhaseExist = false;
 			try{
@@ -978,6 +1004,8 @@ public class parseExcel {
 			return isPhaseExist;
 		}
 		
+		
+		
 		public boolean isTaskExistInExcel(String phase, String taskName){
 			boolean isTaskExist = false;
 			String executionQuery = "";
@@ -1006,6 +1034,58 @@ public class parseExcel {
 				return isTaskExist;
 			}
 			return isTaskExist;
+		}
+		
+		public String getPhaseBasedOnTask(String taskName){
+			String phase = "";
+			String executionQuery = "";
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+				//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				
+				executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Phase (Optional)").isEmpty()){
+						phase = rs.getField("Phase (Optional)");
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return phase;
+			}
+			return phase;
+		}
+		
+		public String getSubPhaseBasedOnTask(String taskName){
+			String phase = "";
+			String executionQuery = "";
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "2");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+				//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+				
+				executionQuery = "Select * from `Tasks Tab` where `Task Name`='"+taskName+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					if (!rs.getField("Sub-phase n (Optional)").isEmpty()){
+						phase = rs.getField("Sub-phase n (Optional)");
+					}
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				return phase;
+			}
+			return phase;
 		}
 		
 		public String getTaskInExcel(String phase, String taskName){
