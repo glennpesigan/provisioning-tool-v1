@@ -6372,14 +6372,16 @@ public class Commands {
 	}
 
 	public void deleteQuestions(){
-		List<WebElement> row = driver.findElements(By.xpath("(//div[@class='tableBody'])[2]//tr[@_awtisprimaryrow='1']/td[1]"));
+		List<WebElement> row = driver.findElements(By.xpath("//table[contains(@class,'awtWrapperTable') and contains(.,'Questions')]//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')]"));
 		for (int i=1; i<=row.size(); i++){
-			WebElement eleQuestion = explicitWait(By.xpath("((//div[@class='tableBody'])[2]//tr[@_awtisprimaryrow='1']/td[1])["+i+"]"), 5);
-			String questionUI = eleQuestion.getText().trim();
-			click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+questionUI+"')]/following-sibling::td//a[contains(text(),'Actions')]"));
-			click(Element.lnkDelete);
-			click(Element.btnOK);
-			writeToLogs("Deleted '"+questionUI+"' question.");
+			WebElement eleQuestion = explicitWait(By.xpath("(//table[contains(@class,'awtWrapperTable') and contains(.,'Questions')]//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5);			
+			if(isElementVisible(By.xpath("(//table[contains(@class,'awtWrapperTable') and contains(.,'Questions')]//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5)) {
+				String questionUI = eleQuestion.getText().trim();
+				click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+questionUI+"')]/following-sibling::td//a[contains(text(),'Actions')]"));
+				click(Element.lnkDelete);
+				click(Element.btnOK);
+				writeToLogs("Deleted '"+questionUI+"' question.");
+			}
 		}
 	}
 
@@ -6683,14 +6685,16 @@ public class Commands {
 
 		List <WebElement> row = driver.findElements(By.xpath("//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')]"));
 		for (int i=1; i<=row.size(); i++){
-			if(isElementVisible(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 10)) {
-				WebElement eleCondition = explicitWait(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 10);
+			if(isElementVisible(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5)) {
+				WebElement eleCondition = explicitWait(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5);
 				String name = eleCondition.getText().trim();
 				if(isElementVisible(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"), 5)) {
 					click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"));
-					click(Element.lnkDelete);
-					click(Element.btnOK);
-					writeToLogs("Deleted '" +name+ "' condition.");
+					if(isElementVisible(Element.lnkDelete, 5)) {
+						click(Element.lnkDelete);
+						click(Element.btnOK);
+						writeToLogs("Deleted '" +name+ "' condition.");
+					}
 				}
 			}
 		}
