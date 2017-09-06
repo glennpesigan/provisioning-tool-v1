@@ -180,20 +180,23 @@ public class Templates {
 			
 		}
 
-
 			
-		//Click Ignore button
-		if (action.isElementVisible(Element.btnIgnore, 8)){
+		if (action.isElementVisible(Element.btnIgnore, 5)){
 			action.click(Element.btnIgnore);
+			action.writeToLogs("Click Ignore button.");
 		}
 
 		//Click Properties Action > Full View
+//		action.click(Element.lnkOverviewTab);
 		action.navigateTab("Overview");
 		action.waitFor(2);
 		action.explicitWait(Element.lnkPropertiesActions, 10);
 		
-		if (action.isElementVisible(Element.lnkFullView, 2)){
+		if (!action.isElementVisible(Element.lnkTeamTab, 2)){
+			action.sendKeysEnter(Element.lnkPropertiesActions);
+			action.writeToLogs("Click Actions");
 			action.click(Element.lnkFullView);
+			action.writeToLogs("Click Full View");
 			action.waitFor(2);
 		}
 			
