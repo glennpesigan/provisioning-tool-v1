@@ -2565,6 +2565,8 @@ public class Commands {
 	public void associateDocument(String taskType, String associatedDocument){
 		
 		explicitWait(Element.btnOK, 10);
+		
+		expandAllTasks();
 
 		if (associatedDocument.equals("(no value)")){
 			if (isElementVisible(By.className("w-oc-icon-off"), 2)){

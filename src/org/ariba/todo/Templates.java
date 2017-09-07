@@ -306,7 +306,7 @@ public class Templates {
 			if (editTasks.equals("Yes")){
 				action.writeToLogs("-----------------TASKS------------------");
 				action.addDocumentsFromExcelToUI();
-//				action.updateTaskTab();
+				action.updateTaskTab();
 				action.addTasks();
 				action.updateDocumentsTab();
 				action.writeToLogs("------------------------------------------");
