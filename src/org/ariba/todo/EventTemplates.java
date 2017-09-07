@@ -285,159 +285,159 @@ public class EventTemplates {
 
 		/*---------------Event Template------------------*/
 
-//		action.waitFor(2);
-//		action.openEventTemplate(eventType);
-//
-//		action.writeToLogs("-----------------RULES------------------");
-//		switch (eventType){
-//		case "RFI":
-//			action.writeToLogs("Auction Format");
-//			action.auctionFormat();
-//			action.writeToLogs("");
-//			action.writeToLogs("Envelope Rules");
-//			action.envelopeRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Timing Rules");
-//			action.timingRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Bidding Rules");
-//			action.biddingRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Currency Rules");
-//			action.currencyRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Project Owner Actions");
-//			action.projectOwnerActions_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Market Feedback");
-//			action.marketFeedback_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Message Board");
-//			action.messageBoard();
-//			action.writeToLogs("");
-//			action.writeToLogs("Include Bidder Aggreement");
-//			action.includeBidderAgreement();
-//			break;
-//
-//		case "RFP":
-//			action.writeToLogs("Auction Format");
-//			action.auctionFormat();
-//			action.writeToLogs("");
-//			action.writeToLogs("Timing Rules");
-//			action.timingRules_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Bidding Rules");
-//			action.biddingRules_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Currency Rules");
-//			action.currencyRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Project Owner Actions");
-//			action.projectOwnerActions_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Market Feedback");
-//			action.marketFeedback_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Message Board");
-//			action.messageBoard();
-//			action.writeToLogs("");
-//			action.writeToLogs("Include Bidder Aggreement");
-//			action.includeBidderAgreement();
-//			break;
-//
-//		case "Auction":
-//			action.writeToLogs("Auction Format");
-//			action.auctionFormat();
-//			action.writeToLogs("");
-//			action.writeToLogs("Timing Rules");
-//			action.timingRules_Auction();
-//			action.writeToLogs("");
-//			action.writeToLogs("Bidding Rules");
-//			action.biddingRules_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Currency Rules");
-//			action.currencyRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Project Owner Actions");
-//			action.projectOwnerActions_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Market Feedback");
-//			action.marketFeedback_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Message Board");
-//			action.messageBoard();
-//			action.writeToLogs("");
-//			action.writeToLogs("Include Bidder Aggreement");
-//			action.includeBidderAgreement();
-//			break;
-//
-//		case "Forward Auction":
-//			action.writeToLogs("Auction Format");
-//			action.auctionFormat();
-//			action.writeToLogs("");
-//			action.writeToLogs("Timing Rules");
-//			action.timingRules_ForwardAuction();
-//			action.writeToLogs("");
-//			action.writeToLogs("Bidding Rules");
-//			action.biddingRules_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Currency Rules");
-//			action.currencyRules_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Project Owner Actions");
-//			action.projectOwnerActions_RFI();
-//			action.writeToLogs("");
-//			action.writeToLogs("Market Feedback");
-//			action.marketFeedback_RFP();
-//			action.writeToLogs("");
-//			action.writeToLogs("Message Board");
-//			action.messageBoard();
-//			action.writeToLogs("");
-//			action.writeToLogs("Include Bidder Aggreement");
-//			action.includeBidderAgreement();
-//			break;
-//		}
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
-//
-//
-//		action.clickButton("Next");
-//		if (action.isElementVisible(By.className("msgText"), 2)){
-//			action.writeToLogs("[ERROR] There's a problem that requires completion or correction in order to complete your request.");
-//			return;
-//		}
-//		action.clickButton("Next");
-//		action.waitFor(3);
-//
-//		action.writeToLogs("----------------CONTENT-----------------");
-//		action.sendKeysEnter(By.linkText("Content"));
-//		action.click(By.linkText("Content"));
-//		action.waitFor(2);
-//		action.configureEventContent();
-//		action.writeToLogs("------------------------------------------");
-//		action.writeToLogs("");
-//
-//		action.waitForButtonToExist("Next", 5);
-//		action.clickButton("Next");
-//		action.waitFor(2);
-//		action.waitForButtonToExist("Exit", 5);
-//		action.clickButton("Exit");
-//		action.waitFor(2);
-//		action.isElementVisible(By.linkText("return to project"),5);
-//		action.click(By.linkText("return to project"));
-//		/*--------------End of Tasks-----------------*/
-//
-//		if (isPublish.equals("Yes")){
-//			action.navigateTab("Overview");
-//			action.waitFor(2);
-//			action.explicitWait(Element.lnkPropertiesActions, 10);
-//			action.sendKeysEnter(Element.lnkPropertiesActions);
-//			action.click(Element.lnkPublish);
-//			if (action.isElementVisible(By.xpath("//div[@class='w-msg-banner-msg' and contains(text(),'has been published')]"), 5)){
-//				action.writeToLogs("'" +templateName+ "' has been published successfully, and is available for new projects.");
-//				action.writeToLogs("");
-//			}
-//		}
+		action.waitFor(2);
+		action.openEventTemplate(eventType);
+
+		action.writeToLogs("-----------------RULES------------------");
+		switch (eventType){
+		case "RFI":
+			action.writeToLogs("Auction Format");
+			action.auctionFormat();
+			action.writeToLogs("");
+			action.writeToLogs("Envelope Rules");
+			action.envelopeRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Timing Rules");
+			action.timingRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Bidding Rules");
+			action.biddingRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Currency Rules");
+			action.currencyRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Project Owner Actions");
+			action.projectOwnerActions_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Market Feedback");
+			action.marketFeedback_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Message Board");
+			action.messageBoard();
+			action.writeToLogs("");
+			action.writeToLogs("Include Bidder Aggreement");
+			action.includeBidderAgreement();
+			break;
+
+		case "RFP":
+			action.writeToLogs("Auction Format");
+			action.auctionFormat();
+			action.writeToLogs("");
+			action.writeToLogs("Timing Rules");
+			action.timingRules_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Bidding Rules");
+			action.biddingRules_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Currency Rules");
+			action.currencyRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Project Owner Actions");
+			action.projectOwnerActions_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Market Feedback");
+			action.marketFeedback_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Message Board");
+			action.messageBoard();
+			action.writeToLogs("");
+			action.writeToLogs("Include Bidder Aggreement");
+			action.includeBidderAgreement();
+			break;
+
+		case "Auction":
+			action.writeToLogs("Auction Format");
+			action.auctionFormat();
+			action.writeToLogs("");
+			action.writeToLogs("Timing Rules");
+			action.timingRules_Auction();
+			action.writeToLogs("");
+			action.writeToLogs("Bidding Rules");
+			action.biddingRules_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Currency Rules");
+			action.currencyRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Project Owner Actions");
+			action.projectOwnerActions_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Market Feedback");
+			action.marketFeedback_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Message Board");
+			action.messageBoard();
+			action.writeToLogs("");
+			action.writeToLogs("Include Bidder Aggreement");
+			action.includeBidderAgreement();
+			break;
+
+		case "Forward Auction":
+			action.writeToLogs("Auction Format");
+			action.auctionFormat();
+			action.writeToLogs("");
+			action.writeToLogs("Timing Rules");
+			action.timingRules_ForwardAuction();
+			action.writeToLogs("");
+			action.writeToLogs("Bidding Rules");
+			action.biddingRules_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Currency Rules");
+			action.currencyRules_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Project Owner Actions");
+			action.projectOwnerActions_RFI();
+			action.writeToLogs("");
+			action.writeToLogs("Market Feedback");
+			action.marketFeedback_RFP();
+			action.writeToLogs("");
+			action.writeToLogs("Message Board");
+			action.messageBoard();
+			action.writeToLogs("");
+			action.writeToLogs("Include Bidder Aggreement");
+			action.includeBidderAgreement();
+			break;
+		}
+		action.writeToLogs("------------------------------------------");
+		action.writeToLogs("");
+
+
+		action.clickButton("Next");
+		if (action.isElementVisible(By.className("msgText"), 2)){
+			action.writeToLogs("[ERROR] There's a problem that requires completion or correction in order to complete your request.");
+			return;
+		}
+		action.clickButton("Next");
+		action.waitFor(3);
+
+		action.writeToLogs("----------------CONTENT-----------------");
+		action.sendKeysEnter(By.linkText("Content"));
+		action.click(By.linkText("Content"));
+		action.waitFor(2);
+		action.configureEventContent();
+		action.writeToLogs("------------------------------------------");
+		action.writeToLogs("");
+
+		action.waitForButtonToExist("Next", 5);
+		action.clickButton("Next");
+		action.waitFor(2);
+		action.waitForButtonToExist("Exit", 5);
+		action.clickButton("Exit");
+		action.waitFor(2);
+		action.isElementVisible(By.linkText("return to project"),5);
+		action.click(By.linkText("return to project"));
+		/*--------------End of Tasks-----------------*/
+
+		if (isPublish.equals("Yes")){
+			action.navigateTab("Overview");
+			action.waitFor(2);
+			action.explicitWait(Element.lnkPropertiesActions, 10);
+			action.sendKeysEnter(Element.lnkPropertiesActions);
+			action.click(Element.lnkPublish);
+			if (action.isElementVisible(By.xpath("//div[@class='w-msg-banner-msg' and contains(text(),'has been published')]"), 5)){
+				action.writeToLogs("'" +templateName+ "' has been published successfully, and is available for new projects.");
+				action.writeToLogs("");
+			}
+		}
 
 		action.writeToLogs("---------------COMPLETED----------------");
 		JOptionPane.showMessageDialog(null,"Finished!");

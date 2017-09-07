@@ -78,7 +78,7 @@
 	<classpathentry kind="lib" path="lib/poi-scratchpad-3.12-20150511.jar"/>
 	<classpathentry kind="lib" path="lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.12-20150511.jar"/>
-	<classpathentry kind="lib" path="lib/fillo-1.15.jar"/>
+	<classpathentry kind="lib" path="lib/fillo-1.15.jar" sourcepath="C:/Users/jan.dwain.f.domondon/.m2/repository/com/codoid/products/fillo/1.15/fillo-1.15-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

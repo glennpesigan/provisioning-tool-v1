@@ -87,8 +87,8 @@ public class Element {
 	public final static By lnkViewTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='View Task Details']");
 	public final static By lnkPhaseTaskDetails = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[normalize-space()='View Phase Details']");
 	public final static By lnkCreatePhase = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Phase')]");
-	public final static By lnkCreateToDoTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'To Do Task')]");
-	public final static By lnkNotificationTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Notification Task')]");
+	public final static By lnkCreateToDoTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'To Do')]");
+	public final static By lnkNotificationTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Notification')]");
 	public final static By lnkCreateReviewTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Review')]");
 	public final static By lnkCreateNegotiationTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Negotiation')]");
 	public final static By lnkCreateApprovalTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following-sibling::a[contains(text(),'Approval')]");
