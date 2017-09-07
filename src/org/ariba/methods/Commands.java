@@ -1445,6 +1445,8 @@ public class Commands {
 		}
 
 		navigateTab("Tasks");
+		
+		expandAllTasks();
 
 		parseExcel retrieve = new parseExcel();
 		List <String> tasks = retrieve.getTasksTab();
@@ -1542,7 +1544,11 @@ public class Commands {
 						//Create Task outside Phase
 						if(!isElementVisible(By.partialLinkText(title), 5)) {
 							waitFor(2);
-							click(Element.lnkTaskActions);
+							if(isElementVisible(Element.lnkTaskActions, 5)) {
+								click(Element.lnkTaskActions);
+							}else {
+								click(Element.btnActions);
+							}
 							createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
 							populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[2]//a"), conditions);
 						}
@@ -1600,10 +1606,13 @@ public class Commands {
 
 				navigateTab("Overview");
 
+				waitFor(5);
+				
 				explicitWait(By.linkText(titleName), 10);
 				click(By.linkText(titleName));
 				createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
 				navigateTab("Tasks");
+				expandAllTasks();
 				populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
 
 			}
@@ -1887,6 +1896,13 @@ public class Commands {
 
 	public void editTask(String phaseNameUI, String taskNameUI){
 
+		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
+		String titleName = pageHead.getText().trim();
+		if (titleName.length() > 40){
+			titleName = titleName.substring(0, 40);
+		}
+	
+		
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
 		explicitWait(Element.lblTaskPageHead, 5);
@@ -2018,7 +2034,7 @@ public class Commands {
 
 		System.out.println("Associated Document: " + associatedDocument);
 
-		if (!associatedDocument.isEmpty()){
+		if (!associatedDocument.isEmpty()&&!associatedDocument.equals(titleName)){
 			waitFor(2);
 			sendKeysEnter(By.partialLinkText(taskNameUI));
 			click(Element.lnkViewTaskDetails);
