@@ -282,14 +282,14 @@ public class Templates {
 			action.writeToLogs("------------------------------------------");
 			action.writeToLogs("");
 			break;
-		/*case "Update Existing":
+		case "Update Existing":
 			if (editDocuments.equals("Yes")){
 				action.writeToLogs("---------------EDIT DOCUMENTS----------------");
 				action.updateDocumentsTab();
 				action.writeToLogs("------------------------------------------");
 				action.writeToLogs("");
 			}
-			break;*/
+			break;
 		}
 		/*-----------End of Documents----------------*/
 
