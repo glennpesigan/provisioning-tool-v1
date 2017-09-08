@@ -4822,7 +4822,7 @@ public class Commands {
 			explicitWait(By.xpath("//span[@title='RFI template']"), 5);
 			click(By.xpath("//span[@title='RFI template']"));
 			if (explicitWait(By.xpath("//button/span[contains(text(),'Next')]"), 2) != null){
-				writeToLogs("Configure the Even Rules...");
+				writeToLogs("Configure the Event Rules...");
 			}else{
 				click(By.xpath("//span[@title='RFI template']"));
 			}
@@ -4831,7 +4831,7 @@ public class Commands {
 			explicitWait(By.xpath("//span[@title='RFP template']"), 5);
 			click(By.xpath("//span[@title='RFP template']"));
 			if (explicitWait(By.xpath("//button/span[contains(text(),'Next')]"), 2) != null){
-				writeToLogs("Configure the Even Rules...");
+				writeToLogs("Configure the Event Rules...");
 			}else{
 				click(By.xpath("//span[@title='RFP template']"));
 			}
@@ -4841,7 +4841,7 @@ public class Commands {
 			explicitWait(By.xpath("//span[@title='RFQ template']"), 5);
 			click(By.xpath("//span[@title='RFQ template']"));
 			if (explicitWait(By.xpath("//button/span[contains(text(),'Next')]"), 2) != null){
-				writeToLogs("Configure the Even Rules...");
+				writeToLogs("Configure the Event Rules...");
 			}else{
 				click(By.xpath("//span[@title='RFQ template']"));
 			}
@@ -6758,10 +6758,10 @@ public class Commands {
 		List <WebElement> row = driver.findElements(By.xpath("//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')]"));
 		for (int i=1; i<=row.size(); i++){
 			if(isElementVisible(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5)) {
-				WebElement eleCondition = explicitWait(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])["+i+"]"), 5);
+				WebElement eleCondition = explicitWait(By.xpath("(//table[contains(@class,'tableBody')]//tr//td[contains(@class,'tableBody w-tbl-cell')])"), 5);
 				String name = eleCondition.getText().trim();
-				if(isElementVisible(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"), 5)) {
-					click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a"));
+				if(isElementVisible(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a[contains(text(),'Actions')]"), 5)) {
+					click(By.xpath("//table[@class='tableBody']//td[contains(text(),'"+name+"')]/following-sibling::td//a[contains(text(),'Actions')]"));
 					if(isElementVisible(Element.lnkDelete, 5)) {
 						click(Element.lnkDelete);
 						click(Element.btnOK);

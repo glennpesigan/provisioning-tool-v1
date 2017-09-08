@@ -413,7 +413,7 @@ public class EventTemplates {
 		action.sendKeysEnter(By.linkText("Content"));
 		action.click(By.linkText("Content"));
 		action.waitFor(2);
-		action.configureEventContent();
+		//action.configureEventContent();
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 
@@ -423,6 +423,7 @@ public class EventTemplates {
 		action.waitForButtonToExist("Exit", 5);
 		action.clickButton("Exit");
 		action.waitFor(2);
+		action.explicitWait(By.linkText("return to project"), 5);
 		action.isElementVisible(By.linkText("return to project"),5);
 		action.click(By.linkText("return to project"));
 		/*--------------End of Tasks-----------------*/
