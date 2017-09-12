@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.ariba.methods.Commands;
-import org.ariba.methods.parseExcel;
+import org.ariba.methods.ParseExcel;
 import org.openqa.selenium.By;
 
 import com.thoughtworks.selenium.webdriven.commands.WaitForCondition;
@@ -16,7 +16,7 @@ public class EventTemplates {
 
 		Details.template = "Event Template";
 
-		parseExcel data = new parseExcel();
+		ParseExcel data = new ParseExcel();
 		Details.actionToPerform = data.getSpecificData(Details.path, "Configuration", "Action", "Value").trim();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
 		String templateName = data.getSpecificData(Details.path, "Overview Tab", "Template Name", "Value").trim();
@@ -413,7 +413,7 @@ public class EventTemplates {
 		action.sendKeysEnter(By.linkText("Content"));
 		action.click(By.linkText("Content"));
 		action.waitFor(2);
-		//action.configureEventContent();
+		action.configureEventContent();
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 

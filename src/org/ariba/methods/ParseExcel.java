@@ -23,7 +23,7 @@ import com.codoid.products.fillo.Connection;
 import com.codoid.products.fillo.Fillo;
 import com.codoid.products.fillo.Recordset;
 
-public class parseExcel {
+public class ParseExcel {
 	
 	private XSSFWorkbook wb;
 	private XSSFSheet sheet;
@@ -620,6 +620,30 @@ public class parseExcel {
 		
 		return value;
 
+	}
+
+	public List<String> getEventDefinitions(){
+		List <String> value = new ArrayList<String>();
+		try{
+			System.setProperty("ROW", "3");//Table start row
+			System.setProperty("COLUMN", "1");//Table start column
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Details.path);
+			//			Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Liquid Ariba\\Sample RFI Design Matrix.xlsx");
+			String executionQuery = "Select * from `Event Content`";
+			Recordset rs = conn.executeQuery(executionQuery);
+			while (rs.next()){
+				
+				break;
+			}
+			rs.close();
+			conn.close();
+
+		}catch(FilloException e){
+			e.printStackTrace();
+		}
+
+		return value;
 	}
 	
 	

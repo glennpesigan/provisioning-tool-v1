@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.ariba.methods.Commands;
-import org.ariba.methods.parseExcel;
+import org.ariba.methods.ParseExcel;
 import org.openqa.selenium.By;
 
 public class SourcingLibrary {
@@ -14,7 +14,7 @@ public class SourcingLibrary {
 		
 		Details.template = "Sourcing Library";
 		
-		parseExcel data = new parseExcel();
+		ParseExcel data = new ParseExcel();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
 		String title = data.getSpecificData(Details.path, "Content Document", "Title", "Value").trim();
 		String description = data.getSpecificData(Details.path, "Content Document", "Description", "Value").trim();

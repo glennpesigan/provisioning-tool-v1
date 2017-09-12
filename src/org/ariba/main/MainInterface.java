@@ -2,7 +2,7 @@ package org.ariba.main;
 
 import javax.swing.JOptionPane;
 
-import org.ariba.methods.parseExcel;
+import org.ariba.methods.ParseExcel;
 import org.ariba.todo.EventTemplates;
 import org.ariba.todo.SourcingLibrary;
 import org.ariba.todo.Templates;
@@ -139,7 +139,7 @@ public class MainInterface {
 							return;
 						}
 						
-						parseExcel data = new parseExcel();
+						ParseExcel data = new ParseExcel();
 						String document = data.getSpecificData(Details.path, "Configuration", "Document", "Value").trim();
 						
 						switch (document.trim()){

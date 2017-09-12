@@ -1123,7 +1123,7 @@ public class Commands {
 		List <WebElement> row = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 
 		System.out.println("Number of rows in Tasks: " + row.size());
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		String tasksToDelete = "";
 		String phaseToDelete = "";
 		int rowCount = 0;
@@ -1323,7 +1323,7 @@ public class Commands {
 		List <WebElement> row = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 
 		System.out.println("Number of rows in Tasks: " + row.size());
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List<String> arrPhaseToDelete = new ArrayList<String>();
 		List<String> arrTaskToDelete = new ArrayList<String>();
 		int rowCount = 0;
@@ -1448,7 +1448,7 @@ public class Commands {
 		
 		expandAllTasks();
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> tasks = retrieve.getTasksTab();
 
 		for(String t : tasks){
@@ -1632,7 +1632,7 @@ public class Commands {
 
 		navigateTab("Overview");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> tasks = retrieve.getTasksTab();
 
 		for(String t : tasks){
@@ -1931,7 +1931,7 @@ public class Commands {
 			click(Element.lnkEdit);
 		}
 		writeToLogs("Click 'Actions' > 'Edit'");
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		String [] task = retrieve.getTaskInExcel(phaseNameUI, taskNameUI).split("~", -1);
 		String title = task[0].trim();
 		String description = task[1].trim();
@@ -2146,7 +2146,7 @@ public class Commands {
 
 		navigateTab("Tasks");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> tasks = retrieve.getTasksTab();
 
 		for(String t : tasks){
@@ -2346,7 +2346,7 @@ public class Commands {
 
 		navigateTab("Overview");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> tasks = retrieve.getTasksTab();
 
 		for(String t : tasks){
@@ -2722,7 +2722,7 @@ public class Commands {
 
 		navigateTab("Documents");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> documents = retrieve.getDocumentsTab();
 
 		for(String d : documents){
@@ -2829,7 +2829,7 @@ public class Commands {
 
 		sendKeysEnter(By.linkText(documentName));
 		click(Element.lnkEditAttributes);
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		String [] doc = retrieve.getDocumentInExcel(folderName, documentName).split("~",-1);
 		String title = doc[2].trim();
 		String description = doc[3].trim();
@@ -2904,7 +2904,7 @@ public class Commands {
 
 		navigateTab("Documents");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> documents = retrieve.getDocumentsTab();
 
 		for(String d : documents){
@@ -3019,7 +3019,7 @@ public class Commands {
 
 		navigateTab("Documents");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> documents = retrieve.getDocumentsTab();
 
 		for(String d : documents){
@@ -3177,7 +3177,7 @@ public class Commands {
 		String titleName = pageHead.getText().trim();
 		navigateTab("Documents");
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		//get the document rows
 		List<WebElement> rows = driver.findElements(By.xpath("//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink']"));
 		String forDeletion = "";
@@ -3254,7 +3254,7 @@ public class Commands {
 		List <WebElement> row = driver.findElements(By.xpath("//span[@class='normal']"));
 		System.out.println("Number of rows in Team: " + row.size());
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		//		int rowCount = 0;
 		String projectGroupToDelete = "";
 		for (int i=1; i<=row.size(); i++){
@@ -3316,7 +3316,7 @@ public class Commands {
 
 	public void addTeamTab(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> team = retrieve.getTeamTab();
 
 		for(String t : team){
@@ -3442,7 +3442,7 @@ public class Commands {
 			clickActions("Edit");
 		}
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> team = retrieve.getTeamTab();
 
 		for(String t : team){
@@ -3561,7 +3561,7 @@ public class Commands {
 	public void editTeamTab(boolean quickProject, String projectGroupUI){
 
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] team = retrieve.getProjectGroupInExcel(projectGroupUI).split("~", -1);
 		String projectGroup = team[0].trim();
@@ -3763,7 +3763,7 @@ public class Commands {
 
 	public void configureEventTaskTab(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> tasks = retrieve.getTasksTab();
 
 		for(String t : tasks){
@@ -3950,7 +3950,7 @@ public class Commands {
 
 	public void auctionFormat(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		String [] biddingFormat = retrieve.getEventRules("Bidding format for the event").split(";",-1);
 
 		//Auction
@@ -3959,7 +3959,7 @@ public class Commands {
 
 	public void timingRules_RFP(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		//Capacity Type
 		String [] capacityTypeForTheEvent = retrieve.getEventRules("Capacity type for the event").split(";",-1);
@@ -4090,7 +4090,7 @@ public class Commands {
 
 	public void timingRules_Auction(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		//Capacity Type
 		String [] capacityTypeForTheEvent = retrieve.getEventRules("Capacity type for the event").split(";",-1);
@@ -4207,7 +4207,7 @@ public class Commands {
 
 	public void timingRules_ForwardAuction(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		//Capacity Type
 		String [] capacityTypeForTheEvent = retrieve.getEventRules("Capacity type for the event").split(";",-1);
@@ -4336,7 +4336,7 @@ public class Commands {
 
 	public void envelopeRules_RFI(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		//Envelope Rules
 		String [] numberOfEnvelopes = retrieve.getEventRules("Number of Envelopes").split(";",-1);
@@ -4390,7 +4390,7 @@ public class Commands {
 
 	public void timingRules_RFI(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		//Timing Rules
 		String [] enablePreviewPeriodBeforeBiddingOpens = retrieve.getEventRules("Enable preview period before bidding opens").split(";",-1);
@@ -4485,7 +4485,7 @@ public class Commands {
 
 	public void biddingRules_RFI(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] bidGuardianPercentage = retrieve.getEventRules("Bid Guardian percentage").split(";",-1);
 		populateTextField("Bid Guardian percentage", bidGuardianPercentage[0]);
@@ -4532,7 +4532,7 @@ public class Commands {
 
 	public void biddingRules_RFP(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] useTransformationBiddingFormat = retrieve.getEventRules("Use transformation bidding format").split(";",-1);
 		populateRadioButton("Use transformation bidding format", useTransformationBiddingFormat[0]);
@@ -4625,7 +4625,7 @@ public class Commands {
 
 	public void currencyRules_RFI(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] allowParticipantsSelectBiddingCurrency = retrieve.getEventRules("Allow participants to select bidding currency").split(";",-1);
 		populateRadioButton("Allow participants to select bidding currency", allowParticipantsSelectBiddingCurrency[0]);
@@ -4640,7 +4640,7 @@ public class Commands {
 	}
 
 	public void projectOwnerActions_RFI(){
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] canProjectOwnerCreateFormulas = retrieve.getEventRules("Can project owner create formulas").split(";",-1);
 		populateDropdown("Can project owner create formulas", canProjectOwnerCreateFormulas[0]);
@@ -4653,7 +4653,7 @@ public class Commands {
 
 	public void marketFeedback_RFI() {
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] specifyHowParticipantsViewMarketInformation = retrieve.getEventRules("Specify how participants view market information").split(";",-1);
 		populateDropdown("Specify how participants view market information", specifyHowParticipantsViewMarketInformation[0]);
@@ -4704,7 +4704,7 @@ public class Commands {
 
 	public void marketFeedback_RFP() {
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] specifyHowParticipantsViewMarketInformation = retrieve.getEventRules("Specify how participants view market information").split(";",-1);
 		populateDropdown("Specify how participants view market information", specifyHowParticipantsViewMarketInformation[0]);
@@ -4768,7 +4768,7 @@ public class Commands {
 
 	public void messageBoard() {
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		String [] emailAddressUsed = retrieve.getEventRules("Email address used for the ''From'' and ''Reply To'' fields in emails to participants").split(";",-1);
 		String [] emailAddressUsedValue = emailAddressUsed[0].split("\\|");
@@ -4807,7 +4807,7 @@ public class Commands {
 
 	public void includeBidderAgreement(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		String [] includeBidderAgreementAsPrerequisite = retrieve.getEventRules("Would you like to include the bidder agreement as a prerequisite?").split(";",-1);
 		populateDropdown("Would you like to include the bidder agreement as a prerequisite?", includeBidderAgreementAsPrerequisite[0]);
 		populateVisibility("Would you like to include the bidder agreement as a prerequisite?", includeBidderAgreementAsPrerequisite[1]);
@@ -6269,14 +6269,39 @@ public class Commands {
 		waitForButtonToExist("Add", 60);
 
 	}
+	
+	
+	public void configureEventDefinitions() {
+		click(By.linkText("Definition"));
+		
+		ParseExcel retrieve = new ParseExcel();
 
+		List <String> eventContent = retrieve.getEventContent();
 
+		for (String ec : eventContent){
+			String [] content = ec.split("\\^",-1);
+			waitFor(3);
+			
+			switch(content[0].trim()) {
+			case "Lot":
+				
+				break;
+			case "Line Item":
+				
+				break;
+				
+			case "Cost Terms":
+				
+				break;
+			}
+		}
+	}
 
 
 
 	public void configureEventContent(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		List <String> eventContent = retrieve.getEventContent();
 
@@ -6354,7 +6379,7 @@ public class Commands {
 
 	public void configureSourcingLibrary(){
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 
 		List <String> eventContent = retrieve.getSourcingLibrary();
 
@@ -6466,7 +6491,7 @@ public class Commands {
 
 		deleteQuestions();
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> addQuestion = retrieve.getTemplateQuestions();
 		int i = 0;
 		for (String q : addQuestion){
@@ -6560,7 +6585,7 @@ public class Commands {
 
 		deleteConditions();
 
-		parseExcel retrieve = new parseExcel();
+		ParseExcel retrieve = new ParseExcel();
 		List <String> addCondition = retrieve.getConditions();
 		int i = 0;
 		boolean isSubCondition = false;

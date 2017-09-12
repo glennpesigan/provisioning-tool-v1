@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 import org.ariba.elements.Element;
 import org.ariba.main.Details;
 import org.ariba.methods.Commands;
-import org.ariba.methods.parseExcel;
+import org.ariba.methods.ParseExcel;
 import org.openqa.selenium.By;
 
 public class Templates {
@@ -14,7 +14,7 @@ public class Templates {
 		
 		Details.template = "Template";
 		
-		parseExcel data = new parseExcel();
+		ParseExcel data = new ParseExcel();
 		Details.actionToPerform = data.getSpecificData(Details.path, "Configuration", "Action", "Value").trim();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
 		String projectType = data.getSpecificData(Details.path, "Overview Tab", "Template", "Value").trim();
