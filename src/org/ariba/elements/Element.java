@@ -214,5 +214,7 @@ public class Element {
 	
 	//Event Template
 	public final static By divCollapseIcon = new By.ByXPath("//div[contains(@class,'w-oc-icon-off')]");
+	public final static By divDefinitionHeader = new By.ByXPath("//div[contains(@class,'accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite')]");
+	public final static By lnkDefinitionName = new By.ByXPath("//a[contains(@_mid,'AtomicContentMenu')]");
 }
 

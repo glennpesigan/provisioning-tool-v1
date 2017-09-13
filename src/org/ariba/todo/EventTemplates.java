@@ -400,45 +400,48 @@ public class EventTemplates {
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 
-
-		action.clickButton("Next");
-		if (action.isElementVisible(By.className("msgText"), 2)){
-			action.writeToLogs("[ERROR] There's a problem that requires completion or correction in order to complete your request.");
-			return;
-		}
-		action.clickButton("Next");
-		action.waitFor(3);
-
-		action.writeToLogs("----------------CONTENT-----------------");
-		action.sendKeysEnter(By.linkText("Content"));
-		action.click(By.linkText("Content"));
-		action.waitFor(2);
-		action.configureEventContent();
-		action.writeToLogs("------------------------------------------");
-		action.writeToLogs("");
-
-		action.waitForButtonToExist("Next", 5);
-		action.clickButton("Next");
-		action.waitFor(2);
-		action.waitForButtonToExist("Exit", 5);
-		action.clickButton("Exit");
-		action.waitFor(2);
-		action.explicitWait(By.linkText("return to project"), 5);
-		action.isElementVisible(By.linkText("return to project"),5);
-		action.click(By.linkText("return to project"));
-		/*--------------End of Tasks-----------------*/
-
-		if (isPublish.equals("Yes")){
-			action.navigateTab("Overview");
-			action.waitFor(2);
-			action.explicitWait(Element.lnkPropertiesActions, 10);
-			action.sendKeysEnter(Element.lnkPropertiesActions);
-			action.click(Element.lnkPublish);
-			if (action.isElementVisible(By.xpath("//div[@class='w-msg-banner-msg' and contains(text(),'has been published')]"), 5)){
-				action.writeToLogs("'" +templateName+ "' has been published successfully, and is available for new projects.");
-				action.writeToLogs("");
-			}
-		}
+//
+//		action.clickButton("Next");
+//		if (action.isElementVisible(By.className("msgText"), 2)){
+//			action.writeToLogs("[ERROR] There's a problem that requires completion or correction in order to complete your request.");
+//			return;
+//		}
+//		action.clickButton("Next");
+//		action.waitFor(3);
+//
+//		action.writeToLogs("----------------CONTENT-----------------");
+//		action.sendKeysEnter(By.linkText("Definitions"));
+//		action.click(By.linkText("Definitions"));
+//		action.configureEventDefinitions();
+//		action.sendKeysEnter(By.linkText("Content"));
+//		action.click(By.linkText("Content"));
+//		action.waitFor(2);
+//		action.configureEventContent();
+//		action.writeToLogs("------------------------------------------");
+//		action.writeToLogs("");
+//
+//		action.waitForButtonToExist("Next", 5);
+//		action.clickButton("Next");
+//		action.waitFor(2);
+//		action.waitForButtonToExist("Exit", 5);
+//		action.clickButton("Exit");
+//		action.waitFor(2);
+//		action.explicitWait(By.linkText("return to project"), 5);
+//		action.isElementVisible(By.linkText("return to project"),5);
+//		action.click(By.linkText("return to project"));
+//		/*--------------End of Tasks-----------------*/
+//
+//		if (isPublish.equals("Yes")){
+//			action.navigateTab("Overview");
+//			action.waitFor(2);
+//			action.explicitWait(Element.lnkPropertiesActions, 10);
+//			action.sendKeysEnter(Element.lnkPropertiesActions);
+//			action.click(Element.lnkPublish);
+//			if (action.isElementVisible(By.xpath("//div[@class='w-msg-banner-msg' and contains(text(),'has been published')]"), 5)){
+//				action.writeToLogs("'" +templateName+ "' has been published successfully, and is available for new projects.");
+//				action.writeToLogs("");
+//			}
+//		}
 
 		action.writeToLogs("---------------COMPLETED----------------");
 		JOptionPane.showMessageDialog(null,"Finished!");

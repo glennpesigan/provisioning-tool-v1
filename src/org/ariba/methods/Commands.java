@@ -6284,16 +6284,16 @@ public class Commands {
 			
 			switch(content[0].trim()) {
 			case "Lot":
-				
+				addLot(ec);
 				break;
 			case "Line Item":
-				
+				addLineItem(ec);
 				break;
-				
 			case "Cost Terms":
-				
+				addCostTerms(ec);
 				break;
 			}
+			writeToLogs("");
 		}
 	}
 
@@ -6795,9 +6795,51 @@ public class Commands {
 				}
 			}
 		}
+	}
+	
+	public void editDefinitionTerms() {
 
 
+		ParseExcel retrieve = new ParseExcel();
+		List<String> definitionTerms = new ArrayList<String>();
+		for(int i=0;i<definitionTerms.size();i++) {
+
+			String definitionName = "";
+			String index = "";
+			String termName = "";
+			String numberOfDecimalPlaces = "";
+			String acceptableValues = "";
+			String responseRequired = "";
+			String referenceDocuments = "";
+			String visibleToParticipants = "";
+			String hideParticipatResponse = "";
+			String participantCanAddAttachment = "";
+			String useParticipantSpecificValue = "";
+			String rollupSectionSummary = "";
+			String isMatrixTerm = "";
+			String dispayTermColRow = "";
+			String hasHistoricValue = "";
+			String hasReserveValue = "";
+			String isTermEditableInAlternatives = "";
+			String teamAccessControl = "";
+			String range = "";
+			String participantCompleteOnTerm = "";
+			
+			
+			
+			
+			if(!isElementVisible(Element.divDefinitionHeader, 5)) {
+				click(By.xpath("//span[contains(.,'"+index+"')]//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]"));
+				click(Element.lnkEdit);
+			}
+			
+			
+			
+		
+			
+		}
 	}
 
 }	
+
 
