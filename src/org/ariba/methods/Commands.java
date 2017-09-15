@@ -4973,7 +4973,7 @@ public class Commands {
 			if (!createKPIunderKPI){
 				click(Element.rdoKPIBasedonSurvey);
 				waitFor(3);
-			}
+			} 	
 			populateDropdown("KPI Source", kpiSource);
 
 			switch (kpiSource){
@@ -6281,19 +6281,39 @@ public class Commands {
 		for (String ec : eventContent){
 			String [] content = ec.split("\\^",-1);
 			waitFor(3);
-			
-			switch(content[0].trim()) {
-			case "Lot":
-				addLot(ec);
-				break;
-			case "Line Item":
-				addLineItem(ec);
-				break;
-			case "Cost Terms":
-				addCostTerms(ec);
-				break;
+
+			String contentName = content[2];
+
+			if(!isElementVisible(By.partialLinkText(contentName), 5)) {
+				//Add
+
+				switch(content[0].trim()) {
+				case "Lot":
+					addLot(ec);
+					break;
+				case "Line Item":
+					addLineItem(ec);
+					break;
+				case "Cost Terms":
+					addCostTerms(ec);
+					break;
+				}
+				writeToLogs("");
+			}else {
+				//Edit
+				
+				switch(content[0].trim()) {
+				case "Lot":
+					addLot(ec);
+					break;
+				case "Line Item":
+					addLineItem(ec);
+					break;
+				case "Cost Terms":
+					addCostTerms(ec);
+					break;
+				}
 			}
-			writeToLogs("");
 		}
 	}
 
@@ -6383,6 +6403,11 @@ public class Commands {
 
 		List <String> eventContent = retrieve.getSourcingLibrary();
 
+		
+		
+		//Add
+	
+		
 		for (String sL : eventContent){
 
 			String [] content = sL.split("\\^",-1);
@@ -6797,46 +6822,24 @@ public class Commands {
 		}
 	}
 	
-	public void editDefinitionTerms() {
-
-
+	public void deleteEventDefinition() {
 		ParseExcel retrieve = new ParseExcel();
-		List<String> definitionTerms = new ArrayList<String>();
-		for(int i=0;i<definitionTerms.size();i++) {
-
-			String definitionName = "";
-			String index = "";
-			String termName = "";
-			String numberOfDecimalPlaces = "";
-			String acceptableValues = "";
-			String responseRequired = "";
-			String referenceDocuments = "";
-			String visibleToParticipants = "";
-			String hideParticipatResponse = "";
-			String participantCanAddAttachment = "";
-			String useParticipantSpecificValue = "";
-			String rollupSectionSummary = "";
-			String isMatrixTerm = "";
-			String dispayTermColRow = "";
-			String hasHistoricValue = "";
-			String hasReserveValue = "";
-			String isTermEditableInAlternatives = "";
-			String teamAccessControl = "";
-			String range = "";
-			String participantCompleteOnTerm = "";
-			
-			
-			
-			
-			if(!isElementVisible(Element.divDefinitionHeader, 5)) {
-				click(By.xpath("//span[contains(.,'"+index+"')]//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]"));
-				click(Element.lnkEdit);
+		List<String> definitionToDelete = new ArrayList<String>();
+		List<WebElement> lnkDefinitionNames = driver.findElements(Element.lnkDefinitionName);
+		for(WebElement lnkDefinitionName:lnkDefinitionNames) {
+			String definitionName = lnkDefinitionName.getText().trim();
+			if(retrieve.isContentExistingInExcel(definitionName)) {
+				writeToLogs("Content "+definitionName+" is found in template");
+			}else {
+				definitionToDelete.add(definitionName);
+				writeToLogs("Content "+definitionName+" is NOT found in template");
 			}
-			
-			
-			
+		}
 		
-			
+		for(String definitionName:definitionToDelete) {
+			isElementVisible(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"), 5);
+			click(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"));
+			clickButton("Delete");
 		}
 	}
 

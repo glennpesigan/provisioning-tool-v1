@@ -1189,6 +1189,31 @@ public class ParseExcel {
 			}
 			return value;
 		}
-		
-		
+
+
+		public boolean isContentExistingInExcel(String contentName) {
+			boolean isExisting = false;
+			String executionQuery = "";
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "1");//Table start column
+				Fillo fillo = new Fillo();
+				//				Connection conn = fillo.getConnection(Details.path);
+				Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
+
+				executionQuery = "Select * from `Event Content` where `Content Name`='"+contentName+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					isExisting = true;
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				isExisting = false;
+			}
+
+			return isExisting;
+		}
 }
+
