@@ -159,7 +159,7 @@ public class Commands {
 
 		waitFor(2);
 		click(Element.btnOK);
-		
+
 		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
 		String titleName = pageHead.getText().trim();
 		if (titleName.length() > 40){
@@ -199,7 +199,7 @@ public class Commands {
 		if (titleName.length() > 40){
 			titleName = titleName.substring(0, 40);
 		}
-		
+
 		if (!associatedDocument.isEmpty()&&!associatedDocument.equals(titleName)){
 
 			click(Element.lnkCreateToDoTask);
@@ -340,7 +340,7 @@ public class Commands {
 		if (titleName.length() > 40){
 			titleName = titleName.substring(0, 40);
 		}
-		
+
 		if (!associatedDocument.isEmpty()&&!associatedDocument.equals(titleName)){
 
 			click(Element.lnkCreateToDoTask);
@@ -365,7 +365,7 @@ public class Commands {
 
 		}else{
 
-			
+
 			click(Element.lnkCreateApprovalTask);
 
 		}
@@ -415,7 +415,7 @@ public class Commands {
 	public void createNegotiationTask(String title, String description, String owner, String reviewers, String approvalRuleFlow, String observers, String milestone, String required, String repeat, String predecessors, String associatedDocument){
 
 		writeToLogs("Create Negotiation Task");
-		
+
 		WebElement pageHead = explicitWait(By.className("w-page-head"), 10);
 		String titleName = pageHead.getText().trim();
 		if (titleName.length() > 40){
@@ -1073,11 +1073,11 @@ public class Commands {
 						waitFor(1);
 						count++;
 					}
-					}
 				}
 			}
 		}
-	
+	}
+
 	public void inputDescription(By locator, String text){
 		if(!text.isEmpty()){
 			driver.switchTo().defaultContent();
@@ -1092,8 +1092,8 @@ public class Commands {
 			waitFor(3);
 		}
 	}
-	
-	
+
+
 	public boolean isElementVisible(By by, int timeOutInSeconds){
 		driver.manage().timeouts().implicitlyWait(timeOutInSeconds, TimeUnit.SECONDS);
 		if(driver.findElements(by).size() > 0){
@@ -1445,7 +1445,7 @@ public class Commands {
 		}
 
 		navigateTab("Tasks");
-		
+
 		expandAllTasks();
 
 		ParseExcel retrieve = new ParseExcel();
@@ -1607,7 +1607,7 @@ public class Commands {
 				navigateTab("Overview");
 
 				waitFor(5);
-				
+
 				explicitWait(By.linkText(titleName), 10);
 				click(By.linkText(titleName));
 				createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
@@ -1901,8 +1901,8 @@ public class Commands {
 		if (titleName.length() > 40){
 			titleName = titleName.substring(0, 40);
 		}
-	
-		
+
+
 		sendKeysEnter(By.partialLinkText(taskNameUI));
 		click(Element.lnkViewTaskDetails);
 		explicitWait(Element.lblTaskPageHead, 5);
@@ -2323,13 +2323,13 @@ public class Commands {
 			} else {
 
 				navigateTab("Overview");
-				
+
 				explicitWait(By.linkText(titleName), 10);
 				click(By.linkText(titleName));
 				createTask(type, title, description, owner, observers, isMilestone, required, predecessors, recipients, notificationDays, notificationFrequency, autoStart, manualCompletion, associatedDocument, reviewers, approvalRuleFlow, repeat, allowAutoApproval, signatureProvider, signer);
 				navigateTab("Tasks");
 				populateCondition(By.xpath("//td[@class='tableBody w-tbl-cell' and contains(.,'"+title+"')]/following-sibling::td[4]//a"), conditions);
-				
+
 			}
 		}
 
@@ -2563,9 +2563,9 @@ public class Commands {
 
 
 	public void associateDocument(String taskType, String associatedDocument){
-		
+
 		explicitWait(Element.btnOK, 10);
-		
+
 		expandAllTasks();
 
 		if (associatedDocument.equals("(no value)")){
@@ -6269,11 +6269,11 @@ public class Commands {
 		waitForButtonToExist("Add", 60);
 
 	}
-	
-	
+
+
 	public void configureEventDefinitions() {
 		click(By.linkText("Definition"));
-		
+
 		ParseExcel retrieve = new ParseExcel();
 
 		List <String> eventContent = retrieve.getEventContent();
@@ -6301,7 +6301,7 @@ public class Commands {
 				writeToLogs("");
 			}else {
 				//Edit
-				
+
 				switch(content[0].trim()) {
 				case "Lot":
 					addLot(ec);
@@ -6330,58 +6330,66 @@ public class Commands {
 			String [] content = ec.split("\\^",-1);
 			waitFor(3);
 
-			writeToLogs("Add " + content[0]);
+			String contentName = content[2];
 
-			switch (content[0].trim()){
+			if(!isElementVisible(By.partialLinkText(contentName), 5)) {
 
-			case "Section":
-				addSection(ec);
-				break;
+				//Add
+				writeToLogs("Add " + content[0]);
 
-			case "Table Section":
-				addTableSection(ec);
-				break;
+				switch (content[0].trim()){
 
-			case "Question":
-				addQuestion(ec);
-				break;
+				case "Section":
+					addSection(ec);
+					break;
 
-			case "Requirement":
-				addRequirement(ec);
-				break;
+				case "Table Section":
+					addTableSection(ec);
+					break;
 
-			case "Attachment From Desktop":
-				addAttachmentFromDesktopEventContent(ec);
-				break;
+				case "Question":
+					addQuestion(ec);
+					break;
 
-			case "Attachment From Library":
+				case "Requirement":
+					addRequirement(ec);
+					break;
 
-				String [] attLib = ec.split("\\^", -1);
-				//					String parentContent = attLib[1].trim();
+				case "Attachment From Desktop":
+					addAttachmentFromDesktopEventContent(ec);
+					break;
 
-				click(Element.btnAdd);
-				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
+				case "Attachment From Library":
 
-				String searchFile = attLib[6].trim();
-				String exploreFile = attLib[7].trim();
+					String [] attLib = ec.split("\\^", -1);
+					//					String parentContent = attLib[1].trim();
 
-				if (!searchFile.isEmpty()){
-					addAttachmentLibrary("Search", searchFile);
-				}else if (!exploreFile.isEmpty()){
-					addAttachmentLibrary("Explore", exploreFile);
+					click(Element.btnAdd);
+					click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
+
+					String searchFile = attLib[6].trim();
+					String exploreFile = attLib[7].trim();
+
+					if (!searchFile.isEmpty()){
+						addAttachmentLibrary("Search", searchFile);
+					}else if (!exploreFile.isEmpty()){
+						addAttachmentLibrary("Explore", exploreFile);
+					}
+					break;
+
+				case "Cost Terms":
+					addCostTerms(ec);
+					break;
+
+				case "Content From Library":
+					addContentFromLibrary(ec);
+					break;
 				}
-				break;
 
-			case "Cost Terms":
-				addCostTerms(ec);
-				break;
-
-			case "Content From Library":
-				addContentFromLibrary(ec);
-				break;
+				writeToLogs("");
+			}else {
+				//Edit
 			}
-
-			writeToLogs("");
 
 		}
 
@@ -6403,11 +6411,11 @@ public class Commands {
 
 		List <String> eventContent = retrieve.getSourcingLibrary();
 
-		
-		
+
+
 		//Add
-	
-		
+
+
 		for (String sL : eventContent){
 
 			String [] content = sL.split("\\^",-1);
@@ -6504,8 +6512,8 @@ public class Commands {
 			}
 		}
 	}
-	
-	
+
+
 
 
 	public void addQuestion() {
@@ -6821,7 +6829,7 @@ public class Commands {
 			}
 		}
 	}
-	
+
 	public void deleteEventDefinition() {
 		ParseExcel retrieve = new ParseExcel();
 		List<String> definitionToDelete = new ArrayList<String>();
@@ -6835,7 +6843,7 @@ public class Commands {
 				writeToLogs("Content "+definitionName+" is NOT found in template");
 			}
 		}
-		
+
 		for(String definitionName:definitionToDelete) {
 			isElementVisible(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"), 5);
 			click(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"));
