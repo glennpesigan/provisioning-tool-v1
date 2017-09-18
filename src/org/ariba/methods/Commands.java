@@ -4912,7 +4912,7 @@ public class Commands {
 
 		String [] kpi = content.split("\\^", -1);
 		String parentContent = kpi[1].trim();
-
+		
 		String name = kpi[2].trim();
 		String description = kpi[3].trim();
 		String kpiType = kpi[6].trim();
@@ -4926,8 +4926,8 @@ public class Commands {
 		String rangeLower = kpi[11].trim();
 		String rangeUpper = kpi[12].trim();
 		String reportMetric = kpi[13].trim();
-		String subContent = kpi[15].trim();
-
+		String subContent = kpi[18].trim();
+		
 		boolean createKPIunderKPI = false;
 
 		/*if (!parentContent.isEmpty()){
@@ -5074,6 +5074,259 @@ public class Commands {
 
 	//Done!!
 
+	
+	public void editKPI (String content) {
+		
+		String [] kpi = content.split("\\^", -1);
+		String parentContent = kpi[1].trim();
+		
+		String name = kpi[2].trim();
+		String description = kpi[3].trim();
+		String kpiType = kpi[6].trim();
+		String kpiSource = kpi[7].trim();
+		String valueType = kpi[8].trim();
+		String numberDecimalPlaces = kpi[9].trim();
+		String acceptValues = kpi[10].trim();
+		String documentFile = kpi[14].trim();
+		String visibleToSupplier = kpi[4].trim();
+		String teamAccessControl = kpi[5].trim();
+		String rangeLower = kpi[11].trim();
+		String rangeUpper = kpi[12].trim();
+		String reportMetric = kpi[13].trim();
+		String subContent = kpi[18].trim();
+		
+		boolean createKPIunderKPI = false;
+		
+		/*if (!parentContent.isEmpty()){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
+			createKPIunderKPI = true;
+		}else{
+			click(Element.btnAdd);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
+		}*/
+		
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+			click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+			click(Element.lnkEditContent);
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", parentContent);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+			click(Element.lnkEditContent);
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", name);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+			click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+			click(Element.lnkEditContent);
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", subContent);
+		}
+		
+//		populateTextField("Name", name);
+		populateTextField("Name", parentContent);	
+		inputDescription(Element.txtProjectDescription, description);
+		
+		
+		writeToLogs(">>KPI Type: " + kpiType);
+		switch (kpiType){
+		case "This KPI will contain supporting data (KPIs, questions, and/or requirements)":
+			if (!createKPIunderKPI){
+//				click(Element.rdoKPISupportingData);
+			
+				waitFor(2);
+			}
+			break;
+			
+		case "This KPI will be based on Survey or Report Data":
+			if (!createKPIunderKPI){
+//				click(Element.rdoKPIBasedonSurvey);
+				waitFor(3);
+			}
+			populateDropdown("KPI Source", kpiSource);
+			
+			switch (kpiSource){
+			case "Survey":
+				waitFor(2);
+				populateDropdownAlt("Value Type", valueType);
+				populateTextField("Number of decimal places", numberDecimalPlaces);
+				populateDropdownAlt("Acceptable Values", acceptValues);
+				
+				if (!documentFile.isEmpty()){
+					waitFor(2);
+					sendKeysEnter(Element.lnkAttFile);
+					click(Element.lnkUpdateFromDesktop);
+					uploadFile(documentFile);
+					click(Element.btnOK);
+					waitForButtonToExist("Done", 60);
+				}
+
+				break;
+				
+			case "Report":
+				
+				sendKeysEnter(Element.lnkReport);
+				waitFor(3);
+				waitForButtonToExist("Cancel", 5);
+				
+				if (isElementVisible(By.linkText("Vault"), 5)){
+					click(By.linkText("Vault"));
+					waitFor(3);
+				}
+
+				// Vault   >   Knowledge Areas   >   Prepackaged Reports   >   Event Reports   >  Detailed Reports > Accepted Suppliers Summary > Supplier Count 
+				 String[] c = reportMetric.split("\\>");
+	
+		        for (int i = 0; i < c.length; i++) {
+		        		
+		        	  System.out.println(c[i].trim());
+		        	  if (c[i].trim().contentEquals("Vault")){
+		        		  i = i+1;
+		        	  }
+		        	  
+		        	  if (i == c.length - 1) {
+		        		  if (isElementVisible(By.linkText(c[i].trim()),5)) {
+		        			  click(By.linkText(c[i].trim()));
+		        			  break;
+	                       } else {
+	                              writeToLogs("[ERROR]" + c[i].trim() + " is not available");
+	                       }
+		        	  }
+		        	  
+		        	  if (isElementVisible(By.xpath("//span[contains(.,'" + c[i].trim() + "')]"), 5)) {
+                            click(By.xpath("//span[contains(.,'" + c[i].trim() + "')]"));
+                            waitFor(2);
+		        	  } else {
+                            writeToLogs("[ERROR]" + c[i].trim() + " is not available");
+		        	  }
+	                  
+//	                  if (isElementVisible(By.xpath("//span[contains(.,'" + c[i].trim() + "')]/../preceding-sibling::td//div[@class='w-oc-icon-off']"), 5)) {
+//	                         click(By.xpath("//span[contains(.,'" + c[i].trim() + "')]/../preceding-sibling::td//div[@class='w-oc-icon-off']"));
+//	                  }
+	                  
+	                  
+		        }
+		            
+		            
+	            waitFor(2);
+				populateDropdownAlt("Value Type", valueType);
+				populateTextField("Number of decimal places", numberDecimalPlaces);
+				populateDropdownAlt("Acceptable Values", acceptValues);
+				
+				if (!documentFile.isEmpty()){
+					waitFor(2);
+					sendKeysEnter(Element.lnkAttFile);
+					click(Element.lnkUpdateFromDesktop);
+					uploadFile(documentFile);
+					click(Element.btnOK);
+					waitForButtonToExist("Done", 60);
+				}  
+		            
+				 
+				break;
+			}
+			
+		}
+		
+		
+		if (acceptValues.equals("Limited Range")){
+			inputText(Element.txtRangeLow, rangeLower);
+			inputText(Element.txtRangeUp, rangeUpper);
+		}
+		
+		populateDropdown("Visible to Supplier", visibleToSupplier);
+		waitFor(3);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+		
+		clickButton("Done");
+		
+	}
+	
+	public void updateKPI (){
+		List <WebElement> row = driver.findElements(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell')]"));
+		System.out.println("Number of rows in Team: " + row.size());
+
+		ParseExcel retrieve = new ParseExcel();
+		//		int rowCount = 0;
+		String KPIToDelete = "";
+		for (int i=1; i<=row.size(); i++){
+			WebElement objCheck = explicitWait(By.xpath("(//td[contains(@class,'tdClass tableBody w-tbl-cell')])["+i+"]"),5);
+
+			if (objCheck.getAttribute("class").trim().contains("tdClass tableBody w-tbl-cell")){		
+				WebElement objKPI = explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell')])["+i+"]"),5);
+				String kpiUI = objKPI.getText().replace("*", "").trim();
+				System.out.println("i=" + i + " kpiUI: " + kpiUI);			
+
+				if (retrieve.isProjectGroupExistInExcel(kpiUI)){
+					writeToLogs("KPI: " + kpiUI + " exists in Excel");
+//					editKPI(content);
+				}else{
+					//delete project group
+					writeToLogs("KPI '" +kpiUI+ "' is not exist in excel");
+					System.out.println("For deletion: " + kpiUI);
+					KPIToDelete = "~" + kpiUI + KPIToDelete;												
+				}
+			}
+
+		}
+		//from excel to UI
+		List <String> addKPI = retrieve.getSourcingLibrary();
+		for(String KPI : addKPI){
+			String [] aKPI = KPI.split("~", -1);
+			String kpiName = aKPI[0].trim();		
+			if (!isKPIExistInUI(kpiName)){
+				//add folder
+				System.out.println("KPI '" +kpiName+ "' is not exists in UI.");
+				addTeamTab();
+			}
+		}
+
+
+		if (!KPIToDelete.isEmpty()){
+			KPIToDelete = KPIToDelete.substring(1, KPIToDelete.length());
+			String [] deleteKPI = KPIToDelete.split("~");
+			for (String kpi : deleteKPI){
+				deleteKPI(kpi);
+			}
+		}
+		waitFor(2);
+		clickButton("OK");
+
+	
+	}
+	
+	public void deleteKPI(String kpiUI){
+
+		if (!kpiUI.equals("")){
+			click(By.xpath("//table[@class='tableBody']//tr[contains(.,'"+kpiUI+"')]//td//label"));
+			waitFor(2);
+			clickButton("Delete");
+			waitFor(2);
+			clickButton("OK");
+		}
+
+		writeToLogs("KPI '" +kpiUI+ "' was deleted.");
+	}
+	
+	public boolean isKPIExistInUI(String kpiName){	
+		boolean isExist = false;
+		List<WebElement> rows = driver.findElements(By.xpath("//span[@class='normal']"));
+		for (int i=1; i<=rows.size(); i++){
+			WebElement objKPI = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
+			if (objKPI.getAttribute("class").trim().contains("normal")){
+				String UIkpi = objKPI.getText().trim();
+				System.out.println("Get Text: " + UIkpi);
+				if(UIkpi.equals(kpiName)){
+					return isExist = true;
+				}
+			}
+		}
+		return isExist;
+	}
+	
+	
 	/*
 	 * Function for Add Lot
 	 */
@@ -6400,93 +6653,240 @@ public class Commands {
 	public void configureSourcingLibrary(){
 
 		ParseExcel retrieve = new ParseExcel();
-
+		
 		List <String> eventContent = retrieve.getSourcingLibrary();
-
-		
-		
-		//Add
-	
 		
 		for (String sL : eventContent){
-
+			
 			String [] content = sL.split("\\^",-1);
+			String action = content[content.length-1].trim();
 			waitFor(2);
 
-			writeToLogs("Add " + content[0]);
+			//Add Sourcing Library		
 
-			switch (content[0].trim()){
+			
+			switch (action){
+			
+			case "Create New":
+				
+				switch (content[0].trim()){
+				
+				case "KPI":
+					addKPI(sL);
+					break;
+				
+				case "Section":
+					addSection(sL);
+					break;
+					
+				case "Table Section":
+					addTableSection(sL);
+					break;
+				
+				case "Lot":
+					addLot(sL);
+					break;
+					
+				case "Line Item":
+					addLineItem(sL);
+					break;
+					
+				case "Question":
+					addQuestion(sL);
+					break;
+					
+				case "Requirement":
+					addRequirement(sL);
+					break;
+					
+				case "Attachment From Desktop":
+					addAttachmentFromDesktopEventContent(sL);
+					break;
+					
+				case "Attachment From Library":
+					
+					String [] attLib = sL.split("\\^", -1);
+//					String parentContent = attLib[1].trim();
+					
+					click(Element.btnAdd);
+					click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
 
-			case "KPI":
-				addKPI(sL);
-				break;
+					String searchFile = attLib[6].trim();
+					String exploreFile = attLib[7].trim();
+					
+					if (!searchFile.isEmpty()){
+						addAttachmentLibrary("Search", searchFile);
+					}else if (!exploreFile.isEmpty()){
+						addAttachmentLibrary("Explore", exploreFile);
+						clickButton("Done");
+					}
 
-			case "Section":
-				addSection(sL);
-				break;
-
-			case "Table Section":
-				addTableSection(sL);
-				break;
-
-			case "Lot":
-				addLot(sL);
-				break;
-
-			case "Line Item":
-				addLineItem(sL);
-				break;
-
-			case "Question":
-				addQuestion(sL);
-				break;
-
-			case "Requirement":
-				addRequirement(sL);
-				break;
-
-			case "Attachment From Desktop":
-				addAttachmentFromDesktopEventContent(sL);
-				break;
-
-			case "Attachment From Library":
-
-				String [] attLib = sL.split("\\^", -1);
-				//				String parentContent = attLib[1].trim();
-
-				click(Element.btnAdd);
-				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
-
-				String searchFile = attLib[6].trim();
-				String exploreFile = attLib[7].trim();
-
-				if (!searchFile.isEmpty()){
-					addAttachmentLibrary("Search", searchFile);
-				}else if (!exploreFile.isEmpty()){
-					addAttachmentLibrary("Explore", exploreFile);
-					clickButton("Done");
+					break;
+					
+				case "Cost Terms":
+					addCostTerms(sL);
+					break;
+						
+				case "Formula":
+					addFormula(sL);
+					break;
+					
+				case "Content From Library":	
+					addContentFromLibrary(sL);
+					break;
+					
 				}
-
+				
 				break;
+				
+			case "Update Existing":
+				switch (content[0].trim()){
+				
+				case "KPI":
+//					editKPI(sL);
+					updateKPI();
+					break;
+				
+				case "Section":
+//					editSection(sL);
+					break;
+					
+				case "Table Section":
+//					editTableSection(sL);
+					break;
+				
+				case "Lot":
+//					editLot(sL);
+					break;
+					
+				case "Line Item":
+//					editLineItem(sL);
+					break;
+					
+				case "Question":
+//					editQuestion(sL);
+					break;
+					
+				case "Requirement":
+//					editRequirement(sL);
+					break;
+					
+				case "Attachment From Desktop":
+//					editAttachmentsFromDesktop(sL);
+					break;
+					
+				case "Attachment From Library":
+					
+					String [] attLib = sL.split("\\^", -1);
+					String parentContent = attLib[1].trim();
+					
+					click(By.xpath("//a[contains(text(),'"+parentContent+"')]"));
+					click(Element.lnkEditContent);
+//					editAttachmentsFromLibrary(sL);
 
-			case "Cost Terms":
-				addCostTerms(sL);
+
+					break;
+					
+				case "Cost Terms":
+//					editCostTerms(sL);
+					break;
+					
+				case "Formula":
+//					addFormula(sL);
+					break;
+					
+				case "Content From Library":	
+//					editContentFromLibrary(sL);
+					break;
+					
+				}
 				break;
+				
+			case "Delete":
 
-			case "Formula":
-				addFormula(sL);
+				String [] delete = sL.split("\\^", -1);
+				String parentContent = delete[1].trim();
+				switch (content[0].trim()){
+				
+				case "KPI":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+				
+				case "Section":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Table Section":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+				
+				case "Lot":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Line Item":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Question":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Requirement":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Attachment From Desktop":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Attachment From Library":				
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Cost Terms":
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				case "Formula":
+//					addFormula(sL);
+					break;
+					
+				case "Content From Library":	
+					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+					clickButton("Delete");
+					clickButton("OK");
+					break;
+					
+				}
+				
 				break;
-
-			case "Content From Library":	
-				addContentFromLibrary(sL);
-				break;
-
 			}
-
+			
+			
+			
 			writeToLogs("");
-
-		}
-
+			}
 
 
 	}

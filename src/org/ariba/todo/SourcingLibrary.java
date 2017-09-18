@@ -16,6 +16,7 @@ public class SourcingLibrary {
 		
 		ParseExcel data = new ParseExcel();
 		String folder = data.getSpecificData(Details.path, "Configuration", "Folder Name", "Value").trim();
+		Details.actionToPerform = data.getSpecificData(Details.path, "Configuration", "Action", "Value").trim();
 		String title = data.getSpecificData(Details.path, "Content Document", "Title", "Value").trim();
 		String description = data.getSpecificData(Details.path, "Content Document", "Description", "Value").trim();
 		String baseLanguage = data.getSpecificData(Details.path, "Content Document", "Base Language", "Value").trim();
@@ -60,8 +61,8 @@ public class SourcingLibrary {
 		
 		/*----------------Create Sourcing Library to Folder--------------*/
 		
-		action.waitFor(2);
-
+		switch (Details.actionToPerform){
+		case "Create New":		
 		if (!folder.isEmpty()){
 			if(action.explicitWait(By.linkText(folder),10) != null){
 				action.sendKeysEnter(By.linkText(folder));
@@ -85,6 +86,7 @@ public class SourcingLibrary {
 				action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Content Document')]"));
 			}
 		}else{
+
 			action.clickButton("Actions");
 			action.click(By.xpath("//div[@class='awmenu w-pm-menu']//div[contains(text(),'Create')]/following::a[contains(text(),'Content Document')]"));
 		}
@@ -95,7 +97,7 @@ public class SourcingLibrary {
 
 		/*----------------Create Sourcing Library to Folder--------------*/
 		action.writeToLogs("--------------CONTENT DOCUMENT-------------");
-		
+
 		action.waitForButtonToExist("Create", 5);
 		action.populateTextField("Title", title);
 		action.inputDescription(Element.txtProjectDescription, description);
@@ -115,13 +117,45 @@ public class SourcingLibrary {
 		action.configureSourcingLibrary();
 		action.waitFor(2);
 		action.clickButton("Done");
+		break;
+		case"Update Existing":
+			if (!folder.isEmpty()){
+				action.sendKeysEnter(By.linkText(folder));
+				action.click(Element.lnkOpen);
+			}
+			
+			action.sendKeysEnter(By.linkText(title));
+			action.click(Element.lnkEditOpen);
+			action.waitForButtonToExist("Done", 5);
+			
+			action.configureSourcingLibrary();
+			action.waitFor(2);
+			action.clickButton("Done");
+			break;
+			
+//		case "Delete":
+//			if (!folder.isEmpty()){
+//				action.sendKeysEnter(By.linkText(folder));
+//				action.click(Element.lnkOpen);
+//			}
+//			
+//			action.sendKeysEnter(By.linkText(title));
+//			action.click(Element.lnkEditOpen);
+//			action.waitForButtonToExist("Done", 5);
+//
+//			action.configureSourcingLibrary();
+//			action.waitFor(2);
+//			action.clickButton("Done");
+//			break;
+		
+		}
+		
 		
 		action.writeToLogs("------------------------------------------");
 		action.writeToLogs("");
 		action.writeToLogs("---------------COMPLETED----------------");
-		
-		JOptionPane.showMessageDialog(null,"Finished!");
 
+		JOptionPane.showMessageDialog(null,"Finished!");
 	}
 	
 	
