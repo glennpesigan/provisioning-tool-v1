@@ -664,7 +664,7 @@ public class ParseExcel {
 				
 				case "KPI":
 					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("KPI Type") + "^" + rs.getField("KPI Source") + "^" + rs.getField("Value Type") + "^" + rs.getField("Number of decimal places") + "^" + rs.getField("Acceptable Value") + "^" + rs.getField("RangeFrom") + "^" + rs.getField("RangeTo") + "^" + rs.getField("Report Metric") + "^" + 
+							rs.getField("KPI Type") + "^" + rs.getField("KPI Source") + "^" + rs.getField("Value Type") + "^" + rs.getField("Number of decimal places") + "^" + rs.getField("Acceptable Values") + "^" + rs.getField("Range From") + "^" + rs.getField("Range To") + "^" + rs.getField("Report Metric") + "^" + 
 							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File") + "^" + rs.getField("Sub-Content Name"));
 					break;
 				
