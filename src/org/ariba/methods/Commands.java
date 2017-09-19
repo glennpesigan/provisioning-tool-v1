@@ -6058,7 +6058,7 @@ public class Commands {
 			populateTextField("Name", parentContent);
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+			click(By.xpath("//div[@class='awmenu w-pm-m2enu']//a[contains(text(),'Section')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", name);
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
@@ -6096,6 +6096,73 @@ public class Commands {
 		// End of Condition******************************************
 	}
 
+	//Edit section
+	public void editSection(String content) {
+
+		//String name, String description, String visibleToParticipant, String teamAccessControl, String visibilityCondition, String select, String selectCondition
+
+		String [] section = content.split("\\^", -1);
+		String parentContent = section[1].trim();
+		String name = section[2].trim();
+
+		String description = section[3].trim();
+		String visibleToParticipant = section[4].trim();
+		String teamAccessControl = section[5].trim();
+
+		String subContent = section[6].trim();
+
+
+//		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+//			click(Element.btnAdd);
+//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+//			waitForButtonToExist("OK", 5);
+//			populateTextField("Name", parentContent);
+//		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+//			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+//			waitForButtonToExist("OK", 5);
+//			populateTextField("Name", name);
+//		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+//			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+//			waitForButtonToExist("OK", 5);
+//			populateTextField("Name", subContent);
+//		}
+		
+		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
+			click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			click(Element.lnkEdit);
+		}
+
+		inputDescription(Element.txtProjectDescription, description);
+		populateDropdownAlt("Visible to Participant", visibleToParticipant);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+		waitFor(2);
+		click(Element.btnOK);
+
+		// *************************************Cannot create condition
+		// click(Element.lnkVisibilityCondition);
+		// switch(visibilityCondition){
+		// case "Others":
+		// click(Element.lnkOthers);
+		// populateDropdown("Select", select);
+		// populateTextField("Name", name);
+		// click(Element.btnSearchField);
+		// populateChooserMultiple("Visibility Condition", selectCondition);
+		// clickButton("Done");
+		// break;
+
+		// case "Create Condition":
+		// click(Element.lnkCreateCondition);
+		// some code here
+		// clickButton("OK");
+		// break;
+		// }
+		// clickButton("Done");
+		// End of Condition******************************************
+	}
+
+	
 	// Add Line Item
 	public void addLineItem(String content) {
 
@@ -6664,8 +6731,7 @@ public class Commands {
 
 		List <String> eventContent = retrieve.getSourcingLibrary();
 
-
-
+		
 		
 		//Add
 
@@ -6679,7 +6745,7 @@ public class Commands {
 			//Add Sourcing Library		
 
 			
-			switch (action){
+			switch (Details.actionToPerform){
 			
 			case "Create New":
 				
@@ -6762,7 +6828,7 @@ public class Commands {
 					break;
 				
 				case "Section":
-//					editSection(sL);
+					editSection(sL);
 					break;
 					
 				case "Table Section":
