@@ -6111,55 +6111,65 @@ public class Commands {
 
 		String subContent = section[6].trim();
 
-
-//		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-//			click(Element.btnAdd);
-//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-//			waitForButtonToExist("OK", 5);
-//			populateTextField("Name", parentContent);
-//		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-//			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-//			waitForButtonToExist("OK", 5);
-//			populateTextField("Name", name);
-//		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-//			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-//			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-//			waitForButtonToExist("OK", 5);
-//			populateTextField("Name", subContent);
-//		}
 		
 		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
 			click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
 			click(Element.lnkEdit);
+			
+			inputDescription(Element.txtProjectDescription, description);
+			populateDropdownAlt("Visible to Participant", visibleToParticipant);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			waitFor(2);
+			click(Element.btnOK);
+
+			// *************************************Cannot create condition
+			// click(Element.lnkVisibilityCondition);
+			// switch(visibilityCondition){
+			// case "Others":
+			// click(Element.lnkOthers);
+			// populateDropdown("Select", select);
+			// populateTextField("Name", name);
+			// click(Element.btnSearchField);
+			// populateChooserMultiple("Visibility Condition", selectCondition);
+			// clickButton("Done");
+			// break;
+
+			// case "Create Condition":
+			// click(Element.lnkCreateCondition);
+			// some code here
+			// clickButton("OK");
+			// break;
+			// }
+			// clickButton("Done");
+			// End of Condition******************************************
+
+			
 		}
-
-		inputDescription(Element.txtProjectDescription, description);
-		populateDropdownAlt("Visible to Participant", visibleToParticipant);
-		populateChooserMultiple("Team Access Control", teamAccessControl);
-		waitFor(2);
-		click(Element.btnOK);
-
-		// *************************************Cannot create condition
-		// click(Element.lnkVisibilityCondition);
-		// switch(visibilityCondition){
-		// case "Others":
-		// click(Element.lnkOthers);
-		// populateDropdown("Select", select);
-		// populateTextField("Name", name);
-		// click(Element.btnSearchField);
-		// populateChooserMultiple("Visibility Condition", selectCondition);
-		// clickButton("Done");
-		// break;
-
-		// case "Create Condition":
-		// click(Element.lnkCreateCondition);
-		// some code here
-		// clickButton("OK");
-		// break;
-		// }
-		// clickButton("Done");
-		// End of Condition******************************************
+	}
+	
+	public void deleteSection() {
+		List<String> lnksToDelete = new ArrayList<String>();
+		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"), 5)!=null) {
+			List<WebElement> lnkContentNames = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
+			for(WebElement lnkContentName:lnkContentNames) {
+				String lnkToCheck = lnkContentName.getText().trim();
+				ParseExcel retrieve = new ParseExcel();
+				if(!retrieve.isContentExistingInExcel(lnkToCheck, "Sourcing Library")) {
+					writeToLogs(lnkToCheck+" was not found in Excel");
+					lnksToDelete.add(lnkToCheck);
+				}else {
+					writeToLogs(lnkToCheck+" was found in Excel");
+				}
+					
+			}
+			
+			for(String lnkToDelete:lnksToDelete) {
+				if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+lnkToDelete+"')]/../../../../../../.."), 5)!=null) {
+					clickButton("Delete");
+					click(Element.btnOK);
+				}
+			}
+		}
 	}
 
 	
@@ -6209,6 +6219,7 @@ public class Commands {
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", subContent);
+			
 		}
 
 
@@ -6739,7 +6750,6 @@ public class Commands {
 		for (String sL : eventContent){
 			
 			String [] content = sL.split("\\^",-1);
-			String action = content[content.length-1].trim();
 			waitFor(2);
 
 			//Add Sourcing Library		
@@ -6828,6 +6838,7 @@ public class Commands {
 					break;
 				
 				case "Section":
+					deleteSection();
 					editSection(sL);
 					break;
 					
@@ -7306,7 +7317,7 @@ public class Commands {
 		List<WebElement> lnkDefinitionNames = driver.findElements(Element.lnkDefinitionName);
 		for(WebElement lnkDefinitionName:lnkDefinitionNames) {
 			String definitionName = lnkDefinitionName.getText().trim();
-			if(retrieve.isContentExistingInExcel(definitionName)) {
+			if(retrieve.isContentExistingInExcel(definitionName,"Event Coontent")) {
 				writeToLogs("Content "+definitionName+" is found in template");
 			}else {
 				definitionToDelete.add(definitionName);

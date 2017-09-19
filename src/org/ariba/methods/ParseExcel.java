@@ -1191,7 +1191,7 @@ public class ParseExcel {
 		}
 
 
-		public boolean isContentExistingInExcel(String contentName) {
+		public boolean isContentExistingInExcel(String contentName,String tableName) {
 			boolean isExisting = false;
 			String executionQuery = "";
 			try{
@@ -1201,7 +1201,7 @@ public class ParseExcel {
 				//				Connection conn = fillo.getConnection(Details.path);
 				Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
 
-				executionQuery = "Select * from `Event Content` where `Content Name`='"+contentName+"'";
+				executionQuery = "Select * from `"+tableName+"` where `Content Name`='"+contentName+"'";
 
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
@@ -1215,5 +1215,7 @@ public class ParseExcel {
 
 			return isExisting;
 		}
+		
+ 
 }
 
