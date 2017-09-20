@@ -6051,49 +6051,55 @@ public class Commands {
 		//			String select = section[2].trim();
 		//			String selectCondition = section[2].trim();
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-			click(Element.btnAdd);
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-m2enu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", subContent);
-		}
+		
 
-		inputDescription(Element.txtProjectDescription, description);
-		populateDropdownAlt("Visible to Participant", visibleToParticipant);
-		populateChooserMultiple("Team Access Control", teamAccessControl);
-		waitFor(2);
-		click(Element.btnOK);
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
+				click(Element.btnAdd);
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", parentContent);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//div[@class='awmenu w-pm-m2enu']//a[contains(text(),'Section')]"));
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", name);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", subContent);
+			}else {
+				return;
+			}
 
-		// *************************************Cannot create condition
-		// click(Element.lnkVisibilityCondition);
-		// switch(visibilityCondition){
-		// case "Others":
-		// click(Element.lnkOthers);
-		// populateDropdown("Select", select);
-		// populateTextField("Name", name);
-		// click(Element.btnSearchField);
-		// populateChooserMultiple("Visibility Condition", selectCondition);
-		// clickButton("Done");
-		// break;
+			inputDescription(Element.txtProjectDescription, description);
+			populateDropdownAlt("Visible to Participant", visibleToParticipant);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			waitFor(2);
+			click(Element.btnOK);
 
-		// case "Create Condition":
-		// click(Element.lnkCreateCondition);
-		// some code here
-		// clickButton("OK");
-		// break;
-		// }
-		// clickButton("Done");
-		// End of Condition******************************************
+			// *************************************Cannot create condition
+			// click(Element.lnkVisibilityCondition);
+			// switch(visibilityCondition){
+			// case "Others":
+			// click(Element.lnkOthers);
+			// populateDropdown("Select", select);
+			// populateTextField("Name", name);
+			// click(Element.btnSearchField);
+			// populateChooserMultiple("Visibility Condition", selectCondition);
+			// clickButton("Done");
+			// break;
+
+			// case "Create Condition":
+			// click(Element.lnkCreateCondition);
+			// some code here
+			// clickButton("OK");
+			// break;
+			// }
+			// clickButton("Done");
+			// End of Condition******************************************
+		
+
 	}
 
 	//Edit section
@@ -6112,10 +6118,19 @@ public class Commands {
 		String subContent = section[6].trim();
 
 		
-		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
-			click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
-			click(Element.lnkEdit);
+		
+		if(isSectionExisting(content)) {
 			
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"));
+			}
+
+			click(Element.lnkEdit);
+
 			inputDescription(Element.txtProjectDescription, description);
 			populateDropdownAlt("Visible to Participant", visibleToParticipant);
 			populateChooserMultiple("Team Access Control", teamAccessControl);
@@ -6147,7 +6162,40 @@ public class Commands {
 		}
 	}
 	
-	public void deleteSection() {
+	public boolean isSectionExisting(String content) {
+		String [] section = content.split("\\^", -1);
+		String parentContent = section[1].trim();
+		String name = section[2].trim();
+
+		String subContent = section[6].trim();
+
+
+
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"), 5)!=null) {
+				return true;
+			}else {
+				return false;
+			}
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
+				return true;
+			}else {
+				return false;
+			}
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"), 5)!=null) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+
+		return false;
+
+	}
+	
+	public void deleteSourcingLibraryComponents() {
 		List<String> lnksToDelete = new ArrayList<String>();
 		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"), 5)!=null) {
 			List<WebElement> lnkContentNames = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
@@ -6164,9 +6212,16 @@ public class Commands {
 			}
 			
 			for(String lnkToDelete:lnksToDelete) {
-				if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+lnkToDelete+"')]/../../../../../../.."), 5)!=null) {
+				if(explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"), 5)!=null) {
+					click(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"));
 					clickButton("Delete");
-					click(Element.btnOK);
+					if(isElementVisible(Element.btnOK,5)) {
+						click(Element.btnOK);
+					}else {
+						click(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"));
+						clickButton("Delete");
+						click(Element.btnOK);
+					}
 				}
 			}
 		}
@@ -6753,8 +6808,7 @@ public class Commands {
 			waitFor(2);
 
 			//Add Sourcing Library		
-
-			
+		
 			switch (Details.actionToPerform){
 			
 			case "Create New":
@@ -6830,6 +6884,7 @@ public class Commands {
 				break;
 				
 			case "Update Existing":
+				deleteSourcingLibraryComponents();
 				switch (content[0].trim()){
 				
 				case "KPI":
@@ -6838,8 +6893,8 @@ public class Commands {
 					break;
 				
 				case "Section":
-					deleteSection();
 					editSection(sL);
+					addSection(sL);
 					break;
 					
 				case "Table Section":
