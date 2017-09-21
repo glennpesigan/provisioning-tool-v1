@@ -5105,25 +5105,26 @@ public class Commands {
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
 		}*/
-		
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-			click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
-			click(Element.lnkEditContent);
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
-			click(Element.lnkEditContent);
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-			click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
-			click(Element.lnkEditContent);
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", subContent);
-		}
+		if (isSectionExisting(content)){
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", parentContent);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", name);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", subContent);
+			}
+			
 		
 //		populateTextField("Name", name);
 		populateTextField("Name", parentContent);	
@@ -5241,34 +5242,35 @@ public class Commands {
 		populateChooserMultiple("Team Access Control", teamAccessControl);
 		
 		clickButton("Done");
+		}
 		
 	}
 	
-	public void updateKPI (){
-
-		List <WebElement> row = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
-		ParseExcel retrieve = new ParseExcel();
-		List <String> editKpi = retrieve.getSourcingLibrary();
-		for (String kpi : editKpi){
-			String [] eKPI = kpi.split("~", -1);
-			String content = eKPI[0].trim();
-			if (!content.equals("KPI")){				
-				for (int i=1; i<=row.size(); i++){
-					WebElement objCheck = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);					
-					if (objCheck.getAttribute("class").trim().contains("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]")){
-						WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
-						String kpiUI = objKPI.getText().replace("*", "").trim();
-						System.out.println("i=" + i + " kpiUI: " + kpiUI);						
-						if (retrieve.isKPIExistInExcel(content, kpiUI)){
-							writeToLogs("KPI: " + kpiUI + " exists in Excel");
-							editKPI(kpiUI);
-						}
-		
-					}
-			}
-		}				
-			
-	}
+//	public void updateKPI (){
+//
+//		List <WebElement> row = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
+//		ParseExcel retrieve = new ParseExcel();
+//		List <String> editKpi = retrieve.getSourcingLibrary();
+//		for (String kpi : editKpi){
+//			String [] eKPI = kpi.split("~", -1);
+//			String content = eKPI[0].trim();
+//			if (!content.equals("KPI")){				
+//				for (int i=1; i<=row.size(); i++){
+//					WebElement objCheck = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);					
+//					if (objCheck.getAttribute("class").trim().contains("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]")){
+//						WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
+//						String kpiUI = objKPI.getText().replace("*", "").trim();
+//						System.out.println("i=" + i + " kpiUI: " + kpiUI);						
+//						if (retrieve.isKPIExistInExcel(content, kpiUI)){
+//							writeToLogs("KPI: " + kpiUI + " exists in Excel");
+//							editKPI(kpiUI);
+//						}
+//		
+//					}
+//			}
+//		}				
+//			
+//	}
 		
 //		List <String> addKpi = retrieve.getSourcingLibrary();
 //		for(String kpi : addKpi){
@@ -5282,7 +5284,7 @@ public class Commands {
 //			
 //		}	
 		
-	}
+//	}
 	
 //	public boolean isKPIExistInUI(String parentContent){	
 //		boolean isExist = false;
@@ -6864,8 +6866,8 @@ public class Commands {
 				switch (content[0].trim()){
 				
 				case "KPI":				
-//					editKPI(sL);
-					updateKPI();
+					editKPI(sL);
+					addKPI(sL);
 					break;
 				
 				case "Section":

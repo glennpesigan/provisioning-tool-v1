@@ -1166,28 +1166,28 @@ public class ParseExcel {
 			return isProjectGroupExist;
 		}
 		
-		public boolean isKPIExistInExcel(String parentContent, String content){
-			boolean isKPIExist = false;
-			try{
-				System.setProperty("ROW", "6");//Table start row
-				System.setProperty("COLUMN", "1");//Table start column
-				Fillo fillo = new Fillo();
-				Connection conn = fillo.getConnection(Details.path);
-//				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
-				String executionQuery = "Select * from `Sourcing Library` where `Content` = '"+content+"' and 'ParentContent' = '"+parentContent+"'";
-				Recordset rs = conn.executeQuery(executionQuery);
-				while (rs.next()){
-					if (!rs.getField("Project Group").isEmpty()){
-						isKPIExist = true;
-					}
-				}
-				rs.close();
-				conn.close();
-			}catch(FilloException e){
-				return isKPIExist;
-			}
-			return isKPIExist;
-		}
+//		public boolean isKPIExistInExcel(String parentContent, String content){
+//			boolean isKPIExist = false;
+//			try{
+//				System.setProperty("ROW", "6");//Table start row
+//				System.setProperty("COLUMN", "1");//Table start column
+//				Fillo fillo = new Fillo();
+//				Connection conn = fillo.getConnection(Details.path);
+////				Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Design Matrix - Template v2.0.XLSM");
+//				String executionQuery = "Select * from `Sourcing Library` where `Content` = '"+content+"' and 'ParentContent' = '"+parentContent+"'";
+//				Recordset rs = conn.executeQuery(executionQuery);
+//				while (rs.next()){
+//					if (!rs.getField("Project Group").isEmpty()){
+//						isKPIExist = true;
+//					}
+//				}
+//				rs.close();
+//				conn.close();
+//			}catch(FilloException e){
+//				return isKPIExist;
+//			}
+//			return isKPIExist;
+//		}
 		
 		public String getProjectGroupInExcel(String projectGroup){
 			String value = "";
@@ -1221,8 +1221,7 @@ public class ParseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "1");//Table start column
 				Fillo fillo = new Fillo();
-				//				Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
+								Connection conn = fillo.getConnection(Details.path);
 
 				executionQuery = "Select * from `"+tableName+"` where `Parent Content Name`='"+contentName+"'";
 
@@ -1240,8 +1239,7 @@ public class ParseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "1");//Table start column
 				Fillo fillo = new Fillo();
-				//				Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
 
 				executionQuery = "Select * from `"+tableName+"` where `Content Name`='"+contentName+"'";
 
@@ -1258,8 +1256,7 @@ public class ParseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "1");//Table start column
 				Fillo fillo = new Fillo();
-				//				Connection conn = fillo.getConnection(Details.path);
-				Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
+				Connection conn = fillo.getConnection(Details.path);
 
 				executionQuery = "Select * from `"+tableName+"` where `Sub-Content Name`='"+contentName+"'";
 
