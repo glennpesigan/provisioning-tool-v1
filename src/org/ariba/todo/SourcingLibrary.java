@@ -127,8 +127,7 @@ public class SourcingLibrary {
 			action.waitFor(2);
 			action.sendKeysEnter(By.linkText(title));
 			action.click(Element.lnkEditOpen);
-			action.waitForButtonToExist("Done", 5);
-			
+			action.waitForButtonToExist("Done", 5);			
 			action.configureSourcingLibrary();
 			action.waitFor(2);
 			action.clickButton("Done");
