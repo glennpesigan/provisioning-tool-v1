@@ -121,11 +121,11 @@ public class SourcingLibrary {
 		case"Update Existing":
 			if (!folder.isEmpty()){
 				action.sendKeysEnter(By.linkText(folder));
-				
 				action.click(Element.lnkOpen);
 			}
 			action.waitFor(2);
 			action.sendKeysEnter(By.linkText(title));
+			action.waitFor(2);
 			action.click(Element.lnkEditOpen);
 			action.waitForButtonToExist("Done", 5);			
 			action.configureSourcingLibrary();
