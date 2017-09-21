@@ -6186,17 +6186,10 @@ public class Commands {
 					
 			}
 			
-<<<<<<< HEAD
-			for(String lnkToDelete:lnksToDelete) {
-				if(explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"), 5)!=null) {
-					click(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"));
-
-=======
 
 			for(String lnkToDelete:lnksToDelete) {
 				if(explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"), 5)!=null) {
 					click(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"));
->>>>>>> a58c6045b1c2c2e7832fcfcf4cede3610fd0a9e1
 					clickButton("Delete");
 					if(isElementVisible(Element.btnOK,5)) {
 						click(Element.btnOK);
