@@ -6170,6 +6170,8 @@ public class Commands {
 
 	}
 	
+	
+	
 	public void deleteSourcingLibraryComponents() {
 		List<String> lnksToDelete = new ArrayList<String>();
 		if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"), 5)!=null) {
@@ -6608,7 +6610,44 @@ public class Commands {
 		click(Element.btnOK);
 	}
 
+	public void editTableSection(String content) {
 
+		String [] section = content.split("\\^", -1);
+		String parentContent = section[1].trim();
+		String name = section[2].trim();
+		String description = section[3].trim();
+		String visibleToParticipant = section[4].trim();
+		String teamAccessControl = section[5].trim();
+		String subContent = section[6].trim();
+
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+			click(Element.btnAdd);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", parentContent);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", name);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", subContent);
+		}
+
+		inputDescription(Element.txtProjectDescription, description);
+		populateDropdownAlt("Visible to Participant", visibleToParticipant);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+		//			clickButton("OK");
+		//			clickButton("Done");
+		waitFor(2);
+		click(Element.btnOK);
+	}
+
+	
+	
 
 	//Attachment From Desktop - Event Content
 	public void addAttachmentFromDesktopEventContent(String content){
@@ -6874,7 +6913,8 @@ public class Commands {
 					break;
 					
 				case "Table Section":
-//					editTableSection(sL);
+					editTableSection(sL);
+					addTableSection(sL);
 					break;
 				
 				case "Lot":
