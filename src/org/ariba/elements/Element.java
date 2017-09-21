@@ -80,7 +80,7 @@ public class Element {
 	
 	//Actions
 	public final static By lnkOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//b[text()='Open']");
-	public final static By lnkEditOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(@class,'w-pmi-item') and contains(.,'Open')]//b");
+	public final static By lnkEditOpen = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(@class,'w-pmi-item') and contains(.,'Open')]");
 	public final static By lnkEditContent = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit')]");
 	public final static By lnkEditAttributes = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Attributes')]");
 	public final static By lnkEditTask = new By.ByXPath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Edit Task')]");
