@@ -16,8 +16,8 @@ public class Test {
 			System.setProperty("ROW", "3");//Table start row
 			System.setProperty("COLUMN", "1");//Table start column
 			Fillo fillo = new Fillo();
-//			Connection conn = fillo.getConnection(Details.path);
-			Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
+			Connection conn = fillo.getConnection(Details.path);
+//			Connection conn = fillo.getConnection("C:\\Users\\jan.dwain.f.domondon\\Documents\\Design Matrix - Template v2.0.XLSM");
 			
 				executionQuery = "Select * from `Event Content` where `Content` = 'Section' and `Content Name`='Attach signed copy of NDA'";
 			

@@ -1221,7 +1221,11 @@ public class ParseExcel {
 				System.setProperty("ROW", "3");//Table start row
 				System.setProperty("COLUMN", "1");//Table start column
 				Fillo fillo = new Fillo();
+<<<<<<< HEAD
 								Connection conn = fillo.getConnection(Details.path);
+=======
+				Connection conn = fillo.getConnection(Details.path);
+>>>>>>> 41b2175a8fe8a77ad423ccf68a8efa7b8b694236
 
 				executionQuery = "Select * from `"+tableName+"` where `Parent Content Name`='"+contentName+"'";
 
