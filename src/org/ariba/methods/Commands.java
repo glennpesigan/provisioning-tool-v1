@@ -5407,6 +5407,113 @@ public class Commands {
 	} 
 
 	//Done!!
+	
+	//**********************Edit Lot************************//
+	
+			public void editLot (String content){
+			
+			//String name, String description, String commod, String lotType, String visibleToParticipant, String teamAccessControl, String customOfflineResponse, String requiredYesNo, String applyAllItems, String requiredResponseYesNo
+			String [] lot = content.split("\\^", -1);
+			String parentContent = lot[1].trim();
+			String name = lot[2].trim();
+			String description = lot[3].trim();
+			String commod = lot[6].trim();
+			String lotType = lot[7].trim();
+			String visibleToParticipant = lot[4].trim();
+			String teamAccessControl = lot[5].trim();
+			String customOfflineResponse = lot[10].trim();
+//			String requiredYesNo = lot[1].trim();
+			String applyAllItems = lot[9].trim();
+			String requiredResponseYesNo = lot[8].trim();
+			String subContent = lot[14].trim();
+			
+			/*if (!parentContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Lot')]"));
+			}else{
+				click(Element.btnAdd);
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Lot')]"));
+			}*/
+			
+			if(isSectionExisting(content)) {
+				if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+					click(Element.lnkEditContent);
+					waitForButtonToExist("OK", 5);
+					populateTextField("Name", parentContent);
+				}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+name+"')]"));
+					click(Element.lnkEditContent);
+					waitForButtonToExist("OK", 5);
+					populateTextField("Name", name);
+				}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+subContent+"')]"));
+					click(Element.lnkEditContent);
+					waitForButtonToExist("OK", 5);
+					populateTextField("Name", subContent);
+				}
+			
+			
+			
+//			populateTextField("Name", name);
+			inputDescription(Element.txtProjectDescription, description);
+			waitFor(3);
+			populateCommodity("Commodity", commod);
+			
+			writeToLogs(">>Lot Type: " + lotType);
+//			switch (lotType){
+//			case "Item Lot - Bid at Item level, compete at Lot level (collect item pricing during bidding)":
+//				click(Element.rdoItemLot);
+//				break;
+	//
+//			case "Basket - Bid at Lot level, compete at Lot level (collect item pricing post bidding)":
+//				click(Element.rdoBasket);
+//				break;
+//			
+//			case "Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)":
+//				click(Element.rdoBasketNoItems);
+//				break;
+//					
+//			case "Bundle - Bid discounted value at Item level, compete at Lot level (collect item pricing during bidding)":
+//				click(Element.rdoBundle);
+//				break;
+//						
+//			}
+			
+			waitFor(3);
+			populateDropdown("Visible to Participant", visibleToParticipant);
+			waitFor(2);
+			
+			if (lotType.equals("Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)")){
+				if (customOfflineResponse.equals("Yes")){
+					writeToLogs(">>Custom Offline Response: Yes");
+					click(Element.btnDropDown);
+					click(Element.lnkYesCustom);
+				}
+				
+			}
+
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			waitFor(2);
+					
+			waitFor(2);
+			
+			populateRadioButton("Response required for this item or lot", requiredResponseYesNo);
+					
+			if (applyAllItems.equals("Yes")){
+				click(Element.chkApplyToAll);	
+			}
+
+			
+			clickButton("Done");
+			}
+		} 
+		
+
+		
+		//Done!!
 
 	//Add Question
 
@@ -6921,6 +7028,7 @@ public class Commands {
 				
 				case "Lot":
 //					editLot(sL);
+//					addLot(sL);
 					break;
 					
 				case "Line Item":

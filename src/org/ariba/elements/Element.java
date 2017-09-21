@@ -149,8 +149,8 @@ public class Element {
 	public final static By rdoBasketNoItems = new By.ByXPath("//span[starts-with(text(),'Basket with No Items')]/preceding-sibling::div//label");
 	public final static By rdoBundle = new By.ByXPath("//span[starts-with(text(),'Bundle')]/preceding-sibling::div//label");
 	public final static By chkApplyToAll = new By.ByXPath("//td[contains(text(),'Apply to all items and lots')]//label");
-//	public final static By btnDropDown = new By.ByXPath("//div[@id='_gxv6gb']/span[2]");
-//	public final static By lnkYesCustom = new By.ById("_gxv6gb1");
+	public final static By btnDropDown = new By.ByXPath("//div[@id='_gxv6gb']/span[2]");
+	public final static By lnkYesCustom = new By.ById("_gxv6gb1");
 	
 	
 	//Add Question
