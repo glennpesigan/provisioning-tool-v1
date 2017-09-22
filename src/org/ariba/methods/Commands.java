@@ -6141,11 +6141,11 @@ public class Commands {
 		String parentContent = section[1].trim();
 		String name = section[2].trim();
 
-		String description = section[3].trim();
-		String visibleToParticipant = section[4].trim();
-		String teamAccessControl = section[5].trim();
+		String description = section[4].trim();
+		String visibleToParticipant = section[5].trim();
+		String teamAccessControl = section[6].trim();
 
-		String subContent = section[6].trim();
+		String subContent = section[3].trim();
 		//			String visibilityCondition = section[2].trim();
 		//			String select = section[2].trim();
 		//			String selectCondition = section[2].trim();
@@ -6210,12 +6210,11 @@ public class Commands {
 		String parentContent = section[1].trim();
 		String name = section[2].trim();
 
-		String description = section[3].trim();
-		String visibleToParticipant = section[4].trim();
-		String teamAccessControl = section[5].trim();
+		String description = section[4].trim();
+		String visibleToParticipant = section[5].trim();
+		String teamAccessControl = section[6].trim();
 
-		String subContent = section[6].trim();
-
+		String subContent = section[3].trim();
 		
 		
 		if(isSectionExisting(content)) {
@@ -6266,6 +6265,7 @@ public class Commands {
 		String parentContent = section[1].trim();
 		String name = section[2].trim();		
 		String subContent = section[3].trim();
+
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"), 5)!=null) {
@@ -6706,10 +6706,10 @@ public class Commands {
 		String [] section = content.split("\\^", -1);
 		String parentContent = section[1].trim();
 		String name = section[2].trim();
-		String description = section[3].trim();
-		String visibleToParticipant = section[4].trim();
-		String teamAccessControl = section[5].trim();
-		String subContent = section[6].trim();
+		String description = section[4].trim();
+		String visibleToParticipant = section[5].trim();
+		String teamAccessControl = section[6].trim();
+		String subContent = section[3].trim();
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
@@ -6744,10 +6744,10 @@ public class Commands {
 		String [] section = content.split("\\^", -1);
 		String parentContent = section[1].trim();
 		String name = section[2].trim();
-		String description = section[3].trim();
-		String visibleToParticipant = section[4].trim();
-		String teamAccessControl = section[5].trim();
-		String subContent = section[6].trim();
+		String description = section[4].trim();
+		String visibleToParticipant = section[5].trim();
+		String teamAccessControl = section[6].trim();
+		String subContent = section[3].trim();
 
 		if(isSectionExisting(content)) {
 
