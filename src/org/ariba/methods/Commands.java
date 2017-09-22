@@ -4939,21 +4939,23 @@ public class Commands {
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
 		}*/
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'KPI')]"));
 			waitForButtonToExist("OK", 5);
-			populateTextField("Name", subContent);
+			populateTextField("Name", subContent);		
+		}else{
+			return;
 		}
 
 		//		populateTextField("Name", name);
@@ -5334,21 +5336,23 @@ public class Commands {
 		}*/
 
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Lot')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Lot')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Lot')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", subContent);
+		}else{
+			return;
 		}
 
 
@@ -7025,8 +7029,8 @@ public class Commands {
 					break;
 				
 				case "Lot":
-//					editLot(sL);
-//					addLot(sL);
+					editLot(sL);
+					addLot(sL);
 					break;
 					
 				case "Line Item":
