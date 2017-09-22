@@ -4914,19 +4914,23 @@ public class Commands {
 		String parentContent = kpi[1].trim();
 		
 		String name = kpi[2].trim();
-		String description = kpi[3].trim();
-		String kpiType = kpi[6].trim();
-		String kpiSource = kpi[7].trim();
-		String valueType = kpi[8].trim();
-		String numberDecimalPlaces = kpi[9].trim();
-		String acceptValues = kpi[10].trim();
-		String documentFile = kpi[14].trim();
-		String visibleToSupplier = kpi[4].trim();
-		String teamAccessControl = kpi[5].trim();
-		String rangeLower = kpi[11].trim();
-		String rangeUpper = kpi[12].trim();
-		String reportMetric = kpi[13].trim();
-		String subContent = kpi[17].trim();
+		String subContent = kpi[3].trim();
+		String description = kpi[4].trim();
+		String visibleToSupplier = kpi[5].trim();
+		String teamAccessControl = kpi[6].trim();
+		String kpiType = kpi[7].trim();
+		String kpiSource = kpi[8].trim();
+		String valueType = kpi[9].trim();
+		String numberDecimalPlaces = kpi[10].trim();
+		String acceptValues = kpi[11].trim();
+		String rangeLower = kpi[12].trim();
+		String rangeUpper = kpi[13].trim();
+		String reportMetric = kpi[14].trim();
+		String documentFile = kpi[15].trim();
+//		String searchFile = kpi[16].trim();
+//		String exploreFile = kpi[17].trim();
+
+
 		
 		boolean createKPIunderKPI = false;
 
@@ -5083,19 +5087,21 @@ public class Commands {
 		String parentContent = kpi[1].trim();
 		
 		String name = kpi[2].trim();
-		String description = kpi[3].trim();
-		String kpiType = kpi[6].trim();
-		String kpiSource = kpi[7].trim();
-		String valueType = kpi[8].trim();
-		String numberDecimalPlaces = kpi[9].trim();
-		String acceptValues = kpi[10].trim();
-		String documentFile = kpi[14].trim();
-		String visibleToSupplier = kpi[4].trim();
-		String teamAccessControl = kpi[5].trim();
-		String rangeLower = kpi[11].trim();
-		String rangeUpper = kpi[12].trim();
-		String reportMetric = kpi[13].trim();
-		String subContent = kpi[17].trim();
+		String subContent = kpi[3].trim();
+		String description = kpi[4].trim();
+		String visibleToSupplier = kpi[5].trim();
+		String teamAccessControl = kpi[6].trim();
+		String kpiType = kpi[7].trim();
+		String kpiSource = kpi[8].trim();
+		String valueType = kpi[9].trim();
+		String numberDecimalPlaces = kpi[10].trim();
+		String acceptValues = kpi[11].trim();
+		String rangeLower = kpi[12].trim();
+		String rangeUpper = kpi[13].trim();
+		String reportMetric = kpi[14].trim();
+		String documentFile = kpi[15].trim();
+//		String searchFile = kpi[16].trim();
+//		String exploreFile = kpi[17].trim();
 		
 		boolean createKPIunderKPI = false;
 		
@@ -5317,16 +5323,16 @@ public class Commands {
 		String [] lot = content.split("\\^", -1);
 		String parentContent = lot[1].trim();
 		String name = lot[2].trim();
+		String subContent = lot[14].trim();
 		String description = lot[3].trim();
-		String commod = lot[6].trim();
-		String lotType = lot[7].trim();
 		String visibleToParticipant = lot[4].trim();
 		String teamAccessControl = lot[5].trim();
-		String customOfflineResponse = lot[10].trim();
-		//		String requiredYesNo = lot[1].trim();
-		String applyAllItems = lot[9].trim();
+		String commod = lot[6].trim();
+		String lotType = lot[7].trim();
 		String requiredResponseYesNo = lot[8].trim();
-		String subContent = lot[14].trim();
+		String applyAllItems = lot[9].trim();
+		String customOfflineResponse = lot[10].trim();
+//		String requiredYesNo = lot[1].trim();
 
 		/*if (!parentContent.isEmpty()){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
@@ -5421,16 +5427,19 @@ public class Commands {
 			String [] lot = content.split("\\^", -1);
 			String parentContent = lot[1].trim();
 			String name = lot[2].trim();
+			String subContent = lot[14].trim();
 			String description = lot[3].trim();
-			String commod = lot[6].trim();
-			String lotType = lot[7].trim();
 			String visibleToParticipant = lot[4].trim();
 			String teamAccessControl = lot[5].trim();
+			String commod = lot[6].trim();
+			String lotType = lot[7].trim();
+			String requiredResponseYesNo = lot[8].trim();
+			String applyAllItems = lot[9].trim();
 			String customOfflineResponse = lot[10].trim();
 //			String requiredYesNo = lot[1].trim();
-			String applyAllItems = lot[9].trim();
-			String requiredResponseYesNo = lot[8].trim();
-			String subContent = lot[14].trim();
+
+
+
 			
 			/*if (!parentContent.isEmpty()){
 				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
@@ -5442,19 +5451,20 @@ public class Commands {
 			
 			if(isSectionExisting(content)) {
 				if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+//					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
 					click(Element.lnkEditContent);
 					waitForButtonToExist("OK", 5);
 					populateTextField("Name", parentContent);
 				}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+name+"')]"));
+					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+//					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+name+"')]"));
 					click(Element.lnkEditContent);
 					waitForButtonToExist("OK", 5);
 					populateTextField("Name", name);
 				}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+subContent+"')]"));
+					clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+subContent+"']"));
+//					click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+subContent+"')]"));
 					click(Element.lnkEditContent);
 					waitForButtonToExist("OK", 5);
 					populateTextField("Name", subContent);
@@ -6255,36 +6265,30 @@ public class Commands {
 		String [] section = content.split("\\^", -1);
 		String parentContent = section[1].trim();
 		String name = section[2].trim();		
-		String subContent = section[section.length-1].trim();
-
-		writeToLogs("Parent Content:"+parentContent);
-		writeToLogs("Content:"+name);
-		writeToLogs("Sub Content:"+subContent);
-		writeToLogs("isSectionExisting");
-
+		String subContent = section[3].trim();
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"), 5)!=null) {
-				writeToLogs(parentContent+" is existing");
+
 				return true;
 			}else {
-				writeToLogs(parentContent+" is not existing");
+
 				return false;
 			}
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
-				writeToLogs(name+" is existing");
+	
 				return true;
 			}else {
-				writeToLogs(name+" is not existing");
+	
 				return false;
 			}
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"), 5)!=null) {
-				writeToLogs(subContent+" is existing");
+
 				return true;
 			}else {
-				writeToLogs(subContent+" is not existing");
+
 				return false;
 			}
 		}
@@ -7039,8 +7043,8 @@ public class Commands {
 					break;
 				
 				case "Lot":
-//					editLot(sL);
-//					addLot(sL);
+					editLot(sL);
+					addLot(sL);
 					break;
 					
 				case "Line Item":
