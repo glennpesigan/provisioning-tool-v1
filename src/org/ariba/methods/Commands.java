@@ -6135,54 +6135,54 @@ public class Commands {
 		//			String select = section[2].trim();
 		//			String selectCondition = section[2].trim();
 
-		
 
-			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
-				click(Element.btnAdd);
-				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-				waitForButtonToExist("OK", 5);
-				populateTextField("Name", parentContent);
-			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
-				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-				click(By.xpath("//div[@class='awmenu w-pm-m2enu']//a[contains(text(),'Section')]"));
-				waitForButtonToExist("OK", 5);
-				populateTextField("Name", name);
-			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()&&!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
-				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-				waitForButtonToExist("OK", 5);
-				populateTextField("Name", subContent);
-			}else {
-				return;
-			}
 
-			inputDescription(Element.txtProjectDescription, description);
-			populateDropdownAlt("Visible to Participant", visibleToParticipant);
-			populateChooserMultiple("Team Access Control", teamAccessControl);
-			waitFor(2);
-			click(Element.btnOK);
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
+			click(Element.btnAdd);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", parentContent);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-m2enu']//a[contains(text(),'Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", name);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
+			waitForButtonToExist("OK", 5);
+			populateTextField("Name", subContent);
+		}else {
+			return;
+		}
 
-			// *************************************Cannot create condition
-			// click(Element.lnkVisibilityCondition);
-			// switch(visibilityCondition){
-			// case "Others":
-			// click(Element.lnkOthers);
-			// populateDropdown("Select", select);
-			// populateTextField("Name", name);
-			// click(Element.btnSearchField);
-			// populateChooserMultiple("Visibility Condition", selectCondition);
-			// clickButton("Done");
-			// break;
+		inputDescription(Element.txtProjectDescription, description);
+		populateDropdownAlt("Visible to Participant", visibleToParticipant);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+		waitFor(2);
+		click(Element.btnOK);
 
-			// case "Create Condition":
-			// click(Element.lnkCreateCondition);
-			// some code here
-			// clickButton("OK");
-			// break;
-			// }
-			// clickButton("Done");
-			// End of Condition******************************************
-		
+		// *************************************Cannot create condition
+		// click(Element.lnkVisibilityCondition);
+		// switch(visibilityCondition){
+		// case "Others":
+		// click(Element.lnkOthers);
+		// populateDropdown("Select", select);
+		// populateTextField("Name", name);
+		// click(Element.btnSearchField);
+		// populateChooserMultiple("Visibility Condition", selectCondition);
+		// clickButton("Done");
+		// break;
+
+		// case "Create Condition":
+		// click(Element.lnkCreateCondition);
+		// some code here
+		// clickButton("OK");
+		// break;
+		// }
+		// clickButton("Done");
+		// End of Condition******************************************
+
 
 	}
 
@@ -6693,21 +6693,23 @@ public class Commands {
 		String teamAccessControl = section[5].trim();
 		String subContent = section[6].trim();
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
 			waitForButtonToExist("OK", 5);
 			populateTextField("Name", subContent);
+		}else {
+			return;
 		}
 
 		inputDescription(Element.txtProjectDescription, description);
@@ -6729,30 +6731,26 @@ public class Commands {
 		String teamAccessControl = section[5].trim();
 		String subContent = section[6].trim();
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-			click(Element.btnAdd);
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Table Section')]"));
-			waitForButtonToExist("OK", 5);
-			populateTextField("Name", subContent);
-		}
+		if(isSectionExisting(content)) {
 
-		inputDescription(Element.txtProjectDescription, description);
-		populateDropdownAlt("Visible to Participant", visibleToParticipant);
-		populateChooserMultiple("Team Access Control", teamAccessControl);
-		//			clickButton("OK");
-		//			clickButton("Done");
-		waitFor(2);
-		click(Element.btnOK);
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"));
+			}
+
+			click(Element.lnkEdit);
+
+			inputDescription(Element.txtProjectDescription, description);
+			populateDropdownAlt("Visible to Participant", visibleToParticipant);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			//			clickButton("OK");
+			//			clickButton("Done");
+			waitFor(2);
+			clickButton("Done");
+		}
 	}
 
 	
