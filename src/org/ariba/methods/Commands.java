@@ -982,7 +982,7 @@ public class Commands {
 			WebElement element = wait.until(ExpectedConditions.presenceOfElementLocated(locator));
 			return element;
 		}catch(Exception e){
-			System.out.println("[info] Failed to explicitly wait for element with locator: " + locator.toString());
+			writeToLogs("[info] Failed to explicitly wait for element with locator: " + locator.toString());
 			return null;
 		}
 	}
@@ -5244,6 +5244,7 @@ public class Commands {
 		populateChooserMultiple("Team Access Control", teamAccessControl);
 		
 		clickButton("Done");
+		
 		}
 		
 	}
@@ -6253,28 +6254,37 @@ public class Commands {
 	public boolean isSectionExisting(String content) {
 		String [] section = content.split("\\^", -1);
 		String parentContent = section[1].trim();
-		String name = section[2].trim();
+		String name = section[2].trim();		
+		String subContent = section[section.length-1].trim();
 
-		String subContent = section[6].trim();
-
+		writeToLogs("Parent Content:"+parentContent);
+		writeToLogs("Content:"+name);
+		writeToLogs("Sub Content:"+subContent);
+		writeToLogs("isSectionExisting");
 
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"), 5)!=null) {
+				writeToLogs(parentContent+" is existing");
 				return true;
 			}else {
+				writeToLogs(parentContent+" is not existing");
 				return false;
 			}
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"), 5)!=null) {
+				writeToLogs(name+" is existing");
 				return true;
 			}else {
+				writeToLogs(name+" is not existing");
 				return false;
 			}
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
 			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"), 5)!=null) {
+				writeToLogs(subContent+" is existing");
 				return true;
 			}else {
+				writeToLogs(subContent+" is not existing");
 				return false;
 			}
 		}
@@ -7029,8 +7039,8 @@ public class Commands {
 					break;
 				
 				case "Lot":
-					editLot(sL);
-					addLot(sL);
+//					editLot(sL);
+//					addLot(sL);
 					break;
 					
 				case "Line Item":

@@ -663,38 +663,38 @@ public class ParseExcel {
 				switch (rs.getField("Content")){
 				
 				case "KPI":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
 							rs.getField("KPI Type") + "^" + rs.getField("KPI Source") + "^" + rs.getField("Value Type") + "^" + rs.getField("Number of decimal places") + "^" + rs.getField("Acceptable Values") + "^" + rs.getField("Range From") + "^" + rs.getField("Range To") + "^" + rs.getField("Report Metric") + "^" + 
-							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File") + "^" + rs.getField("Sub-Content Name"));
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
 					break;
 				
 				case "Section":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control"));
 					break;
 					
 				case "Table Section":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control"));
 					break;
 				
 				case "Lot":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("Commodity (Lot)") + "^" + rs.getField("Lot Type") + "^" + rs.getField("Response Required for this item or lot") + "^" + rs.getField("Apply to All Items and Lots") + "^" + rs.getField("Customized Offline Responses") + "^" + rs.getField("Extended Price (Initial)") + "^" + rs.getField("Extended Price (Historic)") + "^" + rs.getField("Extended Price (Reserve)") + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Commodity (Lot)") + "^" + rs.getField("Lot Type") + "^" + rs.getField("Response Required for this item or lot") + "^" + rs.getField("Apply to All Items and Lots") + "^" + rs.getField("Customized Offline Responses") + "^" + rs.getField("Extended Price (Initial)") + "^" + rs.getField("Extended Price (Historic)") + "^" + rs.getField("Extended Price (Reserve)") );
 					break;
 					
 				case "Line Item":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("Commodity (Line Item)") + "^" + rs.getField("Customize Offline Response") + "^" + rs.getField("Response required for this item or lot") + "^" + rs.getField("Apply to all items and lots") + "^" + rs.getField("Unit or Extended Bidding") + "^" + rs.getField("Price/Extended Price (initial)") + "^" + rs.getField("Price/Extended Price (historic)") + "^" + rs.getField("Price/Extended Price (reserve)") + "^" + rs.getField("Quantity")  + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Commodity (Line Item)") + "^" + rs.getField("Customize Offline Response") + "^" + rs.getField("Response required for this item or lot") + "^" + rs.getField("Apply to all items and lots") + "^" + rs.getField("Unit or Extended Bidding") + "^" + rs.getField("Price/Extended Price (initial)") + "^" + rs.getField("Price/Extended Price (historic)") + "^" + rs.getField("Price/Extended Price (reserve)") + "^" + rs.getField("Quantity"));
 					break;
 					
 				case "Question":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
 							rs.getField("Include in Cost") + "^" + rs.getField("Is this a prerequisite question to continue with the event?") + "^" + rs.getField("Owner must review responses before participants can continue with the event") + "^" + rs.getField("Answer Type") + "^" + rs.getField("Number of Decimal Places") + "^" + rs.getField("Acceptable Values") + "^" + rs.getField("Response Required") + "^" + rs.getField("Hide participant's reponses from each other") + "^" + rs.getField("Participant can add comments and attachments") + "^" + rs.getField("Use participant-specific initial values") + "^" + rs.getField("Customized offline response") + "^" + rs.getField("Initial Value") + "^" + rs.getField("Range from") + "^" + rs.getField("Range to") + "^" + rs.getField("Allow participants to specify other value?") + "^" + rs.getField("Allow participants to select multiple values?") + "^" + rs.getField("Value List of Choices") + "^" + rs.getField("Set Default") + "^" +
-							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File")  + "^" + rs.getField("Sub-Content Name"));
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
 					break;
 					
 				case "Requirement":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File")  + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
 					break;
 					
 				case "Attachment":
@@ -713,18 +713,18 @@ public class ParseExcel {
 					break;
 					
 				case "Cost Terms":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("Customized offline Response")  + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Customized offline Response"));
 					break;
 					
 				case "Formula":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
-							rs.getField("Formula") + "^" + rs.getField("Result Type") + "^" + rs.getField("Number of Decimal Places") + "^" + rs.getField("Response Required?") + "^" + rs.getField("Hide Participant's Responses from each other")  + "^" + rs.getField("Sub-Content Name")); 
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Formula") + "^" + rs.getField("Result Type") + "^" + rs.getField("Number of Decimal Places") + "^" + rs.getField("Response Required?") + "^" + rs.getField("Hide Participant's Responses from each other")); 
 					break;
 					
 				case "Content From Library":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + 
-							rs.getField("Content from Library") + "^" + rs.getField("Add Content From Library") + "^" + rs.getField("Copy Visibility") + "^" + rs.getField("External System") + "^" + rs.getField("All Content") + "^" + rs.getField("Title/Keywords") + "^" + rs.getField("Search Item") + "^" + rs.getField("From") + "^" + rs.getField("Project Type")  + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + 
+							rs.getField("Content from Library") + "^" + rs.getField("Add Content From Library") + "^" + rs.getField("Copy Visibility") + "^" + rs.getField("External System") + "^" + rs.getField("All Content") + "^" + rs.getField("Title/Keywords") + "^" + rs.getField("Search Item") + "^" + rs.getField("From") + "^" + rs.getField("Project Type")  + "^" + rs.getField("Content Name"));
 					break;
 					
 				}
