@@ -147,6 +147,7 @@ public class Element {
 	public final static By rdoItemLot = new By.ByXPath("//span[starts-with(text(),'Item Lot')]/preceding-sibling::div//label");
 	public final static By rdoBasket = new By.ByXPath("//span[starts-with(text(),'Basket')]/preceding-sibling::div//label");
 	public final static By rdoBasketNoItems = new By.ByXPath("//span[starts-with(text(),'Basket with No Items')]/preceding-sibling::div//label");
+	public final static By rdoBidAtItemLevel = new By.ByXPath("//span[starts-with(text(),'Bid at Item Level')]/preceding-sibling::div//label");
 	public final static By rdoBundle = new By.ByXPath("//span[starts-with(text(),'Bundle')]/preceding-sibling::div//label");
 	public final static By chkApplyToAll = new By.ByXPath("//td[contains(text(),'Apply to all items and lots')]//label");
 	public final static By btnDropDown = new By.ByXPath("//div[@id='_gxv6gb']/span[2]");

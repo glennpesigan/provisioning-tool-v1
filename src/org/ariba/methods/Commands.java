@@ -5255,61 +5255,6 @@ public class Commands {
 		
 	}
 	
-//	public void updateKPI (){
-//
-//		List <WebElement> row = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
-//		ParseExcel retrieve = new ParseExcel();
-//		List <String> editKpi = retrieve.getSourcingLibrary();
-//		for (String kpi : editKpi){
-//			String [] eKPI = kpi.split("~", -1);
-//			String content = eKPI[0].trim();
-//			if (!content.equals("KPI")){				
-//				for (int i=1; i<=row.size(); i++){
-//					WebElement objCheck = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);					
-//					if (objCheck.getAttribute("class").trim().contains("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]")){
-//						WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
-//						String kpiUI = objKPI.getText().replace("*", "").trim();
-//						System.out.println("i=" + i + " kpiUI: " + kpiUI);						
-//						if (retrieve.isKPIExistInExcel(content, kpiUI)){
-//							writeToLogs("KPI: " + kpiUI + " exists in Excel");
-//							editKPI(kpiUI);
-//						}
-//		
-//					}
-//			}
-//		}				
-//			
-//	}
-		
-//		List <String> addKpi = retrieve.getSourcingLibrary();
-//		for(String kpi : addKpi){
-//			String [] aKPI = kpi.split("~", -1);
-//			String contentName = aKPI[1].trim();		
-//			if (!isKPIExistInUI(contentName)){
-//				//add folder
-//				System.out.println("KPI '" +contentName+ "' is not exists in UI.");
-//				addKPI(contentName);
-//			}
-//			
-//		}	
-		
-//	}
-	
-//	public boolean isKPIExistInUI(String parentContent){	
-//		boolean isExist = false;
-//		List<WebElement> rows = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
-//		for (int i=1; i<=rows.size(); i++){
-//			WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
-//			if (objKPI.getAttribute("class").trim().contains("awmenuLink hoverLink hoverArrow")){
-//				String kpiUI = objKPI.getText().trim();
-//				System.out.println("Get Text: " + kpiUI);
-//				if(kpiUI.equals(parentContent)){
-//					return isExist = true;
-//				}
-//			}
-//		}
-//		return isExist;
-//	}
 	
 	
 	
@@ -5323,15 +5268,15 @@ public class Commands {
 		String [] lot = content.split("\\^", -1);
 		String parentContent = lot[1].trim();
 		String name = lot[2].trim();
-		String subContent = lot[14].trim();
-		String description = lot[3].trim();
-		String visibleToParticipant = lot[4].trim();
-		String teamAccessControl = lot[5].trim();
-		String commod = lot[6].trim();
-		String lotType = lot[7].trim();
-		String requiredResponseYesNo = lot[8].trim();
-		String applyAllItems = lot[9].trim();
-		String customOfflineResponse = lot[10].trim();
+		String subContent = lot[3].trim();
+		String description = lot[4].trim();
+		String visibleToParticipant = lot[5].trim();
+		String teamAccessControl = lot[6].trim();
+		String commod = lot[7].trim();
+		String lotType = lot[8].trim();
+		String requiredResponseYesNo = lot[9].trim();
+		String applyAllItems = lot[10].trim();
+		String customOfflineResponse = lot[11].trim();
 //		String requiredYesNo = lot[1].trim();
 
 		/*if (!parentContent.isEmpty()){
@@ -5381,10 +5326,15 @@ public class Commands {
 
 		case "Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)":
 			click(Element.rdoBasketNoItems);
+			waitFor(2);
+			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
 			break;
 
 		case "Bundle - Bid discounted value at Item level, compete at Lot level (collect item pricing during bidding)":
 			click(Element.rdoBundle);
+			break;
+		case "Bid at Item Level, Compete at Item Level":
+			click(Element.rdoBidAtItemLevel);
 			break;
 
 		}
@@ -5393,14 +5343,14 @@ public class Commands {
 		populateDropdown("Visible to Participant", visibleToParticipant);
 		waitFor(2);
 
-		if (lotType.equals("Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)")){
-			/*if (customOfflineResponse.equals("Yes")){
-				writeToLogs(">>Custom Offline Response: Yes");
-				click(Element.btnDropDown);
-				click(Element.lnkYesCustom);
-			}*/
-			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
-		}
+//		if (lotType.equals("Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)")){
+//			/*if (customOfflineResponse.equals("Yes")){
+//				writeToLogs(">>Custom Offline Response: Yes");
+//				click(Element.btnDropDown);
+//				click(Element.lnkYesCustom);
+//			}*/
+//			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
+//		}
 
 		populateChooserMultiple("Team Access Control", teamAccessControl);
 		waitFor(2);
@@ -5427,15 +5377,15 @@ public class Commands {
 			String [] lot = content.split("\\^", -1);
 			String parentContent = lot[1].trim();
 			String name = lot[2].trim();
-			String subContent = lot[14].trim();
-			String description = lot[3].trim();
-			String visibleToParticipant = lot[4].trim();
-			String teamAccessControl = lot[5].trim();
-			String commod = lot[6].trim();
-			String lotType = lot[7].trim();
-			String requiredResponseYesNo = lot[8].trim();
-			String applyAllItems = lot[9].trim();
-			String customOfflineResponse = lot[10].trim();
+			String subContent = lot[3].trim();
+			String description = lot[4].trim();
+			String visibleToParticipant = lot[5].trim();
+			String teamAccessControl = lot[6].trim();
+			String commod = lot[7].trim();
+			String lotType = lot[8].trim();
+			String requiredResponseYesNo = lot[9].trim();
+			String applyAllItems = lot[10].trim();
+			String customOfflineResponse = lot[11].trim();
 //			String requiredYesNo = lot[1].trim();
 
 
@@ -7089,86 +7039,6 @@ public class Commands {
 					
 				}
 				break;
-				
-//			case "Delete":
-//
-//				String [] delete = sL.split("\\^", -1);
-//				String parentContent = delete[1].trim();
-//				switch (content[0].trim()){
-//				
-//				case "KPI":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//				
-//				case "Section":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Table Section":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//				
-//				case "Lot":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Line Item":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Question":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Requirement":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Attachment From Desktop":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Attachment From Library":				
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Cost Terms":
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				case "Formula":
-////					addFormula(sL);
-//					break;
-//					
-//				case "Content From Library":	
-//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
-//					clickButton("Delete");
-//					clickButton("OK");
-//					break;
-//					
-//				}
-//				
-//				break;
 			}
 
 			writeToLogs("");
