@@ -236,7 +236,7 @@ public class Commands {
 
 		if (!notificationDays.isEmpty()){
 			String [] notifDays = notificationDays.split("-");
-			System.out.println(notifDays[0] + " - " + notifDays[1]);
+			writeToLogs(notifDays[0] + " - " + notifDays[1]);
 			populateTextField("Notification Days", notifDays[0]);
 			populateDropdown("Notification Days", notifDays[1]);
 		}
@@ -546,9 +546,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Input \"" + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Input \"" + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 			}
 		}catch(Exception e){
@@ -556,7 +556,6 @@ public class Commands {
 		}
 
 	}
-
 
 
 	public void populateTextArea(String field, String value) {
@@ -623,9 +622,9 @@ public class Commands {
 
 
 				if (populated){
-					System.out.println("[PASSED] Select\" " + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select\" " + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 
 
@@ -661,7 +660,7 @@ public class Commands {
 								waitFor(2);
 								if (explicitWait(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"), 5) != null){
 									click(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"));
-									System.out.println("Select " + val + " on " + field);
+									writeToLogs("Select " + val + " on " + field);
 									populated = true;
 									waitFor(2);
 								}else{
@@ -676,9 +675,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select\" " + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select\" " + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 
 			}
@@ -713,7 +712,7 @@ public class Commands {
 								waitFor(2);
 								if (explicitWait(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1')]//a[normalize-space()='"+val.trim()+"']/../../../../../../preceding-sibling::td//label"), 5) != null){
 									click(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1')]//a[normalize-space()='"+val.trim()+"']/../../../../../../preceding-sibling::td//label"));
-									System.out.println("Select " + val + " on " + field);
+									writeToLogs("Select " + val + " on " + field);
 									populated = true;
 									waitFor(2);
 								}else{
@@ -728,9 +727,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select\" " + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select\" " + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 
 			}
@@ -776,9 +775,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select \"" + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select \"" + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 
 			}
@@ -817,9 +816,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select \"" + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select \"" + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 			}
 		}catch(Exception e){
@@ -857,9 +856,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select \"" + value + "\" on " + field + " field.");
+					writeToLogs("[PASSED] Select \"" + value + "\" on " + field + " field.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field);
+					writeToLogs("[FAILED] Unable to populate the field " + field);
 				}
 			}
 		}catch(Exception e){
@@ -901,9 +900,9 @@ public class Commands {
 					}
 
 					if (populated){
-						System.out.println("[PASSED] Tick the checkbox for " + field + " field.");
+						writeToLogs("[PASSED] Tick the checkbox for " + field + " field.");
 					}else{
-						System.out.println("[FAILED] Unable to check the field " + field);
+						writeToLogs("[FAILED] Unable to check the field " + field);
 					}
 				}
 
@@ -919,7 +918,7 @@ public class Commands {
 
 		explicitWait(By.xpath("//td[@class='sectionHead' and contains(text(),'"+projectType+"')]/preceding-sibling::td//label"), 5);
 		click(By.xpath("//td[@class='sectionHead' and contains(text(),'"+projectType+"')]/preceding-sibling::td//label"));
-		System.out.println("Select " + projectType + " template.");
+		writeToLogs("Select " + projectType + " template.");
 		waitFor(2);
 		click(Element.btnOK);
 
@@ -939,7 +938,7 @@ public class Commands {
 					break;
 				}catch(Exception e){
 					if (count > 3){
-						System.out.println("[info] Input text ("+filePath+") failed on element with locator: " + By.xpath("//input[@type='file']").toString());
+						writeToLogs("[info] Input text ("+filePath+") failed on element with locator: " + By.xpath("//input[@type='file']").toString());
 						throw e;
 					}else{
 						waitFor(1);
@@ -998,10 +997,10 @@ public class Commands {
 				break;
 			}catch(Exception e){
 				if (count > 5){
-					System.out.println("[FAILED] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[FAILED] Click failed on element with locator: " + locator.toString());
 					throw e;
 				}else{
-					System.out.println("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
 					waitFor(1);
 					count++;
 				}
@@ -1019,10 +1018,10 @@ public class Commands {
 				return element.getText().trim();
 			}catch(Exception e){
 				if (count > 5){
-					System.out.println("[FAILED] Get text on element with locator: " + locator.toString());
+					writeToLogs("[FAILED] Get text on element with locator: " + locator.toString());
 					throw e;
 				}else{
-					System.out.println("[TRY: "+count+"] Get text on element with locator: " + locator.toString());
+					writeToLogs("[TRY: "+count+"] Get text on element with locator: " + locator.toString());
 					waitFor(1);
 					count++;
 				}
@@ -1041,10 +1040,10 @@ public class Commands {
 				break;
 			}catch(Exception e){
 				if (count > 5){
-					System.out.println("[FAILED] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[FAILED] Click failed on element with locator: " + locator.toString());
 					throw e;
 				}else{
-					System.out.println("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
 					waitFor(1);
 					count++;
 				}
@@ -1062,14 +1061,14 @@ public class Commands {
 					action.moveToElement(element).perform();
 					element.clear();
 					element.sendKeys(text);
-					System.out.println("[PASSED] Input \"" +text+ "\".");
+					writeToLogs("[PASSED] Input \"" +text+ "\".");
 					break;
 				}catch(Exception e){
 					if (count > 5){
-						System.out.println("[FAILED] Input text ("+text+") failed on element with locator: " + locator.toString());
+						writeToLogs("[FAILED] Input text ("+text+") failed on element with locator: " + locator.toString());
 						throw e;
 					}else{
-						System.out.println("[TRY: "+count+"] Input text ("+text+") failed on element with locator: " + locator.toString());
+						writeToLogs("[TRY: "+count+"] Input text ("+text+") failed on element with locator: " + locator.toString());
 						waitFor(1);
 						count++;
 					}
@@ -1087,7 +1086,7 @@ public class Commands {
 			click(By.tagName("body"));
 			inputText(By.tagName("body"),text);
 			writeToLogs(">>Description: " + text);
-			System.out.println("[PASSED] Input \"" +text+ "\" on Description field.");
+			writeToLogs("[PASSED] Input \"" +text+ "\" on Description field.");
 			driver.switchTo().defaultContent();
 			waitFor(3);
 		}
@@ -1122,7 +1121,7 @@ public class Commands {
 		explicitWait(Element.lblRequiredTasks, 5);
 		List <WebElement> row = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 
-		System.out.println("Number of rows in Tasks: " + row.size());
+		writeToLogs("Number of rows in Tasks: " + row.size());
 		ParseExcel retrieve = new ParseExcel();
 		String tasksToDelete = "";
 		String phaseToDelete = "";
@@ -1132,7 +1131,7 @@ public class Commands {
 			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
 				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
-				System.out.println("i=" + i + " Phase: " + phaseNameUI);
+				writeToLogs("i=" + i + " Phase: " + phaseNameUI);
 				if (retrieve.isPhaseExistInExcel(phaseNameUI)){
 					//Phase
 					writeToLogs("Phase: " + phaseNameUI + " exists in Excel");
@@ -1141,7 +1140,7 @@ public class Commands {
 					writeToLogs("Open " + phaseNameUI + " phase.");
 					waitFor(3);
 					List <WebElement> insidePhase = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
-					System.out.println("Sub Phase tasks row: " + insidePhase.size());
+					writeToLogs("Sub Phase tasks row: " + insidePhase.size());
 					rowCount = insidePhase.size();
 					if (isElementVisible(Element.lblNoItems, 0)){
 						rowCount = 0;
@@ -1153,7 +1152,7 @@ public class Commands {
 						if (objCheck1.getAttribute("title").trim().startsWith("Phase")){
 							WebElement objSubPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
 							String subPhaseNameUI = objSubPhaseName.getText().trim();
-							System.out.println("j=" + j + " Sub-phase: " + subPhaseNameUI);
+							writeToLogs("j=" + j + " Sub-phase: " + subPhaseNameUI);
 							if (retrieve.isSubPhaseExistInExcel(phaseNameUI, subPhaseNameUI)){
 								//Phase
 								writeToLogs("Sub Phase: " + subPhaseNameUI + " exists in Excel");
@@ -1173,7 +1172,7 @@ public class Commands {
 									if (objCheck2.getAttribute("title").trim().contains("Task")){
 										WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+k+"]//a[contains(@title,'Applicable:')]"),5);
 										String taskNameUI = objTaskName.getText().replace("*", "").trim();
-										System.out.println("k=" + k + " Task: " + taskNameUI);
+										writeToLogs("k=" + k + " Task: " + taskNameUI);
 										if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
 											//Edit Task
 											writeToLogs("Task '" + taskNameUI + "' is exists in excel.");
@@ -1182,7 +1181,7 @@ public class Commands {
 											//delete the task
 											//											deleteTask(taskNameUI);
 											writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-											System.out.println("For deletion: " + taskNameUI);
+											writeToLogs("For deletion: " + taskNameUI);
 											tasksToDeleteInsideSubPhase = "~" + taskNameUI + tasksToDeleteInsideSubPhase;
 										}
 									}
@@ -1205,14 +1204,14 @@ public class Commands {
 							}else{
 								//Delete Sub-phase
 								writeToLogs("Phase '" + subPhaseNameUI + "' is not exists in excel.");
-								System.out.println("For deletion: " + subPhaseNameUI);
+								writeToLogs("For deletion: " + subPhaseNameUI);
 								deletePhaseInsidePhase = "~" + subPhaseNameUI + deletePhaseInsidePhase;
 							}
 						}else if (objCheck1.getAttribute("title").trim().contains("Task")){
 							//Task
 							WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+j+"]//a[contains(@title,'Applicable:')]"),5);
 							String taskNameUI = objTaskName.getText().replace("*", "").trim();
-							System.out.println("j=" + j + " Task: " + taskNameUI);
+							writeToLogs("j=" + j + " Task: " + taskNameUI);
 							if (retrieve.isTaskExistInExcel(phaseNameUI,taskNameUI)){
 								//Edit Task
 								editTask(phaseNameUI, taskNameUI);
@@ -1220,7 +1219,7 @@ public class Commands {
 								//delete the task
 								//								deleteTask(taskNameUI);
 								writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-								System.out.println("For deletion: " + taskNameUI);
+								writeToLogs("For deletion: " + taskNameUI);
 								deleteTaskInsidePhase = "~" + taskNameUI + deleteTaskInsidePhase;
 							}
 
@@ -1253,14 +1252,14 @@ public class Commands {
 				}else{
 					//to delete phase
 					writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
-					System.out.println("For deletion: " + phaseNameUI);
+					writeToLogs("For deletion: " + phaseNameUI);
 					phaseToDelete = "~" + phaseNameUI + phaseToDelete;
 
 				}
 			}else if (objCheck.getAttribute("title").trim().contains("Task")){
 				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String taskNameUI = objTaskName.getText().replace("*", "").trim();
-				System.out.println("i=" + i + " Task: " + taskNameUI);
+				writeToLogs("i=" + i + " Task: " + taskNameUI);
 				if (retrieve.isTaskExistInExcel("",taskNameUI)){
 					//Edit Task
 					editTask("", taskNameUI);
@@ -1268,7 +1267,7 @@ public class Commands {
 					//delete the task
 					//					deleteTask(taskNameUI);
 					writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-					System.out.println("For deletion: " + taskNameUI);
+					writeToLogs("For deletion: " + taskNameUI);
 					tasksToDelete = "~" + taskNameUI + tasksToDelete;
 
 				}
@@ -1322,7 +1321,7 @@ public class Commands {
 		expandAllTasks();
 		List <WebElement> row = driver.findElements(By.xpath("//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1]"));
 
-		System.out.println("Number of rows in Tasks: " + row.size());
+		writeToLogs("Number of rows in Tasks: " + row.size());
 		ParseExcel retrieve = new ParseExcel();
 		List<String> arrPhaseToDelete = new ArrayList<String>();
 		List<String> arrTaskToDelete = new ArrayList<String>();
@@ -1335,7 +1334,7 @@ public class Commands {
 			if (objCheck.getAttribute("title").trim().startsWith("Phase")){
 				WebElement objPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseNameUI = objPhaseName.getText().trim();
-				System.out.println("i=" + i + " Phase: " + phaseNameUI);
+				writeToLogs("i=" + i + " Phase: " + phaseNameUI);
 				String phase = retrieve.getPhasePhaseBasedOnSubphase(phaseNameUI);
 				if(phase.trim().length()<=0||isElementVisible(By.partialLinkText(phase), 5)){
 					if (retrieve.isEventPhaseExistInExcel(phaseNameUI)){
@@ -1344,22 +1343,22 @@ public class Commands {
 					}else{
 						//to delete phase
 						writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
-						System.out.println("For deletion: " + phaseNameUI);
+						writeToLogs("For deletion: " + phaseNameUI);
 						arrPhaseToDelete.add(phaseNameUI);
 
 					}
 				}else {
 					writeToLogs("Phase '" + phaseNameUI + "' is not exists in excel.");
-					System.out.println("For deletion: " + phaseNameUI);
+					writeToLogs("For deletion: " + phaseNameUI);
 					arrPhaseToDelete.add(phaseNameUI);
 				}
 			}else if (objCheck.getAttribute("title").trim().contains("Task")){
 				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String taskNameUI = objTaskName.getText().replace("*", "").trim();
-				System.out.println("i=" + i + " Task: " + taskNameUI);
+				writeToLogs("i=" + i + " Task: " + taskNameUI);
 				String phase = retrieve.getPhaseBasedOnTask(taskNameUI);
 				String subphase = retrieve.getSubPhaseBasedOnTask(taskNameUI);
-				System.out.println("Phase:"+phase+" Subphase:"+subphase);
+				writeToLogs("Phase:"+phase+" Subphase:"+subphase);
 				if((phase.trim().length()<=0||isElementVisible(By.partialLinkText(phase), 5))&&(subphase.trim().length()<=0||isElementVisible(By.partialLinkText(subphase), 5))) {
 					if (retrieve.isTaskExistInExcel("",taskNameUI)){
 						//Edit Task
@@ -1368,13 +1367,13 @@ public class Commands {
 						//delete the task
 						//					deleteTask(taskNameUI);
 						writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-						System.out.println("For deletion: " + taskNameUI);
+						writeToLogs("For deletion: " + taskNameUI);
 						arrTaskToDelete.add(taskNameUI);
 
 					}
 				}else {
 					writeToLogs("Task '" + taskNameUI + "' is not exists in excel.");
-					System.out.println("For deletion: " + taskNameUI);
+					writeToLogs("For deletion: " + taskNameUI);
 					arrTaskToDelete.add(taskNameUI);
 				}
 			}
@@ -1857,12 +1856,12 @@ public class Commands {
 			if (objCheck2.getAttribute("title").trim().contains("Task")){
 				WebElement objTaskName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String taskNameUI = objTaskName.getText().replace("*", "").trim();
-				System.out.println("For deletion: " + taskNameUI);
+				writeToLogs("For deletion: " + taskNameUI);
 				tasksToDeleteInsidePhase = "~" + taskNameUI + tasksToDeleteInsidePhase;
 			}else if (objCheck2.getAttribute("title").trim().startsWith("Phase")){
 				WebElement objSubPhaseName = explicitWait(By.xpath("(//table[@class='tableBody']//tr[contains(@class,'awtDrg_planTree')]/td[1])["+i+"]//a[contains(@title,'Applicable:')]"),5);
 				String phaseName = objSubPhaseName.getText().trim();
-				System.out.println("For deletion: " + phaseName);
+				writeToLogs("For deletion: " + phaseName);
 				deletePhase(phaseName);
 			}
 		}
@@ -1878,7 +1877,7 @@ public class Commands {
 
 		if (isElementVisible(Element.lnkParentPhase, 5)){
 			sendKeysEnter(Element.lnkParentPhase);
-			System.out.println("Click Parent Phase.");
+			writeToLogs("Click Parent Phase.");
 		}
 
 		sendKeysEnter(By.linkText(phaseNameUI));
@@ -1911,7 +1910,7 @@ public class Commands {
 		String docAssociated = "";
 		if (isElementVisible(Element.lnkDocAssociated, 0)){
 			docAssociated = getElementText(Element.lnkDocAssociated);
-			System.out.println("Document Associated: " + docAssociated);
+			writeToLogs("Document Associated: " + docAssociated);
 		}
 
 		if (isElementVisible(Element.btnActions, 0)){
@@ -2018,7 +2017,7 @@ public class Commands {
 			populateChooserMultiple("Recipients", recipients);
 			if (!notificationDays.isEmpty()){
 				String [] notifDays = notificationDays.split("-");
-				System.out.println(notifDays[0] + " - " + notifDays[1]);
+				writeToLogs(notifDays[0] + " - " + notifDays[1]);
 				populateTextField("Notification Days", notifDays[0]);
 				populateDropdown("Notification Days", notifDays[1]);
 			}
@@ -2032,7 +2031,7 @@ public class Commands {
 
 		clickButton("OK");
 
-		System.out.println("Associated Document: " + associatedDocument);
+		writeToLogs("Associated Document: " + associatedDocument);
 
 		if (!associatedDocument.isEmpty()&&!associatedDocument.equals(titleName)){
 			waitFor(2);
@@ -2098,7 +2097,7 @@ public class Commands {
 					populateChooserMultiple("Recipients", recipients);
 					if (!notificationDays.isEmpty()){
 						String [] notifDays = notificationDays.split("-");
-						System.out.println(notifDays[0] + " - " + notifDays[1]);
+						writeToLogs(notifDays[0] + " - " + notifDays[1]);
 						populateTextField("Notification Days", notifDays[0]);
 						populateDropdown("Notification Days", notifDays[1]);
 					}
@@ -2547,10 +2546,10 @@ public class Commands {
 				break;
 			}catch(Exception e){
 				if (count > 5){
-					System.out.println("[info] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[info] Click failed on element with locator: " + locator.toString());
 					throw e;
 				}else{
-					System.out.println("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
+					writeToLogs("[TRY: "+count+"] Click failed on element with locator: " + locator.toString());
 					waitFor(1);
 					count++;
 				}
@@ -2887,7 +2886,7 @@ public class Commands {
 			WebElement objDoc = explicitWait(By.xpath("(//div[@class='tableBody']//table[@class='tableBody']//tr[contains(@class,'awtDrg_docPanel')]/td[1]//a[@class='hoverArrow hoverLink'])["+i+"]"), 10);
 			if (objDoc.getAttribute("_mid").contains("Doc")){
 				String docUI = objDoc.getText().trim();
-				System.out.println("Get Text: " + docUI);
+				writeToLogs("Get Text: " + docUI);
 				if(docUI.equals(documentName)){
 					return isExist = true;
 				}
@@ -2922,7 +2921,7 @@ public class Commands {
 			String documentPath = document[10].trim();
 			String documentChoiceType = document[11].trim();
 			String documentChoice = document[12].trim();
-			System.out.println("Document: " + documentName);
+			writeToLogs("Document: " + documentName);
 			if (!folderName.isEmpty()){
 
 				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -3037,8 +3036,8 @@ public class Commands {
 			String documentPath = document[10].trim();
 			String documentChoiceType = document[11].trim();
 			String documentChoice = document[12].trim();
-			System.out.println("Folder: " + folderName);
-			System.out.println("Document: " + documentName);
+			writeToLogs("Folder: " + folderName);
+			writeToLogs("Document: " + documentName);
 			if (!folderName.isEmpty()){
 
 				if (!isElementVisible(By.xpath("//div[@class='leg-p-2-5-0-2 flL a-path-node' and contains(text(),'"+titleName+"')]"), 5)){
@@ -3048,7 +3047,7 @@ public class Commands {
 
 				if (!isDocFolderExistInUI(folderName)){
 					//add folder
-					System.out.println("Folder '" +folderName+ "' is not exists in UI.");
+					writeToLogs("Folder '" +folderName+ "' is not exists in UI.");
 					createNewFolder(folderName, folderDescription);
 					switch (type){
 					case "Document":
@@ -3084,13 +3083,13 @@ public class Commands {
 					}
 				}else{
 					//Folder exist in UI
-					System.out.println("Folder '" +folderName+ "' is exists in UI.");
+					writeToLogs("Folder '" +folderName+ "' is exists in UI.");
 					sendKeysEnter(By.linkText(folderName));
 					click(Element.lnkOpen);
 					waitFor(3);
 					if (!isDocumentExistInUI(documentName)){
 						//add document
-						System.out.println("Document '" +documentName+ "' is not exists in UI.");
+						writeToLogs("Document '" +documentName+ "' is not exists in UI.");
 						switch (type){
 						case "Document":
 							waitFor(2);
@@ -3115,7 +3114,7 @@ public class Commands {
 							break;
 						}
 					}else{
-						System.out.println("Document '" +documentName+ "' is exists in UI.");
+						writeToLogs("Document '" +documentName+ "' is exists in UI.");
 					}
 
 				}
@@ -3131,7 +3130,7 @@ public class Commands {
 
 				if (!isDocumentExistInUI(documentName)){
 					//add document
-					System.out.println("Document '" +documentName+ "' is not exists in UI.");
+					writeToLogs("Document '" +documentName+ "' is not exists in UI.");
 					switch (type){
 					case "Document":
 						waitFor(2);
@@ -3156,7 +3155,7 @@ public class Commands {
 						break;
 					}
 				}else{
-					System.out.println("Document '" +documentName+ "' is exists in UI.");
+					writeToLogs("Document '" +documentName+ "' is exists in UI.");
 				}
 
 
@@ -3252,7 +3251,7 @@ public class Commands {
 		}
 
 		List <WebElement> row = driver.findElements(By.xpath("//span[@class='normal']"));
-		System.out.println("Number of rows in Team: " + row.size());
+		writeToLogs("Number of rows in Team: " + row.size());
 
 		ParseExcel retrieve = new ParseExcel();
 		//		int rowCount = 0;
@@ -3263,7 +3262,7 @@ public class Commands {
 			if (objCheck.getAttribute("class").trim().contains("normal")){		
 				WebElement objProjectGroup = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
 				String projectGroupUI = objProjectGroup.getText().replace("*", "").trim();
-				System.out.println("i=" + i + " projectGroupUI: " + projectGroupUI);			
+				writeToLogs("i=" + i + " projectGroupUI: " + projectGroupUI);			
 
 				if (retrieve.isProjectGroupExistInExcel(projectGroupUI)){
 					writeToLogs("Project Group: " + projectGroupUI + " exists in Excel");
@@ -3271,7 +3270,7 @@ public class Commands {
 				}else{
 					//delete project group
 					writeToLogs("Project Group '" +projectGroupUI+ "' is not exist in excel");
-					System.out.println("For deletion: " + projectGroupUI);
+					writeToLogs("For deletion: " + projectGroupUI);
 					projectGroupToDelete = "~" + projectGroupUI + projectGroupToDelete;												
 				}
 			}
@@ -3284,7 +3283,7 @@ public class Commands {
 			String projectGroup = aPG[0].trim();		
 			if (!isProjectGroupExistInUI(projectGroup)){
 				//add folder
-				System.out.println("Project Group '" +projectGroup+ "' is not exists in UI.");
+				writeToLogs("Project Group '" +projectGroup+ "' is not exists in UI.");
 				addTeamTab();
 			}
 		}
@@ -3634,7 +3633,7 @@ public class Commands {
 			WebElement objProjectGroup = explicitWait(By.xpath("(//span[@class='normal'])["+i+"]"),5);
 			if (objProjectGroup.getAttribute("class").trim().contains("normal")){
 				String pgUI = objProjectGroup.getText().trim();
-				System.out.println("Get Text: " + pgUI);
+				writeToLogs("Get Text: " + pgUI);
 				if(pgUI.equals(projectGroup)){
 					return isExist = true;
 				}
@@ -3708,7 +3707,7 @@ public class Commands {
 				if (isElementVisible(Element.lnkDocumentChoiceNext, 2)){
 					click(Element.lnkDocumentChoiceNext);
 				}else{
-					System.out.println("[FAILED] Document Choice: " + documentChoice + " is not found.");
+					writeToLogs("[FAILED] Document Choice: " + documentChoice + " is not found.");
 				}
 			}while (isElementVisible(Element.lnkDocumentChoiceNext, 2));
 		}
@@ -3926,9 +3925,9 @@ public class Commands {
 				}
 
 				if (populated){
-					System.out.println("[PASSED] Select \"" + value + "\" on " + field + " field visibility.");
+					writeToLogs("[PASSED] Select \"" + value + "\" on " + field + " field visibility.");
 				}else{
-					System.out.println("[FAILED] Unable to populate the field " + field + " visibility.");
+					writeToLogs("[FAILED] Unable to populate the field " + field + " visibility.");
 				}
 
 			}
@@ -4360,7 +4359,7 @@ public class Commands {
 					waitFor(2);
 					if (explicitWait(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"), 5) != null){
 						click(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val+"')]//td//label"));
-						System.out.println("Select " + val + " on Envelop Id " + (i+1));
+						writeToLogs("Select " + val + " on Envelop Id " + (i+1));
 						waitFor(2);
 					}else{
 						writeToLogs("[INFO] Cannot find " +val+ " on Envelop Id " + (i+1));
@@ -4885,7 +4884,7 @@ public class Commands {
 							click(Element.lnkSearchMore);
 							inputText(Element.txtSearchField, value);
 							click(Element.btnSearchField);
-							waitFor(2);
+							waitFor(5);
 							if (explicitWait(By.xpath("//button[@title='Select this value for the field']"),5) != null){
 								click(By.xpath("//button[@title='Select this value for the field']"));
 								waitFor(2);
@@ -5016,7 +5015,7 @@ public class Commands {
 
 				for (int i = 0; i < c.length; i++) {
 
-					System.out.println(c[i].trim());
+					writeToLogs(c[i].trim());
 					if (c[i].trim().contentEquals("Vault")){
 						i = i+1;
 					}
@@ -5255,6 +5254,61 @@ public class Commands {
 		
 	}
 	
+//	public void updateKPI (){
+//
+//		List <WebElement> row = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
+//		ParseExcel retrieve = new ParseExcel();
+//		List <String> editKpi = retrieve.getSourcingLibrary();
+//		for (String kpi : editKpi){
+//			String [] eKPI = kpi.split("~", -1);
+//			String content = eKPI[0].trim();
+//			if (!content.equals("KPI")){				
+//				for (int i=1; i<=row.size(); i++){
+//					WebElement objCheck = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);					
+//					if (objCheck.getAttribute("class").trim().contains("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]")){
+//						WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
+//						String kpiUI = objKPI.getText().replace("*", "").trim();
+//						writeToLogs("i=" + i + " kpiUI: " + kpiUI);						
+//						if (retrieve.isKPIExistInExcel(content, kpiUI)){
+//							writeToLogs("KPI: " + kpiUI + " exists in Excel");
+//							editKPI(kpiUI);
+//						}
+//		
+//					}
+//			}
+//		}				
+//			
+//	}
+		
+//		List <String> addKpi = retrieve.getSourcingLibrary();
+//		for(String kpi : addKpi){
+//			String [] aKPI = kpi.split("~", -1);
+//			String contentName = aKPI[1].trim();		
+//			if (!isKPIExistInUI(contentName)){
+//				//add folder
+//				writeToLogs("KPI '" +contentName+ "' is not exists in UI.");
+//				addKPI(contentName);
+//			}
+//			
+//		}	
+		
+//	}
+	
+//	public boolean isKPIExistInUI(String parentContent){	
+//		boolean isExist = false;
+//		List<WebElement> rows = driver.findElements(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow')]"));
+//		for (int i=1; i<=rows.size(); i++){
+//			WebElement objKPI = explicitWait(By.xpath("(//a[contains(@class,'awmenuLink hoverLink hoverArrow')])["+i+"]"),5);
+//			if (objKPI.getAttribute("class").trim().contains("awmenuLink hoverLink hoverArrow")){
+//				String kpiUI = objKPI.getText().trim();
+//				writeToLogs("Get Text: " + kpiUI);
+//				if(kpiUI.equals(parentContent)){
+//					return isExist = true;
+//				}
+//			}
+//		}
+//		return isExist;
+//	}
 	
 	
 	
@@ -5268,15 +5322,15 @@ public class Commands {
 		String [] lot = content.split("\\^", -1);
 		String parentContent = lot[1].trim();
 		String name = lot[2].trim();
-		String subContent = lot[3].trim();
-		String description = lot[4].trim();
-		String visibleToParticipant = lot[5].trim();
-		String teamAccessControl = lot[6].trim();
-		String commod = lot[7].trim();
-		String lotType = lot[8].trim();
-		String requiredResponseYesNo = lot[9].trim();
-		String applyAllItems = lot[10].trim();
-		String customOfflineResponse = lot[11].trim();
+		String subContent = lot[14].trim();
+		String description = lot[3].trim();
+		String visibleToParticipant = lot[4].trim();
+		String teamAccessControl = lot[5].trim();
+		String commod = lot[6].trim();
+		String lotType = lot[7].trim();
+		String requiredResponseYesNo = lot[8].trim();
+		String applyAllItems = lot[9].trim();
+		String customOfflineResponse = lot[10].trim();
 //		String requiredYesNo = lot[1].trim();
 
 		/*if (!parentContent.isEmpty()){
@@ -5326,15 +5380,10 @@ public class Commands {
 
 		case "Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)":
 			click(Element.rdoBasketNoItems);
-			waitFor(2);
-			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
 			break;
 
 		case "Bundle - Bid discounted value at Item level, compete at Lot level (collect item pricing during bidding)":
 			click(Element.rdoBundle);
-			break;
-		case "Bid at Item Level, Compete at Item Level":
-			click(Element.rdoBidAtItemLevel);
 			break;
 
 		}
@@ -5343,14 +5392,14 @@ public class Commands {
 		populateDropdown("Visible to Participant", visibleToParticipant);
 		waitFor(2);
 
-//		if (lotType.equals("Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)")){
-//			/*if (customOfflineResponse.equals("Yes")){
-//				writeToLogs(">>Custom Offline Response: Yes");
-//				click(Element.btnDropDown);
-//				click(Element.lnkYesCustom);
-//			}*/
-//			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
-//		}
+		if (lotType.equals("Basket with No Items - Bid at Lot level, compete at Lot level (do not collect item pricing)")){
+			/*if (customOfflineResponse.equals("Yes")){
+				writeToLogs(">>Custom Offline Response: Yes");
+				click(Element.btnDropDown);
+				click(Element.lnkYesCustom);
+			}*/
+			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
+		}
 
 		populateChooserMultiple("Team Access Control", teamAccessControl);
 		waitFor(2);
@@ -5377,15 +5426,15 @@ public class Commands {
 			String [] lot = content.split("\\^", -1);
 			String parentContent = lot[1].trim();
 			String name = lot[2].trim();
-			String subContent = lot[3].trim();
-			String description = lot[4].trim();
-			String visibleToParticipant = lot[5].trim();
-			String teamAccessControl = lot[6].trim();
-			String commod = lot[7].trim();
-			String lotType = lot[8].trim();
-			String requiredResponseYesNo = lot[9].trim();
-			String applyAllItems = lot[10].trim();
-			String customOfflineResponse = lot[11].trim();
+			String subContent = lot[14].trim();
+			String description = lot[3].trim();
+			String visibleToParticipant = lot[4].trim();
+			String teamAccessControl = lot[5].trim();
+			String commod = lot[6].trim();
+			String lotType = lot[7].trim();
+			String requiredResponseYesNo = lot[8].trim();
+			String applyAllItems = lot[9].trim();
+			String customOfflineResponse = lot[10].trim();
 //			String requiredYesNo = lot[1].trim();
 
 
@@ -6261,26 +6310,28 @@ public class Commands {
 
 		String name = req[2].trim();
 
-		String visibleParticipant = req[4].trim();
-		String teamAccessControl = req[5].trim();
-		String attachFile = req[6].trim();
-		String searchFile = req[7].trim();
-		String exploreFile = req[8].trim();
-		String subContent = req[9].trim();
+		String visibleParticipant = req[5].trim();
+		String teamAccessControl = req[6].trim();
+		String attachFile = req[7].trim();
+		String searchFile = req[8].trim();
+		String exploreFile = req[9].trim();
+		String subContent = req[3].trim();
 
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Requirement')]"));
 			inputDescription(Element.txtProjectDescription, parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Requirement')]"));
 			inputDescription(Element.txtProjectDescription, name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Requirement')]"));
 			inputDescription(Element.txtProjectDescription, subContent);
+		}else {
+			return;
 		}
 
 
@@ -6329,6 +6380,91 @@ public class Commands {
 		waitFor(2);
 		clickButton("Done");
 	} 
+	
+	public void editRequirement (String content){
+
+		//String name, String refDocument, String desktopOrLibrary, String visibleParticipant, String teamAccessControl, String searchOrExplore, String searchTerm
+		String [] req = content.split("\\^", -1);
+		String parentContent = req[1].trim();
+
+		String name = req[2].trim();
+
+		String visibleParticipant = req[5].trim();
+		String teamAccessControl = req[6].trim();
+		String attachFile = req[7].trim();
+		String searchFile = req[8].trim();
+		String exploreFile = req[9].trim();
+		String subContent = req[3].trim();
+
+		if(isSectionExisting(content)) {
+
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", parentContent);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+name+"')]"));
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", name);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+subContent+"']"));
+//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+subContent+"')]"));
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", subContent);
+			}
+			
+			click(Element.lnkEditContent);
+
+
+		/*
+		switch (desktopOrLibrary){
+		case "Desktop":
+			click(Element.lnkDesktopUpdate);
+			uploadFile(refDocument);
+			click(Element.btnOK);
+			break;
+		case "Library":
+			click(Element.lnkSelectLibrary);
+			addAttachmentLibrary(searchOrExplore, searchTerm);
+			break;
+		}
+		 */
+
+
+		if (!attachFile.isEmpty()){
+			sendKeysEnter(Element.lnkRefDocument);
+			click(Element.lnkUpdateDesktop);
+			uploadFile(attachFile);
+			click(Element.btnOK);
+			waitFor(2);
+		}
+
+		if (!searchFile.isEmpty()){
+			sendKeysEnter(Element.lnkRefDocument);
+			click(Element.lnkSelectFromLibrary);
+			addAttachmentLibrary("Search", searchFile);
+			waitFor(2);
+		}
+
+		if (!exploreFile.isEmpty()){
+			sendKeysEnter(Element.lnkRefDocument);
+			click(Element.lnkSelectFromLibrary);
+			addAttachmentLibrary("Explore", exploreFile);
+			waitFor(2);
+		}
+
+		// end of upload
+
+		populateDropdownAlt("Visible to Participant", visibleParticipant);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+
+		waitFor(2);
+		clickButton("Done");
+		}
+	} 
+
 	// Done!
 
 
@@ -6645,19 +6781,19 @@ public class Commands {
 		String parentContent = lineItem[1].trim();
 
 		String name = lineItem[2].trim();
-		String description = lineItem[3].trim();
-		String commodity = lineItem[6].trim();
-		String visibleToParticipant = lineItem[4].trim();
-		String customizedOR = lineItem[7].trim();
-		String teamAccessControl = lineItem[5].trim();
-		String responseRequired = lineItem[8].trim();
-		String applyAllItems = lineItem[9].trim();
-		String unitBidding = lineItem[10].trim();
-		String quantity = lineItem[14].trim();
-		String initial = lineItem[11].trim();
-		String historic = lineItem[12].trim();
-		String reserve = lineItem[13].trim();
-		String subContent = lineItem[15].trim();
+		String description = lineItem[4].trim();
+		String commodity = lineItem[7].trim();
+		String visibleToParticipant = lineItem[5].trim();
+		String customizedOR = lineItem[8].trim();
+		String teamAccessControl = lineItem[6].trim();
+		String responseRequired = lineItem[9].trim();
+		String applyAllItems = lineItem[10].trim();
+		String unitBidding = lineItem[11].trim();
+		String quantity = lineItem[15].trim();
+		String initial = lineItem[12].trim();
+		String historic = lineItem[13].trim();
+		String reserve = lineItem[14].trim();
+		String subContent = lineItem[3].trim();
 
 		/*if (!parentContent.isEmpty()){
 				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
@@ -6668,22 +6804,24 @@ public class Commands {
 			}*/
 
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
-			waitForButtonToExist("OK", 5);
+			waitForButtonToExist("Done", 5);
 			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
-			waitForButtonToExist("OK", 5);
+			waitForButtonToExist("Done", 5);
 			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
-			waitForButtonToExist("OK", 5);
+			waitForButtonToExist("Done", 5);
 			populateTextField("Name", subContent);
 			
+		}else {
+			return;
 		}
 
 
@@ -6701,25 +6839,108 @@ public class Commands {
 		}
 
 		switch (unitBidding) {
-		case "Partcipant bid per unit (unit bidding)":
+		case "Participants bid per unit (unit bidding)":
 			click(Element.rdoUnitBidding);
-			populateTextField("Initial", initial);
-			populateTextField("Historic", historic);
-			populateTextField("Reserve", reserve);
-			populateTextField("Quantity", quantity);
-
-		case "Participant bid on all units (extended bidding)":
+			waitFor(3);
+			inputText(Element.txtInitialPrice, initial);
+			inputText(Element.txtHistoricPrice, historic);
+			inputText(Element.txtResercePrice, reserve);
+			inputText(Element.txtQuantity, quantity);
+			break;
+		case "Participants bid on all units (extended bidding)":
 			click(Element.rdoExtendedBidding);
-			populateTextField("Initial", initial);
-			populateTextField("Historic", historic);
-			populateTextField("Reserve", reserve);
-			populateTextField("Quantity", quantity);
+			waitFor(3);
+			inputText(Element.txtInitialExtendedPrice, initial);
+			inputText(Element.txtHistoricExtendedPrice, historic);
+			inputText(Element.txtReserveExtendedPrice, reserve);
+			inputText(Element.txtQuantity, quantity);
+			break;
 		}
 
 		waitFor(2);
 		clickButton("Done");
 	}
 
+	public void editLineItem(String content) {
+
+		//String name, String description, String commodity, String visibleToParticipant, String customizedOR, String teamAccessControl, String responseRequired, String applyAllItems, String unitBidding, String quantity, String initial, String historic, String reserve
+		String [] lineItem = content.split("\\^", -1);
+		String parentContent = lineItem[1].trim();
+
+		String name = lineItem[2].trim();
+		String description = lineItem[4].trim();
+		String commodity = lineItem[7].trim();
+		String visibleToParticipant = lineItem[5].trim();
+		String customizedOR = lineItem[8].trim();
+		String teamAccessControl = lineItem[6].trim();
+		String responseRequired = lineItem[9].trim();
+		String applyAllItems = lineItem[10].trim();
+		String unitBidding = lineItem[11].trim();
+		String quantity = lineItem[15].trim();
+		String initial = lineItem[12].trim();
+		String historic = lineItem[13].trim();
+		String reserve = lineItem[14].trim();
+		String subContent = lineItem[3].trim();
+
+		/*if (!parentContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
+			}else{
+				click(Element.btnAdd);
+				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Line Item')]"));
+			}*/
+
+		if(isSectionExisting(content)) {
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"));
+			}
+
+			click(Element.lnkEdit);
+
+
+			//			populateTextField("Name", name);
+			inputDescription(Element.txtProjectDescription, description);
+			waitFor(2);
+			populateCommodity("Commodity", commodity);
+			populateDropdown("Visible to Praticipant", visibleToParticipant);
+			populateDropdown("Customized Offline Response", customizedOR);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			populateRadioButton("Response required for this item or lot", responseRequired);
+
+			if (applyAllItems == "Yes") {
+				click(Element.chkApplyToAll);
+			}
+
+			switch (unitBidding) {
+			case "Participants bid per unit (unit bidding)":
+				click(Element.rdoUnitBidding);
+				waitFor(3);
+				inputText(Element.txtInitialPrice, initial);
+				inputText(Element.txtHistoricPrice, historic);
+				inputText(Element.txtResercePrice, reserve);
+				inputText(Element.txtQuantity, quantity);
+				break;
+			case "Participants bid on all units (extended bidding)":
+				click(Element.rdoExtendedBidding);
+				waitFor(3);
+				inputText(Element.txtInitialExtendedPrice, initial);
+				inputText(Element.txtHistoricExtendedPrice, historic);
+				inputText(Element.txtReserveExtendedPrice, reserve);
+				inputText(Element.txtQuantity, quantity);
+				break;
+			}
+
+			waitFor(2);
+			clickButton("Done");
+		}
+	}
+
+	
+	
 	// Attachment from Desktop
 	public void addAttachmentsFromDesktop(String content) {
 
@@ -7352,7 +7573,8 @@ public class Commands {
 					break;
 					
 				case "Line Item":
-//					editLineItem(sL);
+					editLineItem(sL);
+					addLineItem(sL);
 					break;
 					
 				case "Question":
@@ -7361,7 +7583,7 @@ public class Commands {
 					break;
 					
 				case "Requirement":
-//					editRequirement(sL);
+					editRequirement(sL);
 					break;
 					
 				case "Attachment From Desktop":
@@ -7394,6 +7616,86 @@ public class Commands {
 					
 				}
 				break;
+				
+//			case "Delete":
+//
+//				String [] delete = sL.split("\\^", -1);
+//				String parentContent = delete[1].trim();
+//				switch (content[0].trim()){
+//				
+//				case "KPI":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//				
+//				case "Section":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Table Section":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//				
+//				case "Lot":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Line Item":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Question":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Requirement":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Attachment From Desktop":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Attachment From Library":				
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Cost Terms":
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				case "Formula":
+////					addFormula(sL);
+//					break;
+//					
+//				case "Content From Library":	
+//					click(By.xpath("//table[@class='tableBody']//td[contains(.,'"+parentContent+"')]/preceding-sibling::td//label"));
+//					clickButton("Delete");
+//					clickButton("OK");
+//					break;
+//					
+//				}
+//				
+//				break;
 			}
 
 			writeToLogs("");
@@ -7501,7 +7803,7 @@ public class Commands {
 				waitFor(3);
 				if (explicitWait(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"), 5) != null){
 					click(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"));
-					System.out.println("Select '" + val + "' condition.");
+					writeToLogs("Select '" + val + "' condition.");
 					waitFor(2);
 				}else{
 					writeToLogs("[FAILED] Cannot find '" + val + "' condition.");
@@ -7629,7 +7931,7 @@ public class Commands {
 						waitFor(2);
 						if (explicitWait(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"), 5) != null){
 							click(By.xpath("//div[@class='w-dlg-dialog']//tr[contains(@class,'tableRow1') and contains(.,'"+val.trim()+"')]//td//label"));
-							System.out.println("Select " + val + " on " + field);
+							writeToLogs("Select " + val + " on " + field);
 							waitFor(3);
 						}else{
 							writeToLogs("[FAILED] Cannot find " +val+ " on " + field);

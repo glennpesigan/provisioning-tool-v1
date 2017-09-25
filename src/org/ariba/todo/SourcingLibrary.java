@@ -125,7 +125,6 @@ public class SourcingLibrary {
 			}
 			
 			action.sendKeysEnter(By.linkText(title));
-			action.waitFor(2);
 			action.click(Element.lnkEditOpen);
 			action.waitForButtonToExist("Done", 5);
 			

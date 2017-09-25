@@ -219,5 +219,14 @@ public class Element {
 	public final static By divCollapseIcon = new By.ByXPath("//div[contains(@class,'w-oc-icon-off')]");
 	public final static By divDefinitionHeader = new By.ByXPath("//div[contains(@class,'accentBox bodyBold leg-p-2-5-0-2 flL a-path-node a-path-node-hilite')]");
 	public final static By lnkDefinitionName = new By.ByXPath("//a[contains(@_mid,'AtomicContentMenu')]");
+	
+	//Line Items
+	public final static By txtInitialPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Price')]/following-sibling::td[1]//input");
+	public final static By txtHistoricPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Price')]/following-sibling::td[2]//input");
+	public final static By txtResercePrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Price')]/following-sibling::td[3]//input");
+	public final static By txtQuantity = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Quantity')]/following-sibling::td[1]//input");
+	public final static By txtInitialExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[1]//input");
+	public final static By txtHistoricExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[2]//input");
+	public final static By txtReserveExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[3]//input");
 }
 
