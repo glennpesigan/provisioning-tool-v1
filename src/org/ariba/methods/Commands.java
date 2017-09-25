@@ -5189,7 +5189,7 @@ public class Commands {
 	
 		        for (int i = 0; i < c.length; i++) {
 		        		
-		        	  writeToLogs(c[i].trim());
+		        	  System.out.println(c[i].trim());
 		        	  if (c[i].trim().contentEquals("Vault")){
 		        		  i = i+1;
 		        	  }
