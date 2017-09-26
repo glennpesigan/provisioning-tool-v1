@@ -5189,7 +5189,7 @@ public class Commands {
 	
 		        for (int i = 0; i < c.length; i++) {
 		        		
-		        	  System.out.println(c[i].trim());
+		        	  writeToLogs(c[i].trim());
 		        	  if (c[i].trim().contentEquals("Vault")){
 		        		  i = i+1;
 		        	  }
@@ -5209,10 +5209,6 @@ public class Commands {
 		        	  } else {
                             writeToLogs("[ERROR]" + c[i].trim() + " is not available");
 		        	  }
-	                  
-//	                  if (isElementVisible(By.xpath("//span[contains(.,'" + c[i].trim() + "')]/../preceding-sibling::td//div[@class='w-oc-icon-off']"), 5)) {
-//	                         click(By.xpath("//span[contains(.,'" + c[i].trim() + "')]/../preceding-sibling::td//div[@class='w-oc-icon-off']"));
-//	                  }
 	                  
 	                  
 		        }
