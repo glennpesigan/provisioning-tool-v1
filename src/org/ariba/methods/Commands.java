@@ -5529,7 +5529,6 @@ public class Commands {
 
 	public void addQuestion (String content){
 
-		//String name, String includeInCost, String prereqQuestion, String reviewResponse, String answerType, String acceptValue, String numberDecimal, String visibleParticipant, String responseRequired, String addComAtt, String hideResponses, String attachFile, String refDocument, String specInitialValues, String teamAccessControl, String initialValue, String rangeLower, String rangeUpper
 		String [] question = content.split("\\^", -1);
 		String parentContent = question[1].trim();
 		String name = question[2].trim();
@@ -5546,7 +5545,7 @@ public class Commands {
 		String hideResponses = question[13].trim();
 		String addComAtt = question[14].trim();
 		String specInitialValues = question[15].trim();
-//		Customized offline response
+//		String customizedResponse = question[16].trim();
 		String initialValue = question[17].trim();
 		String rangeLower = question[18].trim();
 		String rangeUpper = question[19].trim();
