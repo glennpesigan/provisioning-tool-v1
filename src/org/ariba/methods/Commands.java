@@ -948,6 +948,35 @@ public class Commands {
 			}
 		}
 	}
+	
+	public void deleteFile(String filePath) {
+		if(!filePath.isEmpty()) {
+			short count = 0;
+			while(true) {
+				try {
+					String fileName = "";
+					if(filePath.contains("\\")) {
+						fileName = filePath.substring(filePath.lastIndexOf("\\")+1);
+					}else {
+						fileName = filePath;
+					}
+					if(isElementVisible(By.linkText(fileName), 5)) {
+						isElementVisible(By.xpath("//a[contains(@title,'Download this attachment') and contains(.,'"+fileName+"')]/following-sibling::a[contains(@title,'Delete Reference Document')]"), 5);
+						click(By.xpath("//a[contains(@title,'Download this attachment') and contains(.,'"+fileName+"')]/following-sibling::a[contains(@title,'Delete Reference Document')]"));
+					}else {
+						return;
+					}
+					
+				}catch(Exception e) {
+					if(count > 3) {
+						throw e;
+					}else {
+						count++;
+					}
+				}
+			}
+		}
+	}
 
 
 	public void writeToLogs(String message){
@@ -6346,6 +6375,7 @@ public class Commands {
 
 
 		if (!attachFile.isEmpty()){
+			deleteFile(attachFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkUpdateDesktop);
 			uploadFile(attachFile);
@@ -6354,6 +6384,7 @@ public class Commands {
 		}
 
 		if (!searchFile.isEmpty()){
+			deleteFile(searchFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Search", searchFile);
@@ -6361,6 +6392,7 @@ public class Commands {
 		}
 
 		if (!exploreFile.isEmpty()){
+			deleteFile(exploreFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Explore", exploreFile);
@@ -6420,6 +6452,7 @@ public class Commands {
 
 
 		if (!attachFile.isEmpty()){
+			deleteFile(attachFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkUpdateDesktop);
 			uploadFile(attachFile);
@@ -6428,6 +6461,7 @@ public class Commands {
 		}
 
 		if (!searchFile.isEmpty()){
+			deleteFile(searchFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Search", searchFile);
@@ -6435,6 +6469,7 @@ public class Commands {
 		}
 
 		if (!exploreFile.isEmpty()){
+			deleteFile(exploreFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Explore", exploreFile);
