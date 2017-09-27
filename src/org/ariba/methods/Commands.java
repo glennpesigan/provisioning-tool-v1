@@ -6395,20 +6395,11 @@ public class Commands {
 		if(isSectionExisting(content)) {
 
 			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
-				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+parentContent+"')]"));
-				waitForButtonToExist("Done", 5);
-				populateTextField("Name", parentContent);
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
 			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
-				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+name+"')]"));
-				waitForButtonToExist("Done", 5);
-				populateTextField("Name", name);
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
 			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
-				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+subContent+"']"));
-//				click(By.xpath("//span[@id='_dnujkd']//b[contains(text(),'"+subContent+"')]"));
-				waitForButtonToExist("Done", 5);
-				populateTextField("Name", subContent);
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"));
 			}
 			
 			click(Element.lnkEditContent);
@@ -7083,18 +7074,18 @@ public class Commands {
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
 			click(Element.btnAdd);
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
+			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", parentContent);
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
+			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", name);
 		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Section')]"));
-			waitForButtonToExist("OK", 5);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
+			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", subContent);
 		}
 
@@ -7329,9 +7320,7 @@ public class Commands {
 			String [] content = ec.split("\\^",-1);
 			waitFor(3);
 
-			String contentName = content[2];
-
-			if(!isElementVisible(By.partialLinkText(contentName), 5)) {
+			if(isSectionExisting(ec)) {
 				//Add
 
 				switch(content[0].trim()) {
@@ -7351,12 +7340,15 @@ public class Commands {
 
 				switch(content[0].trim()) {
 				case "Lot":
+					editLot(ec);
 					addLot(ec);
 					break;
 				case "Line Item":
+					editLineItem(ec);
 					addLineItem(ec);
 					break;
 				case "Cost Terms":
+					//editCostTerms(ec);
 					addCostTerms(ec);
 					break;
 				}
@@ -7580,6 +7572,7 @@ public class Commands {
 					
 				case "Requirement":
 					editRequirement(sL);
+					addRequirement(sL);
 					break;
 					
 				case "Attachment From Desktop":
