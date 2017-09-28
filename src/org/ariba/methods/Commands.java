@@ -949,7 +949,7 @@ public class Commands {
 		}
 	}
 	
-	public void deleteFile(String filePath) {
+	public void deleteReference(String filePath) {
 		if(!filePath.isEmpty()) {
 			short count = 0;
 			while(true) {
@@ -977,6 +977,36 @@ public class Commands {
 			}
 		}
 	}
+	
+	public void deleteAttachment(String filePath) {
+		if(!filePath.isEmpty()) {
+			short count = 0;
+			while(true) {
+				try {
+					String fileName = "";
+					if(filePath.contains("\\")) {
+						fileName = filePath.substring(filePath.lastIndexOf("\\")+1);
+					}else {
+						fileName = filePath;
+					}
+					if(isElementVisible(By.linkText(fileName), 5)) {
+						isElementVisible(By.xpath("//a[contains(.,'"+fileName+"')]/following-sibling::a[contains(@title,'Delete Attachment')]"), 5);
+						click(By.xpath("//a[contains(.,'"+fileName+"')]/following-sibling::a[contains(@title,'Delete Attachment')]"));
+					}else {
+						return;
+					}
+					
+				}catch(Exception e) {
+					if(count > 3) {
+						throw e;
+					}else {
+						count++;
+					}
+				}
+			}
+		}
+	}
+
 
 
 	public void writeToLogs(String message){
@@ -6112,7 +6142,7 @@ public class Commands {
 
 
 		if (!attachFile.isEmpty()){
-			deleteFile(attachFile);
+			deleteReference(attachFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkUpdateDesktop);
 			uploadFile(attachFile);
@@ -6121,7 +6151,7 @@ public class Commands {
 		}
 
 		if (!searchFile.isEmpty()){
-			deleteFile(searchFile);
+			deleteReference(searchFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Search", searchFile);
@@ -6129,7 +6159,7 @@ public class Commands {
 		}
 
 		if (!exploreFile.isEmpty()){
-			deleteFile(exploreFile);
+			deleteReference(exploreFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Explore", exploreFile);
@@ -6189,7 +6219,7 @@ public class Commands {
 
 
 		if (!attachFile.isEmpty()){
-			deleteFile(attachFile);
+			deleteReference(attachFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkUpdateDesktop);
 			uploadFile(attachFile);
@@ -6198,7 +6228,7 @@ public class Commands {
 		}
 
 		if (!searchFile.isEmpty()){
-			deleteFile(searchFile);
+			deleteReference(searchFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Search", searchFile);
@@ -6206,7 +6236,7 @@ public class Commands {
 		}
 
 		if (!exploreFile.isEmpty()){
-			deleteFile(exploreFile);
+			deleteReference(exploreFile);
 			sendKeysEnter(Element.lnkRefDocument);
 			click(Element.lnkSelectFromLibrary);
 			addAttachmentLibrary("Explore", exploreFile);
@@ -6489,6 +6519,15 @@ public class Commands {
 
 				return false;
 			}
+		}else if(!parentContent.isEmpty()) {
+			if(explicitWait(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"), 5)!=null) {
+
+				return true;
+			}else {
+
+				return false;
+			}
+
 		}
 
 		return false;
@@ -6706,29 +6745,68 @@ public class Commands {
 
 		String [] attach = content.split("\\^", -1);
 		String parentContent = attach[1].trim();
-		String filePath = attach[5].trim();
-		String description = attach[2].trim();
-		String visibleToParticipant = attach[3].trim();
-		String teamAccessControl = attach[4].trim();
+		String name = attach[2].trim();
+		String filePath = attach[6].trim();
+		String description = attach[3].trim();
+		String visibleToParticipant = attach[4].trim();
+		String teamAccessControl = attach[5].trim();
 
-		if (!parentContent.isEmpty()){
-			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
-			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Desktop')]"));
-		}else{
+		if (!parentContent.isEmpty() && name.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Desktop')]"));
+			inputDescription(Element.txtProjectDescription, parentContent);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Desktop')]"));
+			inputDescription(Element.txtProjectDescription, name);
+		}else{
+			return;
 		}
 
 		inputDescription(Element.txtProjectDescription, description);
 		uploadFile(filePath);
 
-		populateDropdownAlt("Visible to Participant", visibleToParticipant);
-		populateChooserMultiple("Team Access Control", teamAccessControl);
-
 		waitFor(2);
 		clickButton("Done");
 	}
 
+	// Attachment from Desktop
+		public void editAttachmentsFromDesktop(String content) {
+
+			//String filePath, String description
+
+			String [] attach = content.split("\\^", -1);
+			String parentContent = attach[1].trim();
+			String name = attach[2].trim();
+			String filePath = attach[6].trim();
+			String description = attach[3].trim();
+			String visibleToParticipant = attach[4].trim();
+			String teamAccessControl = attach[5].trim();
+
+			if(isSectionExisting(content)) {
+
+				if (!parentContent.isEmpty() && name.isEmpty()){
+					click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+				}else if (!parentContent.isEmpty() && !name.isEmpty()){
+					click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+				}
+				
+				
+				click(Element.lnkEditContent);
+
+				inputDescription(Element.txtProjectDescription, description);
+				deleteAttachment(filePath);
+				uploadFile(filePath);
+
+				populateDropdownAlt("Visible to Participant", visibleToParticipant);
+				populateChooserMultiple("Team Access Control", teamAccessControl);
+
+				waitFor(2);
+				clickButton("Done");
+			}
+		}
+
+	
 	// Add Formula
 	public void addFormula(String content) {
 
@@ -7347,7 +7425,8 @@ public class Commands {
 					break;
 					
 				case "Attachment From Desktop":
-//					editAttachmentsFromDesktop(sL);
+					editAttachmentsFromDesktop(sL);
+					addAttachmentsFromDesktop(sL);
 					break;
 					
 				case "Attachment From Library":
