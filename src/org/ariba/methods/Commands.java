@@ -6986,8 +6986,7 @@ public class Commands {
 		}else{
 			return;
 		}
-
-		inputDescription(Element.txtProjectDescription, description);
+		
 		uploadFile(filePath);
 
 		waitFor(2);
@@ -7018,9 +7017,13 @@ public class Commands {
 				
 				click(Element.lnkEditContent);
 
-				inputDescription(Element.txtProjectDescription, description);
 				deleteAttachment(filePath);
+				
+				click(By.xpath("//a[contains(.,'Update file')]"));
+				click(Element.lnkUpdateDesktop);
+				
 				uploadFile(filePath);
+				clickButton("OK");
 
 				populateDropdownAlt("Visible to Participant", visibleToParticipant);
 				populateChooserMultiple("Team Access Control", teamAccessControl);
@@ -7380,7 +7383,98 @@ public class Commands {
 		waitForButtonToExist("Add", 60);
 
 	}
+	
+	public void addAttachmentFromLibrary(String content) {
+		
 
+		String [] attLib = content.split("\\^", -1);
+//		String parentContent = attLib[1].trim();
+		
+		String searchFile = attLib[6].trim();
+		String exploreFile = attLib[7].trim();
+		String file = "";
+		
+		if(!attLib[2].isEmpty()) {
+			file =  attLib[2];
+		}else {
+			file = attLib[1];
+		}
+		
+		
+		if(!isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+file+"')]"),5)) {
+		
+		click(Element.btnAdd);
+		click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
+
+			if (!searchFile.isEmpty()){
+				addAttachmentLibrary("Search", searchFile);
+			}else if (!exploreFile.isEmpty()){
+				addAttachmentLibrary("Explore", exploreFile);
+				waitFor(3);
+			}
+			if(!attLib[2].isEmpty()) {
+				inputDescription(Element.txtProjectDescription, attLib[2]);
+			}else {
+				inputDescription(Element.txtProjectDescription, attLib[1]);
+			}
+			
+			clickButton("Done");
+		}
+		
+		
+		
+	}
+
+	
+	public void editAttachmentFromLibrary(String content) {
+		String [] attach = content.split("\\^", -1);
+		String parentContent = attach[1].trim();
+		String name = attach[2].trim();
+		String visibleToParticipant = attach[4].trim();
+		String teamAccessControl = attach[5].trim();
+		String searchFile = attach[6].trim();
+		String exploreFile = attach[7].trim();
+		String file = "";
+
+		if(isSectionExisting(content)) {
+			
+			if(!searchFile.isEmpty()) {
+				file = searchFile;
+			}else if(!exploreFile.isEmpty()) {
+				file = exploreFile; 
+			}
+
+			if (!parentContent.isEmpty() && name.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			}
+			
+			click(Element.lnkEditContent);
+			
+			click(By.xpath("//a[contains(.,'Update file')]"));
+			click(Element.lnkSelectFromLibrary);
+			
+			if (!searchFile.isEmpty()){
+				addAttachmentLibrary("Search", searchFile);
+			}else if (!exploreFile.isEmpty()){
+				addAttachmentLibrary("Explore", exploreFile);
+				waitFor(3);
+			}
+			
+			if(name.isEmpty()) {
+				inputDescription(Element.txtProjectDescription, name);
+			}else {
+				inputDescription(Element.txtProjectDescription, parentContent);
+			}
+
+			populateDropdownAlt("Visible to Participant", visibleToParticipant);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+
+			waitFor(2);
+			clickButton("Done");
+		}
+	}
 
 	public void configureEventDefinitions() {
 		click(By.linkText("Definition"));
@@ -7574,23 +7668,7 @@ public class Commands {
 					break;
 					
 				case "Attachment From Library":
-					
-					String [] attLib = sL.split("\\^", -1);
-//					String parentContent = attLib[1].trim();
-					
-					click(Element.btnAdd);
-					click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Attachments From Library')]"));
-
-					String searchFile = attLib[6].trim();
-					String exploreFile = attLib[7].trim();
-					
-					if (!searchFile.isEmpty()){
-						addAttachmentLibrary("Search", searchFile);
-					}else if (!exploreFile.isEmpty()){
-						addAttachmentLibrary("Explore", exploreFile);
-						clickButton("Done");
-					}
-
+					addAttachmentFromLibrary(sL);
 					break;
 					
 				case "Cost Terms":
@@ -7654,15 +7732,8 @@ public class Commands {
 					break;
 					
 				case "Attachment From Library":
-					
-					String [] attLib = sL.split("\\^", -1);
-					String parentContent = attLib[1].trim();
-					
-					click(By.xpath("//a[contains(text(),'"+parentContent+"')]"));
-					click(Element.lnkEditContent);
-//					editAttachmentsFromLibrary(sL);
-
-
+					editAttachmentFromLibrary(sL);
+					addAttachmentFromLibrary(sL);
 					break;
 					
 				case "Cost Terms":

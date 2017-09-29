@@ -30,6 +30,7 @@ public class ParseExcel {
 	private InputStream input;
 	private ArrayList<ArrayList<String>> teams = new ArrayList<ArrayList<String>>();
 	private ArrayList<ArrayList<String>> tasks = new ArrayList<ArrayList<String>>();
+	private static Connection conn = null;
 	String path = "";
 	
 	public ArrayList<ArrayList<String>> getTeams() {
@@ -1229,12 +1230,46 @@ public class ParseExcel {
 
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
+					System.out.println("Found using following query: "+executionQuery);
 					return true;
 				}
+				
+//				executionQuery = "Select * from `"+tableName+"` where `Content Name`='"+contentName+"'";
+//
+//				rs = conn.executeQuery(executionQuery);
+//				while (rs.next()){
+//					return true;
+//				}
+//
+//				executionQuery = "Select * from `"+tableName+"` where `Sub-Content Name`='"+contentName+"'";
+//
+//				rs = conn.executeQuery(executionQuery);
+//				while (rs.next()){
+//					return true;
+//				}
+//				
+//				executionQuery = "Select * from `"+tableName+"` where `Search File`='"+contentName+"'";
+//
+//				rs = conn.executeQuery(executionQuery);
+//				while (rs.next()){
+//					return true;
+//				}
+//				
+//				executionQuery = "Select * from `"+tableName+"` where `Explore File`='"+contentName+"'";
+//
+//				rs = conn.executeQuery(executionQuery);
+//				while (rs.next()){
+//					return true;
+//				}
+
+
+
+				
 				rs.close();
 				conn.close();
 			}catch(FilloException e){
-			
+				System.out.println("Cannot find using following query: "+executionQuery);
+				e.printStackTrace();
 			}
 			
 			try{
@@ -1247,12 +1282,14 @@ public class ParseExcel {
 
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
+					System.out.println("Found using following query: "+executionQuery);
 					return true;
 				}
 				rs.close();
 				conn.close();
 			}catch(FilloException e){
-				
+				System.out.println("Cannot find using following query: "+executionQuery);
+				e.printStackTrace();
 			}
 			try{
 				System.setProperty("ROW", "3");//Table start row
@@ -1264,14 +1301,54 @@ public class ParseExcel {
 
 				Recordset rs = conn.executeQuery(executionQuery);
 				while (rs.next()){
+					System.out.println("Found using following query: "+executionQuery);
 					return true;
 				}
 				rs.close();
 				conn.close();
 			}catch(FilloException e){
-				
+				System.out.println("Cannot find using following query: "+executionQuery);
+				e.printStackTrace();
 			}
-			
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "1");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+
+				executionQuery = "Select * from `"+tableName+"` where `Search File`='"+contentName+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					System.out.println("Found using following query: "+executionQuery);
+					return true;
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				System.out.println("Cannot find using following query: "+executionQuery);
+				e.printStackTrace();
+			}
+			try{
+				System.setProperty("ROW", "3");//Table start row
+				System.setProperty("COLUMN", "1");//Table start column
+				Fillo fillo = new Fillo();
+				Connection conn = fillo.getConnection(Details.path);
+
+				executionQuery = "Select * from `"+tableName+"` where `Explore File`='"+contentName+"'";
+
+				Recordset rs = conn.executeQuery(executionQuery);
+				while (rs.next()){
+					System.out.println("Found using following query: "+executionQuery);
+					return true;
+				}
+				rs.close();
+				conn.close();
+			}catch(FilloException e){
+				System.out.println("Cannot find using following query: "+executionQuery);
+				e.printStackTrace();
+			}
+
 			isExisting = false;
 			
 			return isExisting;

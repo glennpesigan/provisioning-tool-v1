@@ -168,7 +168,7 @@ public class Element {
 	public final static By rdoSearch = new By.ByXPath("//td/label[starts-with(text(),'Search')]/../preceding-sibling::td//label");
 	public final static By rdoExplore = new By.ByXPath("//td/label[starts-with(text(),'Explore')]/../preceding-sibling::td[1]//label");
 	public final static By txtSearchTerm = new By.ByXPath("//input[@_pl='Search using Title, ID, or any other term']");
-	public final static By chkFirstSelection = new By.ByXPath("//tr[@class=' tableRow1']//label[@bh='RDO']");
+	public final static By chkFirstSelection = new By.ByXPath("//tr[contains(@class,'tableRow1')]//label[@bh='CHK']");
 	public final static By btnSearchDoc = new By.ByXPath("//button/span[normalize-space()='Search']");
 //	public final static By chkDoc = new By.ByXPath("//tr[@id='_v88j5b']/td/span/div/label");
 //	public final static By txtDocDesc = new By.ByXPath("//div[@id='_bnfc7']/table/tbody/tr[3]/td[2]");
