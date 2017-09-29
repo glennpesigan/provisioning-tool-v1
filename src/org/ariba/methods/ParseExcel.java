@@ -724,8 +724,8 @@ public class ParseExcel {
 					break;
 					
 				case "Content From Library":
-					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + 
-							rs.getField("Content from Library") + "^" + rs.getField("Add Content From Library") + "^" + rs.getField("Copy Visibility") + "^" + rs.getField("External System") + "^" + rs.getField("All Content") + "^" + rs.getField("Title/Keywords") + "^" + rs.getField("Search Item") + "^" + rs.getField("From") + "^" + rs.getField("Project Type")  + "^" + rs.getField("Content Name"));
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + 
+							rs.getField("Content from Library") + "^" + rs.getField("Add Content From Library") + "^" + rs.getField("Copy Visibility") + "^" + rs.getField("External System") + "^" + rs.getField("All Content") + "^" + rs.getField("Title/Keywords") + "^" + rs.getField("Search Item") + "^" + rs.getField("From") + "^" + rs.getField("Project Type"));
 					break;
 					
 				}

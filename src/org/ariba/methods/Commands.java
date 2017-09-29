@@ -7124,19 +7124,18 @@ public class Commands {
 
 		String [] contentLib = content.split("\\^", -1);
 		String parentContent = contentLib[1].trim();
-
-		String contentFromLibrary = contentLib[2].trim();
-		String selectContent = contentLib[3].trim();
-		String externalSystem = contentLib[5].trim();
-		String titleKeyword = contentLib[7].trim();
-		String searchTerm = contentLib[8].trim();
-		String from = contentLib[9].trim();
-		String projectType = contentLib[10].trim();
-		String copyVisibility = contentLib[4].trim();
+		String name = contentLib[2].trim();
+		String subContent = contentLib[3].trim();
+		String contentFromLibrary = contentLib[4].trim();
+		String selectContent = contentLib[5].trim();
+		String copyVisibility = contentLib[6].trim();
+		String externalSystem = contentLib[7].trim();
+		String titleKeyword = contentLib[8].trim();
+		String searchTerm = contentLib[9].trim();
+		String from = contentLib[10].trim();
+		String projectType = contentLib[11].trim();
 		//			String document = contentLib[1].trim();
 		//			String copyParticipant = contentLib[1].trim();
-		String name = contentLib[11].trim();
-		String subContent = contentLib[12].trim();
 
 		waitFor(2);
 
@@ -7148,21 +7147,23 @@ public class Commands {
 				click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
 			}*/
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()  && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
 			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()  && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
 			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()  && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Library')]"));
 			waitForButtonToExist("Cancel", 5);
 			//				populateTextField("Name", subContent);
+		}else {
+			 return;
 		}
 
 		waitFor(2);
@@ -7282,10 +7283,6 @@ public class Commands {
 			clickButton("Copy");
 			break;
 		}
-
-		waitForButtonToExist("Done", 5);
-		waitFor(2);
-		clickButton("Done");
 	}
 
 	// Add Table Section
@@ -7746,6 +7743,7 @@ public class Commands {
 					
 				case "Content From Library":	
 //					editContentFromLibrary(sL);
+					addContentFromLibrary(sL);
 					break;
 					
 				}
