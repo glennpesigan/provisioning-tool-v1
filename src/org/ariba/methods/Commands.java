@@ -6544,27 +6544,32 @@ public class Commands {
 		String [] costTerms = content.split("\\^", -1);
 		String parentContent = costTerms[1].trim();
 		String name = costTerms[2].trim();
-		String description = costTerms[3].trim();
-		String visibleParticipant = costTerms[4].trim();
-		String customOfflineResponse = costTerms[6].trim();
-		String teamAccessControl = costTerms[5].trim();
-		String subContent = costTerms[7].trim();
+		String subContent = costTerms[3].trim();
+		String description = costTerms[4].trim();
+		String visibleParticipant = costTerms[5].trim();
+		String teamAccessControl = costTerms[6].trim();
+		String customOfflineResponse = costTerms[7].trim();
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+
+
+		
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Cost Terms')]"));
 			waitForButtonToExist("Done", 5);
 			populateTextField("Name", parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Cost Terms')]"));
 			waitForButtonToExist("Done", 5);
 			populateTextField("Name", name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Cost Terms')]"));
 			waitForButtonToExist("Done", 5);
 			populateTextField("Name", subContent);
+		}else{
+			return;
 		}
 
 		populateTextField("Name", name);
@@ -6579,7 +6584,54 @@ public class Commands {
 		clickButton("Done");
 	}
 
+	//***********************EDIT COST TERMS****************************//
+			public void editCostTerms (String content){
+			
+			//String name, String description, String visibleParticipant, String customOfflineResponse, String teamAccessControl
+			
+				String [] costTerms = content.split("\\^", -1);
+				String parentContent = costTerms[1].trim();
+				String name = costTerms[2].trim();
+				String subContent = costTerms[3].trim();
+				String description = costTerms[4].trim();
+				String visibleParticipant = costTerms[5].trim();
+				String teamAccessControl = costTerms[6].trim();
+				String customOfflineResponse = costTerms[7].trim();
+			
+		
 
+		if (isSectionExisting(content)){
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", parentContent);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//b[contains(text(),'"+name+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", name);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+				click(By.xpath("//b[contains(text(),'"+subContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("Done", 5);
+				populateTextField("Name", subContent);
+			}
+			
+			populateTextField("Name", name);
+			inputDescription(Element.txtProjectDescription, description);
+			
+			waitFor(2);
+			populateDropdownAlt("Visible to Participant", visibleParticipant);
+			populateDropdownAlt("Customized Offline Response", customOfflineResponse);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			waitFor(2);
+			
+			clickButton("Done");
+		}
+	}
 
 
 	/*------------Haziel-------------*/
@@ -7735,6 +7787,7 @@ public class Commands {
 					
 				case "Cost Terms":
 //					editCostTerms(sL);
+					addCostTerms(sL);
 					break;
 					
 				case "Formula":
