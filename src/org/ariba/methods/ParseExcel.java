@@ -690,7 +690,7 @@ public class ParseExcel {
 				case "Question":
 					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
 							rs.getField("Include in Cost") + "^" + rs.getField("Is this a prerequisite question to continue with the event?") + "^" + rs.getField("Owner must review responses before participants can continue with the event") + "^" + rs.getField("Answer Type") + "^" + rs.getField("Number of Decimal Places") + "^" + rs.getField("Acceptable Values") + "^" + rs.getField("Response Required") + "^" + rs.getField("Hide participant's reponses from each other") + "^" + rs.getField("Participant can add comments and attachments") + "^" + rs.getField("Use participant-specific initial values") + "^" + rs.getField("Customized offline response") + "^" + rs.getField("Initial Value") + "^" + rs.getField("Range from") + "^" + rs.getField("Range to") + "^" + rs.getField("Allow participants to specify other value?") + "^" + rs.getField("Allow participants to select multiple values?") + "^" + rs.getField("Value List of Choices") + "^" + rs.getField("Set Default") + "^" +
-							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File") + "^" + rs.getField("Range (Date)") + "^" + rs.getField("Street") + "^" + rs.getField("City") + "^" + rs.getField("State") + "^" + rs.getField("Postal Code") + "^" + rs.getField("Country"));
 					break;
 					
 				case "Requirement":

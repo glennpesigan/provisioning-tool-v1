@@ -5614,7 +5614,13 @@ public class Commands {
 //		Set Default		
 		String attachFile = question[24].trim();
 		String searchFile = question[25].trim();
-		String range = question[26].trim();
+//		String exploreFile = question[26].trim();
+		String range = question[27].trim();
+		String street = question[28].trim();
+		String city = question[29].trim();
+		String state = question[30].trim();
+		String postal = question[31].trim();
+		String country = question[32].trim();
 //		String readOnly = question[27].trim();
 
 		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
@@ -5857,6 +5863,16 @@ public class Commands {
 		case "Address":
 			//no acceptable values
 			//to be added: street,city, state,postal code, country
+			waitFor(2);
+			populateTextField("Street", street);
+			waitFor(2);
+			populateTextField("City", city);
+			waitFor(2);
+			populateTextField("State", state);
+			waitFor(2);
+			populateTextField("Postal Code", postal);
+			waitFor(2);
+			populateChooserField("Country", country);
 			
 			break;
 		case "Percentage":
@@ -5903,7 +5919,7 @@ public class Commands {
 
 
 		waitFor(3);
-//		clickButton("Done");
+		clickButton("Done");
 	}
 	
 	//*************************EDIT QUESTION**************************//
@@ -5937,6 +5953,13 @@ public class Commands {
 			String attachFile = question[24].trim();
 			String searchFile = question[25].trim();
 //			String exploreFile = question[26].trim();
+			String range = question[27].trim();
+			String street = question[28].trim();
+			String city = question[29].trim();
+			String state = question[30].trim();
+			String postal = question[31].trim();
+			String country = question[32].trim();
+//			String readOnly = question[27].trim();
 		
 			
 			if (isSectionExisting(content)){	
@@ -5959,302 +5982,279 @@ public class Commands {
 					inputDescription(Element.txtProjectDescription, subContent);
 				}
 		
-		//include in cost
-		populateDropdown("Include in cost", includeInCost);
-		
-		//prereq question
-		waitFor(2);
-		populateDropdown("Is this a prerequisite question to continue with the event?", prereqQuestion);
-
-		if (prereqQuestion.equals("Yes, with an access gate on event content") || prereqQuestion.equals("Yes, restricting response submission")){
-			populateDropdownAlt("Owner must review responses before participants can continue with event", reviewResponse);
-		}
-		
-		//answer type
-		populateDropdown("Answer Type", answerType);
-		
-		switch (answerType){
-		case "Text (single line limited)":
-			populateDropdown("Acceptable Values", acceptValue);
-			break;
-		case "Text (single line)":
-			populateDropdown("Acceptable Values", acceptValue);
-			break;
-		case "Text (multiple lines)":
-			break;
-		case "Whole Number":
-			populateDropdown("Acceptable Values", acceptValue);
-			break;
-		case "Decimal Number":
-			populateDropdown("Acceptable Values", acceptValue);
-			populateTextField("Number of decimal places", numberDecimal);
-			break;
-		case "Date":
-			populateDropdown("Acceptable Values", acceptValue);
-			break;
-		case "Money":
-			populateDropdown("Acceptable Values", acceptValue);
-			populateTextField("Number of decimal places", numberDecimal);
-			break;
-		case "Yes/No":
-			break;	
-		case "Certificate":
-			break;
-		case "Address":
-			break;
-		case "Percentage":
-			populateDropdown("Acceptable Values", acceptValue);
-			waitFor(2);
-			populateTextField("Number of decimal places", numberDecimal);
-			break;
-		case "Quantity":
-			populateDropdown("Acceptable Values", acceptValue);
-			break;
-		}
-		
-		//response required
-		populateDropdown("Response Required?", responseRequired);
-		
-		
-		//uploading
-
-		if (!attachFile.isEmpty()){
-			sendKeysEnter(Element.lnkRefDoc);
-			click(Element.lnkUpdateDesktop);
-			uploadFile(attachFile);
-			click(Element.btnOK);
-			waitForButtonToExist("Done", 60);
-		}
-		
-		if (!searchFile.isEmpty()){
-			sendKeysEnter(Element.lnkRefDoc);
-			click(Element.rdoSearch);
-			inputText(Element.txtSearchTerm, searchFile);
-			click(Element.btnSearchDoc);
-			click(Element.chkFirstSelection);
-			waitFor(2);
-			clickButton("OK");
-			waitFor(2);
-		}
-		
-		/*
-		switch (attachFile){
-		case "Desktop":
-			click(Element.lnkUpdateDesktop);
-			uploadFile(refDocument);
-			click(Element.btnOK);
-			waitForButtonToExist("Done", 60);
-			break;
-		case "Library":
-			click(Element.rdoSearch);
-			inputText(Element.txtSearchTerm, refDocument);
-			click(Element.btnSearchDoc);
-			click(Element.chkFirstSelection);
-			waitFor(2);
-			clickButton("OK");
-			waitFor(2);
-		}
-		*/
-		
-		
-		//visible to participant
-		populateDropdownAlt("Visible to Participant", visibleParticipant);
-		
-		//hide participants response
-		populateDropdownAlt("Hide participants' responses from each other", hideResponses);
-		
-		if (responseRequired.equals("Yes, Participant Required")){
-			populateDropdownAlt("Participant can add additional comments and attachments", addComAtt);
-		}
-		
-		
-		//participant
-		populateDropdownAlt("Use participant-specific initial values?", specInitialValues);
-		
-		//team access control
-		populateChooserMultiple("Team Access Control", teamAccessControl);
-		populateDropdownAlt("Customized Offline Response:", customizedResponse);
-		populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
-		populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
-		
-		
-		//initial value
-		switch (answerType){
-		case "Text (single line limited)":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-				
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
-								
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			}
-			break;	
-			
-		case "Text (single line)":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|", -1);
-				
-//				for (int i = 1; i < choices.length; i++) {
-//					click(Element.btnAdd);
-//				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					if (i>0){
-						click(Element.btnAdd);
+				//****** Include Cost ******		
+				populateDropdown("Include in cost", includeInCost);
+		//****** Is this a prerequisite question to continue with the event? ******		
+				waitFor(2);
+				populateDropdown("Is this a prerequisite question to continue with the event?", prereqQuestion);
+					if (prereqQuestion.equals("Yes, with an access gate on event content") || prereqQuestion.equals("Yes, restricting response submission")){
+						waitFor(2);
+						populateDropdownAlt("Owner must review responses before participants can continue with event", reviewResponse);
 					}
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			}
-			break;
-			
-		case "Text (multiple lines)":
-			populateTextArea("Initial Value", initialValue);
-			break;
-			
-		case "Whole Number":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
+		//****** Reference Document ******
+					if (!attachFile.isEmpty()){
+						sendKeysEnter(Element.lnkRefDoc);
+						click(Element.lnkUpdateDesktop);
+						uploadFile(attachFile);
+						click(Element.btnOK);
+						waitForButtonToExist("Done", 60);
+					}
+
+					if (!searchFile.isEmpty()){
+						sendKeysEnter(Element.lnkRefDoc);
+						click(Element.lnkSelectFromLibrary);
+						click(Element.rdoSearch);
+						inputText(Element.txtSearchTerm, searchFile);
+						click(Element.btnSearchDoc);
+						click(Element.chkFirstSelection);
+						waitFor(2);
+						clickButton("OK");
+						waitFor(2);
+					}
+		//****** Visible to Participant ******
+				waitFor(3);
+				populateDropdownAlt("Visible to Participant", visibleParticipant);
+		//****** Hide participants' responses from each other ******	
+				waitFor(2);
+				populateDropdownAlt("Hide participants' responses from each other", hideResponses);
+		//****** Use participant-specific initial values? ******
+				waitFor(2);
+				populateDropdownAlt("Use participant-specific initial values?", specInitialValues);
+		//****** Team Access Control ******
+				waitFor(2);
+				populateChooserMultiple("Team Access Control", teamAccessControl);
+		//****** Response Required ******
+				waitFor(2);
+				populateDropdown("Response Required?", responseRequired);
+					if (responseRequired.equals("Not Required") || (responseRequired.equals("Yes, Participant Required"))){
+						waitFor(2);
+						populateDropdown("Participant can add additional comments and attachments", addComAtt);
+						waitFor(2);
+						populateDropdownAlt("Customized Offline Response", customizedResponse);
+								
+					}else if (responseRequired.equals("Yes, Owner Required")){
+						//no add comment/attachment, initial value & offline response
+					}else if (responseRequired.equals("No, Owner Optional - Participant Cannot Respond") || (responseRequired.equals("Yes, Owner Required - Participant Optional"))){
+						waitFor(2);
+						populateDropdownAlt("Customized Offline Response", customizedResponse);
+					}
 				
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			case "Limited Range":
-				populateTextField("Initial Value", initialValue);
-				inputText(Element.txtRangeLower, rangeLower);
-				inputText(Element.txtRangeUpper, rangeUpper);
-				break;
-			}
-			break;
-			
-		case "Decimal Number":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
-				
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			case "Limited Range":
-				populateTextField("Initial Value", initialValue);
-				inputText(Element.txtRangeLower, rangeLower);
-				inputText(Element.txtRangeUpper, rangeUpper);
-				break;
-			}
-			break;
-		case "Date":
-			populateTextField("Initial Value", initialValue);
-			break;
-		case "Money":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
-				
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			case "Limited Range":
-				populateTextField("Initial Value", initialValue);
-				inputText(Element.txtRangeLower, rangeLower);
-				inputText(Element.txtRangeUpper, rangeUpper);
-				break;
-			}
-			break;
-		case "Yes/No":
-			populateDropdown("Initial Value", initialValue);
-			break;	
-		case "Certificate":
-			populateDropdownAlt("Initial Value", initialValue);
-			break;
-		case "Address":
-			break;
-		case "Percentage":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
-				
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			case "Limited Range":
-				populateTextField("Initial Value", initialValue);
-				inputText(Element.txtRangeLower, rangeLower);
-				inputText(Element.txtRangeUpper, rangeUpper);
-				break;
-			}
-			break;
-		case "Quantity":
-			switch(acceptValue){
-			case "Any Value":
-				populateTextField("Initial Value", initialValue);
-				break;
-			case "List of Choices":
-				String [] choices = valueListOfChoices.split("\\|");
-				
-				for (int i = 1; i < choices.length; i++) {
-					click(Element.btnAdd);
-				}
-				
-				for (int i = 0; i < choices.length - 1; i++){
-					inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
-				}
-				break;
-			case "Limited Range":
-				populateTextField("Initial Value", initialValue);
-				inputText(Element.txtRangeLower, rangeLower);
-				inputText(Element.txtRangeUpper, rangeUpper);
-				break;
-			}
-			break;
-		}
-				
+		//****** Answer Type ******	
+				waitFor(2);
+				populateDropdownAlt("Answer Type", answerType);
+				switch (answerType){
+				case "Text (single line limited)":
+					populateDropdown("Acceptable Values", acceptValue);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}
+					break;
+				case "Text (single line)":
+					populateDropdown("Acceptable Values", acceptValue);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}
+					break;
+				case "Text (multiple lines)":
+					//no acceptable values
+					break;
+				case "Whole Number":
+					populateDropdown("Acceptable Values", acceptValue);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}else if (acceptValue.equals("Limited Range")){
+						inputText(Element.txtRangeLower, rangeLower);
+						inputText(Element.txtRangeUpper, rangeUpper);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				case "Decimal Number":
+					populateDropdown("Acceptable Values", acceptValue);
+					populateTextField("Number of decimal places", numberDecimal);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}else if (acceptValue.equals("Limited Range")){
+						inputText(Element.txtRangeLower, rangeLower);
+						inputText(Element.txtRangeUpper, rangeUpper);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				case "Date":
+					populateDropdown("Acceptable Values", acceptValue);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}else if (acceptValue.equals("Limited Range")){
+						populateDropdown("Range", range);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				case "Money":
+					populateDropdown("Acceptable Values", acceptValue);
+					populateTextField("Number of decimal places", numberDecimal);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}else if (acceptValue.equals("Limited Range")){
+						inputText(Element.txtRangeLower, rangeLower);
+						inputText(Element.txtRangeUpper, rangeUpper);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				case "Yes/No":
+					//no acceptable values
+					break;	
+				case "Certificate":
+					//no acceptable values
+					break;
+				case "Address":
+					//no acceptable values
+					//to be added: street,city, state,postal code, country
+					waitFor(2);
+					populateTextField("Street", street);
+					waitFor(2);
+					populateTextField("City", city);
+					waitFor(2);
+					populateTextField("State", state);
+					waitFor(2);
+					populateTextField("Postal Code", postal);
+					waitFor(2);
+					populateChooserField("Country", country);
+					
+					break;
+				case "Percentage":
+					populateDropdown("Acceptable Values", acceptValue);
+					waitFor(2);
+					populateTextField("Number of decimal places", numberDecimal);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("List of Choices")){
+						
+						populateRadioButton("Allow participants to specify other value?", specifyOtherValue);
+						populateRadioButton("Allow participants to select multiple values?", selectMultipleValues);
+						
+						waitFor(2);
+						String [] choices = valueListOfChoices.split("\\|");
+
+						for (int i = 1; i < choices.length; i++) {
+							click(Element.btnAdd);
+						}
+
+						for (int i = 0; i < choices.length - 1; i++){
+							inputText(By.xpath("(//table[@class='tableBody']//input[@type='text'])["+(i+1)+"]"), choices[i]);
+						}
+					}else if (acceptValue.equals("Limited Range")){
+						inputText(Element.txtRangeLower, rangeLower);
+						inputText(Element.txtRangeUpper, rangeUpper);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				case "Quantity":
+					populateDropdown("Acceptable Values", acceptValue);
+					if (acceptValue.equals("Any Value")){
+						populateTextField("Initial Value", initialValue);
+					}else if (acceptValue.equals("Limited Range")){
+						inputText(Element.txtRangeLower, rangeLower);
+						inputText(Element.txtRangeUpper, rangeUpper);
+						waitFor(2);
+						populateTextField("Initial Value", initialValue);
+					}
+					break;
+				}				
+		waitFor(2);		
 		clickButton("Done");
 		}
 	}
