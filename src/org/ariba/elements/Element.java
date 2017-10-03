@@ -228,5 +228,11 @@ public class Element {
 	public final static By txtInitialExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[1]//input");
 	public final static By txtHistoricExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[2]//input");
 	public final static By txtReserveExtendedPrice = new By.ByXPath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'Extended Price')]/following-sibling::td[3]//input");
+	
+	
+	public final static By chkFirstRowCheckBox = new By.ByXPath("//tr[contains(@class,' firstRow tableRow1')]//span[contains(@class,'selectColumnMarker')]//label");
+	public final static By drpExternalSystem = new By.ByXPath("//td[contains(.,'External System') and contains(@class,'ffl noWrap')]/following-sibling::td//span[contains(@class,'w-dropdown-pic-ct')]");
+	public final static By divExternalSystemOption = new By.ByXPath("//div[contains(@role,'option') and contains(@class,'w-dropdown-item') and contains(.,'value1')]");
+	public final static By txtSearchContentFromItemMasterData = new By.ByXPath("//input[contains(@class,'w-txt w-txt-placeholder')]");
 }
 

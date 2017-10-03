@@ -6830,7 +6830,7 @@ public class Commands {
 			
 
 			for(String lnkToDelete:lnksToDelete) {
-				if(explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"), 5)!=null) {
+				if(explicitWait(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"), 0)!=null) {
 					click(By.xpath("//td[contains(@class,'tdClass tableBody w-tbl-cell') and contains(.,'"+lnkToDelete+"')]/preceding-sibling::td//label"));
 					clickButton("Delete");
 					if(isElementVisible(Element.btnOK,5)) {
@@ -7524,6 +7524,94 @@ public class Commands {
 			clickButton("Done");
 		}
 	}
+	
+	
+	public void addContentFromItemMasterData(String content) {
+
+		String [] masterData = content.split("\\^", -1);
+		String parentContent = masterData[1].trim();
+		String name = masterData[2].trim();
+		String subContent = masterData[3].trim();
+		String description = masterData[4].trim();
+		String visibleToParticipant = masterData[5].trim();
+		String teamAccessControl = masterData[6].trim();
+		String externalSystem = masterData[7].trim();
+				
+		
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
+			click(Element.btnAdd);
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Item Master Data')]"));
+			waitForButtonToExist("Copy", 5);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Item Master Data')]"));
+			waitForButtonToExist("Copy", 5);
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
+			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Content From Item Master Data')]"));
+			waitForButtonToExist("Copy", 5);
+		}else {
+			return;
+		}
+		
+		
+		populateExternalSystem(externalSystem);
+		if(!description.isEmpty()) {
+			inputText(Element.txtSearchContentFromItemMasterData, description);
+		}
+
+		clickButton("Search");
+		
+		waitFor(3);
+				
+		click(Element.chkFirstSelection);
+		clickButton("Copy");
+
+	}
+	
+	public void editContentFromItemMasterData(String content) {
+		
+		String [] masterData = content.split("\\^", -1);
+		String parentContent = masterData[1].trim();
+		String name = masterData[2].trim();
+		String subContent = masterData[3].trim();
+		String visibleToParticipant = masterData[5].trim();
+		String teamAccessControl = masterData[6].trim();
+		
+		
+		if(isSectionExisting(content)) {
+			
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"));
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				click(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"));
+			}
+
+			click(Element.lnkEdit);
+
+			populateDropdownAlt("Visible to Participant", visibleToParticipant);
+			populateChooserMultiple("Team Access Control", teamAccessControl);
+			//			clickButton("OK");
+			//			clickButton("Done");
+			
+			populateItemTerm("Quantity", "initial", "1");
+			waitFor(2);
+			clickButton("Done");
+		}
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public void configureEventDefinitions() {
 		click(By.linkText("Definition"));
@@ -7732,6 +7820,10 @@ public class Commands {
 					addContentFromLibrary(sL);
 					break;
 					
+				case "Content From Item Master Data":
+					addContentFromItemMasterData(sL);
+					break;
+					
 				}
 				
 				break;
@@ -7797,6 +7889,11 @@ public class Commands {
 				case "Content From Library":	
 //					editContentFromLibrary(sL);
 					addContentFromLibrary(sL);
+					break;
+					
+				case "Content From Item Master Data":
+					editContentFromItemMasterData(sL);
+					addContentFromItemMasterData(sL);
 					break;
 					
 				}
@@ -8238,6 +8335,27 @@ public class Commands {
 			isElementVisible(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"), 5);
 			click(By.xpath("//a[contains(@_mid,'AtomicContentMenu') and contains(.,'"+definitionName+"')]/../../../../../../preceding-sibling::td//label"));
 			clickButton("Delete");
+		}
+	}
+	
+	public void populateExternalSystem(String externalSystem) {
+		
+		click(Element.drpExternalSystem);
+		click(By.xpath("//div[contains(@role,'option') and contains(@class,'w-dropdown-item') and contains(.,'"+externalSystem+"')]"));
+			
+	}
+	
+	public void populateItemTerm(String term,String column,String value) {
+		switch(column.toLowerCase()) {
+		case "initial":
+			inputText(By.xpath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'"+term+"')]/following-sibling::td[1]//input"), value);
+			break;
+		case "historic":
+			inputText(By.xpath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'"+term+"')]/following-sibling::td[2]//input"), value);
+			break;
+		case "reserve":
+			inputText(By.xpath("//td[contains(@class,'tableBody w-tbl-cell') and contains(.,'"+term+"')]/following-sibling::td[3]//input"), value);
+			break;
 		}
 	}
 

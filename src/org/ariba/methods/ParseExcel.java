@@ -728,6 +728,11 @@ public class ParseExcel {
 							rs.getField("Content from Library") + "^" + rs.getField("Add Content From Library") + "^" + rs.getField("Copy Visibility") + "^" + rs.getField("External System") + "^" + rs.getField("All Content") + "^" + rs.getField("Title/Keywords") + "^" + rs.getField("Search Item") + "^" + rs.getField("From") + "^" + rs.getField("Project Type"));
 					break;
 					
+				case "Content From Item Master Data":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" +
+							rs.getField("External System") + "^" + rs.getField("Material Group") + "^" + rs.getField("Material Number") + "^" + rs.getField("Plant"));
+					break;
+					
 				}
 			}
 			rs.close();
@@ -1269,7 +1274,6 @@ public class ParseExcel {
 				conn.close();
 			}catch(FilloException e){
 				System.out.println("Cannot find using following query: "+executionQuery);
-				e.printStackTrace();
 			}
 			
 			try{
@@ -1289,7 +1293,6 @@ public class ParseExcel {
 				conn.close();
 			}catch(FilloException e){
 				System.out.println("Cannot find using following query: "+executionQuery);
-				e.printStackTrace();
 			}
 			try{
 				System.setProperty("ROW", "3");//Table start row
@@ -1308,7 +1311,6 @@ public class ParseExcel {
 				conn.close();
 			}catch(FilloException e){
 				System.out.println("Cannot find using following query: "+executionQuery);
-				e.printStackTrace();
 			}
 			try{
 				System.setProperty("ROW", "3");//Table start row
@@ -1327,7 +1329,6 @@ public class ParseExcel {
 				conn.close();
 			}catch(FilloException e){
 				System.out.println("Cannot find using following query: "+executionQuery);
-				e.printStackTrace();
 			}
 			try{
 				System.setProperty("ROW", "3");//Table start row
@@ -1346,7 +1347,6 @@ public class ParseExcel {
 				conn.close();
 			}catch(FilloException e){
 				System.out.println("Cannot find using following query: "+executionQuery);
-				e.printStackTrace();
 			}
 
 			isExisting = false;
