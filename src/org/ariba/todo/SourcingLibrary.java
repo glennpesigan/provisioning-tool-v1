@@ -131,7 +131,7 @@ public class SourcingLibrary {
 			
 			action.configureSourcingLibrary();
 			action.waitFor(2);
-			action.clickButton("Done");
+//			action.clickButton("Done");
 			break;
 			
 //		case "Delete":
