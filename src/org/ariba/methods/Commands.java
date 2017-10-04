@@ -7103,30 +7103,33 @@ public class Commands {
 
 
 
-		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() ){
+		if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+parentContent+"')]"),5)){
 			click(Element.btnAdd);
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Formula')]"));
 			waitForButtonToExist("OK", 5);
 			inputDescription(Element.txtProjectDescription, parentContent);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+name+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Formula')]"));
 			waitForButtonToExist("OK", 5);
 			inputDescription(Element.txtProjectDescription, name);
-		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+		}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty() && !isElementVisible(By.xpath("//a[contains(@class,'awmenuLink hoverLink hoverArrow') and contains(.,'"+subContent+"')]"),5)){
 			clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
 			click(By.xpath("//div[@class='awmenu w-pm-menu']//a[contains(text(),'Formula')]"));
 			waitForButtonToExist("OK", 5);
 			inputDescription(Element.txtProjectDescription, subContent);
+		}else{
+			return;
 		}
 
 //		populateTextArea("Formula", formula);
 //		clickButton("Validate");
 		waitFor(2);
-		populateDropdown("Result Type", resultType);
+		populateDropdownAlt("Result Type", resultType);
 		populateTextField("Number of decimal places", numberOfDecimal);
 		waitFor(2);
 		populateDropdownAlt("Response Required?", responseRequired);
+		waitFor(2);
 		populateDropdownAlt("Visible to Paticipant",visibleToParticipant);
 		waitFor(2);
 		
@@ -7140,6 +7143,64 @@ public class Commands {
 //		clickButton("Done");
 	}
 
+
+	public void editFormula(String content) {
+
+		String [] strFormula = content.split("\\^", -1);
+		String parentContent = strFormula[1].trim();
+		String name = strFormula[2].trim();
+		String subContent = strFormula[3].trim();
+		String visibleToParticipant = strFormula[4].trim();
+		String teamAccessControl = strFormula[5].trim();
+		String formula = strFormula[6].trim();
+		String resultType = strFormula[7].trim();
+		String numberOfDecimal = strFormula[8].trim();
+		String responseRequired = strFormula[9].trim();
+		String hideParticipantsResponses = strFormula[10].trim();
+
+		if (isSectionExisting(content)){
+			if (!parentContent.isEmpty() && name.isEmpty() && subContent.isEmpty()){
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", parentContent);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+parentContent+"']"));
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", name);
+			}else if (!parentContent.isEmpty() && !name.isEmpty() && !subContent.isEmpty()){
+				clickAlt(By.xpath("//a[contains(@class,'awmenuLink')]/b[text()='"+name+"']"));
+				click(By.xpath("//b[contains(text(),'"+parentContent+"')]"));
+				click(Element.lnkEditContent);
+				waitForButtonToExist("OK", 5);
+				populateTextField("Name", subContent);
+			}
+
+		
+
+//		populateTextArea("Formula", formula);
+//		clickButton("Validate");
+		waitFor(2);
+		populateDropdownAlt("Result Type", resultType);
+		populateTextField("Number of decimal places", numberOfDecimal);
+		waitFor(2);
+		populateDropdownAlt("Response Required?", responseRequired);
+		waitFor(2);
+		populateDropdownAlt("Visible to Paticipant",visibleToParticipant);
+		waitFor(2);
+		
+		if(visibleToParticipant.equals("Yes") || (visibleToParticipant.equals("Yes, Participant Required"))){
+			populateDropdownAlt("Hides participants' responses from each other", hideParticipantsResponses);			
+		}
+// 		visibility condition
+		waitFor(2);
+		populateChooserMultiple("Team Access Control", teamAccessControl);
+		waitFor(2);
+//		clickButton("Done");
+	}
+}
 
 
 	// Add Content from Library
@@ -7857,7 +7918,9 @@ public class Commands {
 					break;
 					
 				case "Formula":
-//					addFormula(sL);
+//					editFormula(sL);
+					addFormula(sL);
+					
 					break;
 					
 				case "Content From Library":	
