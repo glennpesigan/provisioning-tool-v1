@@ -745,6 +745,65 @@ public class ParseExcel {
 		return value;
 
 	}
+
+	public List <String> getSourcingLibraryInnerContent(){
+		List <String> value = new ArrayList<String>();
+		try{
+			System.setProperty("ROW", "3");//Table start row
+			System.setProperty("COLUMN", "1");//Table start column
+			Fillo fillo = new Fillo();
+			Connection conn = fillo.getConnection(Details.path);
+//			Connection conn = fillo.getConnection("C:\\Users\\glenn.a.pesigan\\Desktop\\Test\\Configuration Input File - Test Sourcing Library.xlsm");
+			String executionQuery = "Select * from `Sourcing Library Content`";
+			Recordset rs = conn.executeQuery(executionQuery);
+			while (rs.next()){
+
+				switch (rs.getField("Content")){
+				
+				case "Requirement":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")  + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
+					break;
+					
+				case "Attachment":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Attach File") + "^" + rs.getField("Search File") + "^" + rs.getField("Explore File"));
+					break;
+					
+				case "Attachment From Desktop":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Attach File"));
+					break;
+					
+				case "Attachment From Library":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name") + "^" + rs.getField("Description") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Search File") + "^" + rs.getField("Explore File"));
+					break;
+					
+				case "Formula":
+					value.add(rs.getField("Content") + "^" + rs.getField("Parent Content Name") + "^" + rs.getField("Content Name")   + "^" + rs.getField("Sub-Content Name") + "^" + rs.getField("Visible to Participant/Supplier") + "^" + rs.getField("Team Access Control") + "^" + 
+							rs.getField("Formula") + "^" + rs.getField("Result Type") + "^" + rs.getField("Number of Decimal Places") + "^" + rs.getField("Response Required?") + "^" + rs.getField("Hide Participant's Responses from each other")); 
+					break;
+							
+				}
+			}
+			rs.close();
+			conn.close();
+
+		}catch(FilloException e){
+			e.printStackTrace();
+		}
+		
+		return value;
+
+	}
+
+	
+	
+	
+	
+	
+	
 	
 	
 	//Add Question
